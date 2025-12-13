@@ -1,0 +1,17 @@
+div class=container_classes role="alert"
+  .flex
+    - if icon_class.present?
+      .flex-shrink-0
+        i class="#{icon_class} #{icon_color_class}"
+    div class=(icon_class.present? ? "ml-3" : "")
+      - if title.present?
+        p.font-medium = title
+      .text-sm class=(title.present? ? "mt-1" : "")
+        - if message.present?
+          = message
+        - else
+          = content
+    - if dismissible
+      .ml-auto.pl-3
+        button.inline-flex.rounded-md.p-1.5.focus:outline-none.focus:ring-2.focus:ring-offset-2(type="button" data-action="click->alert#dismiss")
+          i.fa-solid.fa-xmark

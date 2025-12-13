@@ -308,6 +308,117 @@ Dropdown menu component.
 | `pop_direction` | Symbol | `:right` | Menu direction (`:right`, `:left`) |
 | `css_classes` | String | `""` | Additional CSS classes |
 
+## UI Elements
+
+### `chalky_badge`
+
+Colored label for status, tags, categories.
+
+```slim
+= chalky_badge(label: "Active", color: :green)
+= chalky_badge(label: "Pending", color: :yellow, style: :pill)
+= chalky_badge(label: "Error", color: :red, icon: "fa-solid fa-xmark")
+```
+
+**Parameters:**
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `label` | String | **required** | Badge text |
+| `color` | Symbol | `:gray` | `:gray`, `:green`, `:red`, `:blue`, `:yellow`, `:orange`, `:purple` |
+| `size` | Symbol | `:sm` | `:xs`, `:sm`, `:md` |
+| `style` | Symbol | `:rounded` | `:rounded`, `:pill` |
+| `icon` | String | `nil` | Optional Font Awesome icon |
+
+### `chalky_stat`
+
+KPI card for dashboards with icon, value, and optional trend.
+
+```slim
+.grid.grid-cols-4.gap-6
+  = chalky_stat(label: "Total Users", value: 1234, icon: "fa-solid fa-users", icon_color: :blue)
+  = chalky_stat(label: "Revenue", value: "$12,345", icon: "fa-solid fa-dollar-sign", icon_color: :green)
+  = chalky_stat(label: "Growth", value: "12%", icon: "fa-solid fa-chart-line", icon_color: :purple, trend: :up, subtitle: "+5%")
+  = chalky_stat(label: "Errors", value: 3, icon: "fa-solid fa-bug", icon_color: :red)
+```
+
+**Parameters:**
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `label` | String | **required** | Metric label |
+| `value` | String/Number | **required** | Metric value |
+| `icon` | String | `nil` | Font Awesome icon class |
+| `icon_color` | Symbol | `:blue` | Icon background color |
+| `subtitle` | String | `nil` | Additional text below value |
+| `trend` | Symbol | `nil` | `:up`, `:down`, or `nil` |
+
+### `chalky_hint`
+
+Small help text typically shown below form fields.
+
+```slim
+= chalky_hint(text: "Enter a valid email address")
+= chalky_hint(text: "Maximum 100 characters", size: :sm)
+= chalky_hint do
+  | Custom hint with
+  strong  bold text
+```
+
+**Parameters:**
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `text` | String | `nil` | Hint text (or use block) |
+| `size` | Symbol | `:xs` | `:xs`, `:sm` |
+| `icon` | String | `nil` | Optional icon |
+
+### `chalky_alert`
+
+Info, warning, success, or error message box.
+
+```slim
+= chalky_alert(message: "Your changes have been saved", variant: :success)
+
+= chalky_alert(title: "Warning", message: "This action cannot be undone", variant: :warning)
+
+= chalky_alert(variant: :info, style: :left_border) do
+  ul
+    li First instruction
+    li Second instruction
+
+= chalky_alert(variant: :error, dismissible: true) do
+  | An error occurred. Please try again.
+```
+
+**Parameters:**
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `message` | String | `nil` | Alert message (or use block) |
+| `title` | String | `nil` | Optional alert title |
+| `variant` | Symbol | `:info` | `:info`, `:success`, `:warning`, `:error` |
+| `style` | Symbol | `:default` | `:default`, `:left_border` |
+| `icon` | String | `nil` | Custom icon (defaults by variant) |
+| `dismissible` | Boolean | `false` | Show dismiss button |
+
+### `chalky_info_row`
+
+Label/value display pair for detail pages.
+
+```slim
+= chalky_card do
+  .space-y-2
+    = chalky_info_row(label: "Name", value: @user.name)
+    = chalky_info_row(label: "Email", value: @user.email)
+    = chalky_info_row(label: "Role", value: @user.role.humanize)
+    = chalky_info_row(label: "Total", value: number_to_currency(@order.total), separator: true, bold_value: true)
+```
+
+**Parameters:**
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `label` | String | **required** | Row label |
+| `value` | String | `nil` | Row value (or use block) |
+| `separator` | Boolean | `false` | Add top border separator |
+| `bold_value` | Boolean | `false` | Make value bold (for totals) |
+
 ## Requirements
 
 - Rails 7.0+
@@ -354,6 +465,11 @@ Include Font Awesome for icons:
 | `chalky_icon_button` | Button with icon |
 | `chalky_button` | Form button |
 | `chalky_back` | Back navigation |
+| `chalky_badge` | Colored status/tag label |
+| `chalky_stat` | KPI card for dashboards |
+| `chalky_hint` | Small help text |
+| `chalky_alert` | Info/warning/error message box |
+| `chalky_info_row` | Label/value display pair |
 
 ## License
 

@@ -166,4 +166,86 @@ module ChalkyLayoutHelper
       **options
     ), &block
   end
+
+  # ============================================
+  # UI Elements
+  # ============================================
+
+  # Badge - colored label for status, tags, etc.
+  # @param label [String] badge text
+  # @param color [Symbol] :gray, :green, :red, :blue, :yellow, :orange, :purple
+  # @param size [Symbol] :xs, :sm, :md
+  # @param style [Symbol] :rounded, :pill
+  # @param icon [String] optional Font Awesome icon class
+  def chalky_badge(label:, color: :gray, size: :sm, style: :rounded, icon: nil)
+    render Chalky::Ui::Badge::Component.new(
+      label: label,
+      color: color,
+      size: size,
+      style: style,
+      icon: icon
+    )
+  end
+
+  # Stat card - KPI display for dashboards
+  # @param label [String] metric label
+  # @param value [String, Number] metric value
+  # @param icon [String] optional Font Awesome icon class
+  # @param icon_color [Symbol] :gray, :green, :red, :blue, :yellow, :orange, :purple
+  # @param subtitle [String] optional additional text
+  # @param trend [Symbol] :up, :down, or nil
+  def chalky_stat(label:, value:, icon: nil, icon_color: :blue, subtitle: nil, trend: nil)
+    render Chalky::Ui::Stat::Component.new(
+      label: label,
+      value: value,
+      icon: icon,
+      icon_color: icon_color,
+      subtitle: subtitle,
+      trend: trend
+    )
+  end
+
+  # Hint - small help text
+  # @param text [String] hint text (or use block)
+  # @param size [Symbol] :xs, :sm
+  # @param icon [String] optional Font Awesome icon class
+  def chalky_hint(text: nil, size: :xs, icon: nil, &block)
+    render Chalky::Ui::Hint::Component.new(
+      text: text,
+      size: size,
+      icon: icon
+    ), &block
+  end
+
+  # Alert - info/warning/error message box
+  # @param message [String] alert message (or use block)
+  # @param title [String] optional alert title
+  # @param variant [Symbol] :info, :success, :warning, :error
+  # @param style [Symbol] :default, :left_border
+  # @param icon [String] optional custom icon (defaults based on variant)
+  # @param dismissible [Boolean] show dismiss button
+  def chalky_alert(message: nil, title: nil, variant: :info, style: :default, icon: nil, dismissible: false, &block)
+    render Chalky::Ui::Alert::Component.new(
+      message: message,
+      title: title,
+      variant: variant,
+      style: style,
+      icon: icon,
+      dismissible: dismissible
+    ), &block
+  end
+
+  # Info row - label/value display pair
+  # @param label [String] row label
+  # @param value [String] row value (or use block)
+  # @param separator [Boolean] add top border separator
+  # @param bold_value [Boolean] make value bold (for totals, etc.)
+  def chalky_info_row(label:, value: nil, separator: false, bold_value: false, &block)
+    render Chalky::Ui::InfoRow::Component.new(
+      label: label,
+      value: value,
+      separator: separator,
+      bold_value: bold_value
+    ), &block
+  end
 end

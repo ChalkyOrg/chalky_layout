@@ -1,0 +1,7 @@
+div class=container_classes
+  .flex-shrink-0 class=label_classes = label
+  div class=value_classes
+    - if value.present?
+      = value
+    - else
+      = content
