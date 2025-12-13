@@ -36,18 +36,37 @@ module ChalkyLayout
         template "initializer.rb", "config/initializers/chalky_layout.rb"
       end
 
-      def show_stimulus_setup
+      def setup_stimulus_controllers
         return if options[:skip_stimulus]
 
         say ""
-        say "Stimulus controllers are automatically available via importmap.", :green
-        say ""
-        say "Register them in app/javascript/controllers/index.js:", :yellow
-        say ""
-        say "  import DropdownController from 'controllers/chalky_layout/dropdown_controller'"
-        say "  import GridController from 'controllers/chalky_layout/grid_controller'"
-        say "  import BackController from 'controllers/chalky_layout/back_controller'"
-        say "  import StopPropagationController from 'controllers/chalky_layout/stop_propagation_controller'"
+
+        if using_importmap?
+          say "Stimulus controllers are automatically available via importmap.", :green
+          say ""
+          say "Register them in app/javascript/controllers/index.js:", :yellow
+          say ""
+          say "  import DropdownController from 'controllers/chalky_layout/dropdown_controller'"
+          say "  import GridController from 'controllers/chalky_layout/grid_controller'"
+          say "  import BackController from 'controllers/chalky_layout/back_controller'"
+          say "  import StopPropagationController from 'controllers/chalky_layout/stop_propagation_controller'"
+        else
+          say "Copying Stimulus controllers for JS bundler...", :green
+          controllers_source = ChalkyLayout::Engine.root.join("app/javascript/chalky_layout/controllers")
+
+          %w[dropdown_controller.js grid_controller.js back_controller.js stop_propagation_controller.js].each do |file|
+            copy_file controllers_source.join(file), "app/javascript/controllers/#{file}"
+          end
+
+          say ""
+          say "Register them in app/javascript/controllers/index.js:", :yellow
+          say ""
+          say "  import DropdownController from './dropdown_controller'"
+          say "  import GridController from './grid_controller'"
+          say "  import BackController from './back_controller'"
+          say "  import StopPropagationController from './stop_propagation_controller'"
+        end
+
         say ""
         say "  application.register('dropdown', DropdownController)"
         say "  application.register('grid', GridController)"
@@ -109,6 +128,10 @@ module ChalkyLayout
           File.read(Rails.root.join("Gemfile")).include?(gem_name)
       rescue StandardError
         false
+      end
+
+      def using_importmap?
+        File.exist?(Rails.root.join("config/importmap.rb"))
       end
     end
   end
