@@ -1,0 +1,20 @@
+.relative.inline-block data=dropdown_data
+  .h-full
+    - if trigger.present?
+      button.flex.items-center.justify-center.focus:ring.focus:ring-solid class=button_classes aria-expanded="true" aria-haspopup="true" data-test-id="dropdown_btn" data-action="dropdown#toggle" type="button"
+        = trigger
+    - else
+      button.rounded-full.w-8.flex.items-center.justify-center.focus:ring.focus:ring-solid class="#{button_classes} !h-8" aria-expanded="true" aria-haspopup="true" data-test-id="dropdown_btn" data-action="dropdown#toggle" type="button"
+        i.fas.fa-ellipsis-h
+
+  .dropdown-menu(
+    class=menu_classes
+    role="menu"
+    aria-orientation="vertical"
+    aria-labelledby="menu-button"
+    tabindex="-1"
+    data-dropdown-target="menu"
+  )
+    .py-1 role="none"
+      - items.each do |item|
+        = item

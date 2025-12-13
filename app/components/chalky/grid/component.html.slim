@@ -1,0 +1,127 @@
+div class=container_classes data=container_data_attributes
+
+  / Optional responsive controls (only if responsive is enabled and has toggleable columns)
+  - if responsive? && columns.any? { |col| col.respond_to?(:priority) && col.priority != :primary }
+    .mb-4.flex.justify-between.items-center
+      h3.text-lg.font-medium.text-gray-900.hidden.md:block
+      = render Chalky::Grid::ColumnToggle::Component.new(columns: columns)
+
+  / Desktop Table Layout (>= 1024px)
+  - if show_table_layout?
+    .table-layout.hidden.lg:block
+      table class=table_classes data-grid-target=(responsive? ? "table" : nil)
+        thead.w-full
+          tr
+            - if bulk_selection
+              th class="#{th_classes} w-8"
+                span.sr-only Select
+            - if actions.any?
+              th class="#{th_classes} w-4"
+            th class="#{th_classes} w-16"
+            - columns.each do |column|
+              th class=th_classes(column) data-column=column.label&.parameterize data-priority=column.priority
+                = render Chalky::Grid::Label::Component.new(label: column.label, data_type: column.data_type)
+
+        tbody
+          - rows.each.with_index(1) do |row, index|
+            tr class=row_classes(index, rows.size, row) id="#{row.respond_to?(:id) ? dom_id(row) : "row-#{index}"}" data=row_data_attributes_for(row)
+              - if bulk_selection
+                td class="#{td_classes} text-center w-8 !pr-2"
+                  = check_box_tag "item_#{row.id}", row.id, false, { id: "#{row.id}", class: "w-6 h-6 rounded-md text-primary focus:ring-primary", data: { action: "change->bulk-edit-items#select" } }
+              - if actions.any?
+                td class="#{td_classes} !pr-2 !py-0 w-12"
+                  = render Chalky::AdminForms::Dropdown::Component.new(variant: :admin, pop_direction: :left) do |dropdown|
+                    - actions.each do |action|
+                      - if action.unless_option
+                        - display_action = action.unless_option.is_a?(Proc) ? !action.unless_option.call(row) : !row.send(action.unless_option)
+                      - else
+                        - display_action = true
+                      - if display_action
+                        - dropdown.with_item do
+                          = render Chalky::AdminForms::Dropdown::Item::Component.new(href: public_send(action.path, { action.id_param_key => row.public_send(action.id_method) }), icon: action.icon, variant: :admin, method: action.data[:method], confirm: action.data[:confirm], **action.data.except(:method, :confirm)) do
+                            = action.name
+
+              td class="#{td_classes} py-4 !px-2"
+                - badge_classes = index_badge_classes_for(row)
+                - if badge_classes
+                  .flex.items-center.justify-center
+                    span.inline-flex.items-center.justify-center.w-7.h-7.rounded-full.text-xs.font-semibold class=badge_classes
+                      = index
+                - else
+                  .text-left class=text_cell_classes
+                    = index
+              - columns.each_with_index do |column, column_index|
+                td class=td_classes(column, index, rows.size) data-column=column.label&.parameterize data-priority=column.priority
+                  - if details_path && row.public_send(details_path_id_method) && !link_cell?(column)
+                    = link_to public_send(details_path, row.public_send(details_path_id_method)), class: "-m-4 p-4 block", data: { test_id: column_index.zero? ? "row-#{row.id}" : nil }.merge(details_path_attributes) do
+                      div class=text_cell_classes
+                        = render column.component.call(row)
+                  - else
+                    div class=text_cell_classes
+                      = render column.component.call(row)
+
+  / Mobile Cards Layout (< 1024px)
+  - if show_cards_layout?
+    .cards-layout.block.lg:hidden data-grid-target=(responsive? ? "cards" : nil)
+      .space-y-3
+        - rows.each.with_index(1) do |row, index|
+          .card.bg-white.rounded-lg.border.border-gray-200.p-4.shadow-sm id="#{row.respond_to?(:id) ? "mobile_#{dom_id(row)}" : "card-#{index}"}" data=row_data_attributes_for(row)
+            / Card Header
+            .flex.justify-between.items-center.mb-3
+              .flex.items-center.space-x-2
+                - badge_classes = index_badge_classes_for(row)
+                - if badge_classes
+                  span.inline-flex.items-center.justify-center.w-6.h-6.rounded-full.text-xs.font-semibold class=badge_classes
+                    = index
+                - else
+                  .text-xs.text-gray-500.font-medium
+                    | ##{index}
+                - if details_path && row.public_send(details_path_id_method)
+                  = link_to public_send(details_path, row.public_send(details_path_id_method)), class: "text-blue-600 hover:text-blue-800 font-medium text-sm", data: { test_id: "mobile-row-#{row.id}" }.merge(details_path_attributes) do
+                    | View Details
+              - if actions.any?
+                = render Chalky::AdminForms::Dropdown::Component.new(variant: :admin, pop_direction: :left, css_classes: "mobile-actions") do |dropdown|
+                  - dropdown.with_trigger do
+                    i.fas.fa-ellipsis-v.text-gray-500.text-sm
+                  - actions.each do |action|
+                    - if action.unless_option
+                      - display_action = action.unless_option.is_a?(Proc) ? !action.unless_option.call(row) : !row.send(action.unless_option)
+                    - else
+                      - display_action = true
+                    - if display_action
+                      - dropdown.with_item do
+                        = render Chalky::AdminForms::Dropdown::Item::Component.new(href: public_send(action.path, { action.id_param_key => row.public_send(action.id_method) }), icon: action.icon, variant: :admin, method: action.data[:method], confirm: action.data[:confirm], data: action.data.except(:method, :confirm)) do
+                          = action.name
+
+            / Card Content - Primary data
+            .space-y-2
+              - columns.first(3).each do |column|
+                .flex.justify-between.items-start
+                  .text-sm.font-medium.text-gray-700.flex-shrink-0.w-20
+                    = column.label
+                  .text-sm.text-gray-900.flex-1.text-right
+                    = render column.component.call(row)
+
+            / Collapsible section for remaining columns
+            - if columns.size > 3
+              details.mt-3
+                summary.cursor-pointer.text-xs.text-gray-500.hover:text-gray-700.font-medium.flex.items-center
+                  | Show more
+                  i.fas.fa-chevron-down.ml-1.text-xs.transform.transition-transform
+                .mt-2.pt-2.border-t.border-gray-100.space-y-1
+                  - columns.drop(3).each do |column|
+                    .flex.justify-between.items-start.text-xs
+                      .text-gray-500.flex-shrink-0.w-20
+                        = column.label
+                      .text-gray-700.flex-1.text-right
+                        = render column.component.call(row)
+
+  / Empty state when no rows
+  - if should_show_empty_state?
+    .empty-state.py-8.text-center.text-gray-500
+      .text-lg.font-medium No data
+      .text-sm.mt-1 No items to display
+
+  - if row_count_key
+    #row-count.flex.py-3.px-4.text-sm.text-gray-700.font-medium
+      = t(row_count_key, count: rows.size)

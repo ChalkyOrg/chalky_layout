@@ -1,0 +1,10 @@
+.section-header class=header_classes
+  - if show_icon?
+    .icon-container class=icon_container_classes
+      svg.w-5.h-5 fill="none" stroke="currentColor" viewBox="0 0 24 24"
+        path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d=icon_path
+
+  .flex-1
+    h3.text-lg.font-semibold.text-gray-900 = title
+    - if description.present?
+      p.text-sm.text-gray-600 = description

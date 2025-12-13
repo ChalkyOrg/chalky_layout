@@ -1,0 +1,14 @@
+= render Chalky::Page::Container::Component.new(css_classes: css_classes, data_attributes: data_attributes) do
+
+  - if header.present?
+    = header
+  - else
+    / Default header bar
+    = render Chalky::Page::Header::Component.new(title: title, subtitle: subtitle)
+
+  - if body.present?
+    = body
+  - elsif content.present?
+    / Fallback: use block content if no body slot
+    = render Chalky::Page::Body::Component.new do
+      = content

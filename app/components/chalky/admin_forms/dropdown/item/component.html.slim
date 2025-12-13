@@ -1,0 +1,31 @@
+- case type
+- when :divider
+  .divider class=item_classes
+    = content
+- when :text
+  .text class=item_classes
+    = content
+- when :button
+  = button_to href, **button_options do
+    - if icon.present?
+      i.mr-2.text-current class="#{icon}"
+    = content
+- else
+  / Default: link type
+  - if href.present?
+    / Use button_to if method is not GET
+    - if method && method.to_sym != :get
+      = button_to href, **button_options do
+        - if icon.present?
+          i.mr-2.text-current class="#{icon}"
+        = content
+    - else
+      = link_to href, **link_options do
+        - if icon.present?
+          i.mr-2.text-current class="#{icon}"
+        = content
+  - else
+    .item class=item_classes data=item_data
+      - if icon.present?
+        i.mr-2.text-current class="#{icon}"
+      = content
