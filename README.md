@@ -7,7 +7,7 @@ Simple Rails admin UI components with intuitive helper methods.
 Add to your Gemfile:
 
 ```ruby
-gem 'chalky_layout', path: '../chalky_layout'
+gem 'chalky_layout', git: 'https://github.com/ChalkyOrg/chalky_layout.git'
 
 # Required dependencies
 gem 'view_component'
