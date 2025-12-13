@@ -320,51 +320,19 @@ Dropdown menu component.
 
 ## Post-Installation Setup
 
-### 1. Register Stimulus Controllers
+The install generator will:
+- Copy Stimulus controllers to `app/javascript/controllers/`
+- Create an initializer at `config/initializers/chalky_layout.rb`
+- Display the exact paths and configuration needed for your setup
 
-Add to `app/javascript/controllers/index.js`:
+Follow the instructions displayed by the generator to:
+1. Register the Stimulus controllers in your `index.js`
+2. Add the gem's component path to your Tailwind `content` array
+3. Add the required color tokens to your Tailwind theme
 
-```javascript
-import DropdownController from './dropdown_controller'
-import GridController from './grid_controller'
-import BackController from './back_controller'
-import StopPropagationController from './stop_propagation_controller'
+### Font Awesome
 
-application.register('dropdown', DropdownController)
-application.register('grid', GridController)
-application.register('back', BackController)
-application.register('stop-propagation', StopPropagationController)
-```
-
-### 2. Configure Tailwind
-
-Add to `tailwind.config.js`:
-
-```javascript
-module.exports = {
-  content: [
-    './app/views/**/*.{html,html.erb,erb,slim}',
-    './app/components/**/*.{rb,slim,html.erb}',
-    // ChalkyLayout gem components
-    './vendor/bundle/ruby/*/gems/chalky_layout-*/app/components/**/*.{rb,slim}',
-  ],
-  theme: {
-    extend: {
-      colors: {
-        primary: '#3b82f6',
-        secondary: '#6b7280',
-        light: '#f9fafb',
-        content: '#374151',
-        contrast: '#111827',
-        midgray: '#6b7280',
-        contour: '#e5e7eb',
-      }
-    }
-  }
-}
-```
-
-### 3. Include Font Awesome
+Include Font Awesome for icons:
 
 ```html
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
