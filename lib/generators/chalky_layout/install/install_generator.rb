@@ -36,30 +36,18 @@ module ChalkyLayout
         template "initializer.rb", "config/initializers/chalky_layout.rb"
       end
 
-      def install_stimulus_controllers
+      def show_stimulus_setup
         return if options[:skip_stimulus]
 
-        say "Installing Stimulus controllers...", :green
-
-        stimulus_controllers = %w[
-          dropdown_controller.js
-          grid_controller.js
-          back_controller.js
-          stop_propagation_controller.js
-        ]
-
-        stimulus_controllers.each do |controller|
-          copy_file "javascript/controllers/#{controller}",
-                    "app/javascript/controllers/#{controller}"
-        end
-
         say ""
-        say "Register the controllers in app/javascript/controllers/index.js:", :yellow
+        say "Stimulus controllers are automatically available via importmap.", :green
         say ""
-        say "  import DropdownController from './dropdown_controller'"
-        say "  import GridController from './grid_controller'"
-        say "  import BackController from './back_controller'"
-        say "  import StopPropagationController from './stop_propagation_controller'"
+        say "Register them in app/javascript/controllers/index.js:", :yellow
+        say ""
+        say "  import DropdownController from 'controllers/chalky_layout/dropdown_controller'"
+        say "  import GridController from 'controllers/chalky_layout/grid_controller'"
+        say "  import BackController from 'controllers/chalky_layout/back_controller'"
+        say "  import StopPropagationController from 'controllers/chalky_layout/stop_propagation_controller'"
         say ""
         say "  application.register('dropdown', DropdownController)"
         say "  application.register('grid', GridController)"

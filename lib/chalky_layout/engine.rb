@@ -28,7 +28,17 @@ module ChalkyLayout
       end
     end
 
-    # Add JavaScript path for asset pipeline
+    # Register Stimulus controllers with importmap
+    initializer "chalky_layout.importmap", before: "importmap" do |app|
+      if app.respond_to?(:importmap)
+        app.importmap.pin_all_from(
+          root.join("app/javascript/chalky_layout/controllers"),
+          under: "controllers/chalky_layout"
+        )
+      end
+    end
+
+    # Add JavaScript path for asset pipeline (Sprockets/Propshaft)
     initializer "chalky_layout.assets" do |app|
       if app.config.respond_to?(:assets)
         app.config.assets.paths << root.join("app", "javascript")
