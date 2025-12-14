@@ -9,7 +9,7 @@ module Chalky::Grid
 
       # Classes for table headers (th)
       def th_classes(_column = nil)
-        "py-2 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+        "h-10 py-2 px-4 text-left text-xs font-semibold text-gray-600 whitespace-nowrap"
       end
 
       # Classes for table cells (td)
