@@ -41,7 +41,7 @@ div class=container_classes data=container_data_attributes
                           = render Chalky::AdminForms::Dropdown::Item::Component.new(href: public_send(action.path, { action.id_param_key => row.public_send(action.id_method) }), icon: action.icon, variant: :admin, method: action.data[:method], confirm: action.data[:confirm], **action.data.except(:method, :confirm)) do
                             = action.name
 
-              td class="#{td_classes} py-4 !px-2"
+              td class="#{td_classes} !px-2"
                 - badge_classes = index_badge_classes_for(row)
                 - if badge_classes
                   .flex.items-center.justify-center
@@ -53,7 +53,7 @@ div class=container_classes data=container_data_attributes
               - columns.each_with_index do |column, column_index|
                 td class=td_classes(column, index, rows.size) data-column=column.label&.parameterize data-priority=column.priority
                   - if details_path && row.public_send(details_path_id_method) && !link_cell?(column)
-                    = link_to public_send(details_path, row.public_send(details_path_id_method)), class: "-m-4 p-4 block", data: { test_id: column_index.zero? ? "row-#{row.id}" : nil }.merge(details_path_attributes) do
+                    = link_to public_send(details_path, row.public_send(details_path_id_method)), class: "-m-2 p-2 block", data: { test_id: column_index.zero? ? "row-#{row.id}" : nil }.merge(details_path_attributes) do
                       div class=text_cell_classes
                         = render column.component.call(row)
                   - else
