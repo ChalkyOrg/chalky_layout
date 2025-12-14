@@ -14,17 +14,17 @@ module Chalky::Grid
       default: {
         table: "bg-white rounded-xl shadow-sm min-w-full",
         header: "bg-gray-50 border-b border-gray-200",
-        row: "hover:bg-gray-50 group transition-colors duration-150 border-b border-gray-200 last:border-b-0"
+        row: "h-10 hover:bg-gray-50 group transition-colors duration-150 border-b border-gray-200 last:border-b-0"
       },
       simple: {
         table: "min-w-full border-collapse",
         header: "bg-gray-100 border-b border-gray-200",
-        row: "hover:bg-gray-50 group transition-colors duration-150 border-b border-gray-200 last:border-b-0"
+        row: "h-10 hover:bg-gray-50 group transition-colors duration-150 border-b border-gray-200 last:border-b-0"
       },
       admin: {
         table: "bg-white rounded-xl shadow-sm min-w-full",
         header: "bg-gray-100 border-b border-gray-200",
-        row: "hover:bg-gray-50 group transition-colors duration-150"
+        row: "h-10 hover:bg-gray-50 group transition-colors duration-150"
       }
     }.freeze
 
