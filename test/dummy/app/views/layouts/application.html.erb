@@ -19,8 +19,25 @@
     <link rel="apple-touch-icon" href="/icon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app %>
+    <!-- Tailwind Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#3b82f6',
+              secondary: '#6b7280',
+              light: '#f9fafb',
+              content: '#374151',
+              contrast: '#111827',
+              midgray: '#6b7280',
+              contour: '#e5e7eb',
+            }
+          }
+        }
+      }
+    </script>
     <%= javascript_importmap_tags %>
   </head>
 
