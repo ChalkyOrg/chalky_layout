@@ -6,7 +6,7 @@ module Chalky::Buttons
       attr_reader :label, :icon, :fallback_url
 
       def initialize(label: nil, icon: "fa-solid fa-arrow-left", fallback_url: "/")
-        super
+        super()
         @label = label || I18n.t("common.actions.back", default: "Back")
         @icon = icon
         @fallback_url = fallback_url

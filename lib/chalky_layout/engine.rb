@@ -29,8 +29,8 @@ module ChalkyLayout
     end
 
     # Register Stimulus controllers with importmap
-    initializer "chalky_layout.importmap", before: "importmap" do |app|
-      if app.respond_to?(:importmap)
+    initializer "chalky_layout.importmap", after: "importmap" do |app|
+      if app.respond_to?(:importmap) && app.importmap
         app.importmap.pin_all_from(
           root.join("app/javascript/chalky_layout/controllers"),
           under: "controllers/chalky_layout"

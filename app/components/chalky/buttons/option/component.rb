@@ -6,7 +6,7 @@ module Chalky::Buttons
       attr_reader :label, :icon
 
       def initialize(label:, icon: nil)
-        super
+        super()
         @label = label
         @icon = icon
       end
