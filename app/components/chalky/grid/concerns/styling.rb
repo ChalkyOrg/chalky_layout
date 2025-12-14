@@ -19,7 +19,7 @@ module Chalky::Grid
 
       # Classes for table cells (td)
       def td_classes(column = nil, row_index = nil, total_rows = nil)
-        base_classes = "py-4 px-4 text-sm text-gray-700"
+        base_classes = "py-4 px-4 text-sm text-gray-700 whitespace-nowrap"
         border_classes = []
 
         # For primary columns: special logic with horizontal borders
@@ -71,7 +71,7 @@ module Chalky::Grid
 
       # Specific classes for text cells
       def text_cell_classes
-        "font-normal text-sm text-gray-700"
+        "font-normal text-sm text-gray-700 whitespace-nowrap truncate max-w-xs"
       end
     end
   end
