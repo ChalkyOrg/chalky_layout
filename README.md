@@ -419,6 +419,35 @@ Label/value display pair for detail pages.
 | `separator` | Boolean | `false` | Add top border separator |
 | `bold_value` | Boolean | `false` | Make value bold (for totals) |
 
+### `chalky_tabs`
+
+Navigation tabs for page sections. Typically used inside the header's navigation slot.
+
+```slim
+= chalky_page do |page|
+  - page.with_header(title: "Products") do |header|
+    - header.with_navigation do
+      = chalky_tabs(tabs: [
+        {name: "Articles", path: admin_items_path},
+        {name: "Collections", path: admin_collections_path},
+        {name: "Categories", path: admin_categories_path}
+      ])
+```
+
+**Tab Options:**
+| Option | Type | Description |
+|--------|------|-------------|
+| `name` | String | Tab label (required) |
+| `path` | String | Tab URL (required) |
+| `icon` | String | Optional Font Awesome icon class |
+| `badge` | Integer | Optional badge count (e.g., notifications) |
+| `active_param` | String | Query param name for active detection |
+| `active_value` | String | Query param value for active detection |
+
+Active tab detection:
+- By default, active tab is detected by matching `path` with current URL
+- For query param based tabs, use `active_param` and `active_value`
+
 ## Requirements
 
 - Rails 7.0+
@@ -470,6 +499,7 @@ Include Font Awesome for icons:
 | `chalky_hint` | Small help text |
 | `chalky_alert` | Info/warning/error message box |
 | `chalky_info_row` | Label/value display pair |
+| `chalky_tabs` | Navigation tabs for page sections |
 
 ## License
 

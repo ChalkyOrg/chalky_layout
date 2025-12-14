@@ -248,4 +248,16 @@ module ChalkyLayoutHelper
       bold_value: bold_value
     ), &block
   end
+
+  # Tabs - navigation tabs for page sections
+  # @param tabs [Array<Hash>] Array of tab definitions
+  #   - :name [String] Tab label (required)
+  #   - :path [String] Tab URL (required)
+  #   - :icon [String] Optional Font Awesome icon class
+  #   - :badge [Integer] Optional badge count
+  #   - :active_param [String] Query param name for active detection
+  #   - :active_value [String] Query param value for active detection
+  def chalky_tabs(tabs:)
+    render Chalky::Ui::Tabs::Component.new(tabs: tabs)
+  end
 end

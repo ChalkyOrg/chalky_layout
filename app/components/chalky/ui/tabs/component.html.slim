@@ -1,0 +1,8 @@
+.flex.flex-wrap.gap-1.items-end aria-label="Tabs"
+  - tabs.each do |tab|
+    = link_to tab[:path], class: tab_classes(tab) do
+      - if tab[:icon]
+        i class=tab[:icon]
+      = tab[:name]
+      - if tab[:badge] && tab[:badge] > 0
+        span.ml-1.px-1.5.py-0.5.text-xs.rounded-full.bg-red-500.text-white = tab[:badge]
