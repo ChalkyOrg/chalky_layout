@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
+require_relative "basic_columns"
+require_relative "datetime_columns"
+require_relative "association_columns"
+require_relative "interactive_columns"
+
 module Chalky::Grid
   module Concerns
     # Module containing all column definition methods
@@ -18,7 +23,7 @@ module Chalky::Grid
       # Centralizes column creation logic
       def add_column(label, _method, options, &)
         component = proc(&)
-        @columns << Grid::Component::Column.new(label, component, **options.to_column_params)
+        @columns << Chalky::Grid::Component::Column.new(label, component, **options.to_column_params)
       end
     end
   end

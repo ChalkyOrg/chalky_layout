@@ -26,6 +26,14 @@ module Chalky::Grid
         end
       end
 
+      # Boolean column (yes/no indicator)
+      def boolean(label:, method:, **user_options)
+        opts = Chalky::Grid::ColumnOptions.new(data_type: :boolean, **user_options)
+        add_column(label, method, opts) do |value|
+          Chalky::Grid::Cell::Boolean::Component.new(data: get_nested_value(value, method))
+        end
+      end
+
       # Numeric column with unit
       def number(label:, method:, **user_options)
         opts = Chalky::Grid::ColumnOptions.new(data_type: :number, **user_options)

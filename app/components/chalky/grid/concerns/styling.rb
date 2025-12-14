@@ -39,7 +39,7 @@ module Chalky::Grid
 
       # Classes for rows according to variant
       def row_classes(row_index = nil, total_rows = nil, row = nil)
-        base_classes = Grid::Component::VARIANTS[variant][:row]
+        base_classes = Chalky::Grid::Component::VARIANTS[variant][:row]
 
         # For the last row, remove all border-bottom
         if row_index == total_rows
@@ -60,13 +60,13 @@ module Chalky::Grid
 
       # Classes for the main table with customization
       def table_classes
-        base_classes = Grid::Component::VARIANTS[variant][:table]
+        base_classes = Chalky::Grid::Component::VARIANTS[variant][:table]
         [base_classes, css_classes].compact.join(" ")
       end
 
       # Classes for table header
       def header_classes
-        Grid::Component::VARIANTS[variant][:header]
+        Chalky::Grid::Component::VARIANTS[variant][:header]
       end
 
       # Specific classes for text cells

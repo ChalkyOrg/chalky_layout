@@ -49,6 +49,17 @@
         = chalky_icon_button(label: "Delete", icon: "fa-solid fa-trash")
         = chalky_back(fallback_url: "/")
 
+    / Grid Section
+    = chalky_card do
+      = chalky_heading(title: "Data Grid", subtitle: "Responsive data table")
+      .mt-4
+        = chalky_grid(rows: @users) do |grid|
+          - grid.text(label: "Name", method: :name, priority: :primary)
+          - grid.text(label: "Email", method: :email, priority: :secondary)
+          - grid.badge(label: "Role", method: :role, color: :blue)
+          - grid.boolean(label: "Active", method: :active)
+          - grid.datetime(label: "Created", method: :created_at, priority: :optional)
+
     / Info Rows Section
     = chalky_card do
       = chalky_heading(title: "Info Rows", subtitle: "Label/value pairs for detail pages")
