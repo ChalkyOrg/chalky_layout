@@ -1,0 +1,78 @@
+.min-h-screen.bg-gray-100
+  / Simple header
+  .bg-white.border-b.border-gray-200.py-4.px-6
+    h1.text-2xl.font-bold ChalkyLayout Showcase
+    p.text-gray-600 Component library demo
+
+  .max-w-7xl.mx-auto.py-8.px-4
+    / Stats Section
+    = chalky_card do
+      = chalky_heading(title: "Statistics", subtitle: "KPI cards for dashboards")
+      .grid.grid-cols-1.md:grid-cols-4.gap-6.mt-4
+        = chalky_stat(label: "Total Users", value: "1,234", icon: "fa-solid fa-users", icon_color: :blue)
+        = chalky_stat(label: "Revenue", value: "$12,345", icon: "fa-solid fa-dollar-sign", icon_color: :green)
+        = chalky_stat(label: "Growth", value: "12%", icon: "fa-solid fa-chart-line", icon_color: :purple, trend: :up, subtitle: "+5% vs last month")
+        = chalky_stat(label: "Errors", value: "3", icon: "fa-solid fa-bug", icon_color: :red, trend: :down)
+
+    / Alerts Section
+    = chalky_card do
+      = chalky_heading(title: "Alerts", subtitle: "Info, success, warning, error messages")
+      .space-y-4.mt-4
+        = chalky_alert(message: "This is an informational message.", variant: :info)
+        = chalky_alert(message: "Your changes have been saved successfully!", variant: :success)
+        = chalky_alert(title: "Warning", message: "This action cannot be undone.", variant: :warning)
+        = chalky_alert(message: "An error occurred. Please try again.", variant: :error, dismissible: true)
+
+    / Badges Section
+    = chalky_card do
+      = chalky_heading(title: "Badges", subtitle: "Status labels and tags")
+      .flex.flex-wrap.gap-3.mt-4
+        = chalky_badge(label: "Active", color: :green)
+        = chalky_badge(label: "Pending", color: :yellow)
+        = chalky_badge(label: "Inactive", color: :gray)
+        = chalky_badge(label: "Error", color: :red)
+        = chalky_badge(label: "Info", color: :blue)
+        = chalky_badge(label: "Premium", color: :purple)
+        = chalky_badge(label: "New", color: :orange)
+      .flex.flex-wrap.gap-3.mt-4
+        = chalky_badge(label: "Pill style", color: :blue, style: :pill)
+        = chalky_badge(label: "With icon", color: :green, icon: "fa-solid fa-check")
+        = chalky_badge(label: "Extra small", color: :purple, size: :xs)
+        = chalky_badge(label: "Medium", color: :red, size: :md)
+
+    / Buttons Section
+    = chalky_card do
+      = chalky_heading(title: "Buttons", subtitle: "Action buttons and navigation")
+      .flex.flex-wrap.gap-4.mt-4
+        = chalky_icon_button(label: "Primary", icon: "fa-solid fa-star")
+        = chalky_icon_button(label: "Settings", icon: "fa-solid fa-cog")
+        = chalky_icon_button(label: "Delete", icon: "fa-solid fa-trash")
+        = chalky_back(fallback_url: "/")
+
+    / Info Rows Section
+    = chalky_card do
+      = chalky_heading(title: "Info Rows", subtitle: "Label/value pairs for detail pages")
+      .space-y-2.mt-4
+        = chalky_info_row(label: "Name", value: "Alice Martin")
+        = chalky_info_row(label: "Email", value: "alice@example.com")
+        = chalky_info_row(label: "Role", value: "Administrator")
+        = chalky_info_row(label: "Total", value: "$1,234.56", separator: true, bold_value: true)
+
+    / Hints Section
+    = chalky_card do
+      = chalky_heading(title: "Hints", subtitle: "Help text for forms")
+      .space-y-4.mt-4
+        div
+          label.block.text-sm.font-medium.text-gray-700 Email
+          input.mt-1.block.w-full.rounded-md.border-gray-300.shadow-sm type="email" placeholder="you@example.com"
+          = chalky_hint(text: "We'll never share your email with anyone else.")
+        div
+          label.block.text-sm.font-medium.text-gray-700 Password
+          input.mt-1.block.w-full.rounded-md.border-gray-300.shadow-sm type="password"
+          = chalky_hint(text: "Minimum 8 characters with at least one number.")
+
+    / Panel Section
+    = chalky_panel(title: "Collapsible Panel", icon: "fa-solid fa-cog", icon_color: :blue) do
+      p.text-gray-600 This is a collapsible panel with an icon. Click the header to toggle.
+      .mt-4
+        = chalky_badge(label: "Inside panel", color: :blue)

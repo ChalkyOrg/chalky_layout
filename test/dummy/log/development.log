@@ -1,0 +1,140 @@
+Started GET "/" for ::1 at 2025-12-14 01:37:38 +0100
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY) /*application='Dummy'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='Dummy'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Dummy'*/[0m
+Processing by ShowcaseController#index as */*
+Completed 500 Internal Server Error in 10ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+NameError (uninitialized constant ShowcaseController::OpenStruct):
+  
+app/controllers/showcase_controller.rb:6:in `index'
+Started GET "/" for ::1 at 2025-12-14 01:37:52 +0100
+Processing by ShowcaseController#index as */*
+  Rendering layout layouts/application.html.erb
+  Rendering showcase/index.html.slim within layouts/application
+  Rendered showcase/index.html.slim within layouts/application (Duration: 41.9ms | GC: 4.9ms)
+  Rendered layout layouts/application.html.erb (Duration: 42.1ms | GC: 4.9ms)
+Completed 500 Internal Server Error in 45ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 4.9ms)
+
+
+  
+ActionView::Template::Error (wrong number of arguments (given 1, expected 0))
+Caused by: ArgumentError (wrong number of arguments (given 1, expected 0))
+
+Information for: ActionView::Template::Error (wrong number of arguments (given 1, expected 0)):
+    1: = chalky_page do |page|
+    2:   - page.with_header(title: "ChalkyLayout Showcase", subtitle: "Component library demo") do |header|
+    3:     - header.with_actions do
+    4:       = link_to "#" do
+  
+app/views/showcase/index.html.slim:1
+
+Information for cause: ArgumentError (wrong number of arguments (given 1, expected 0)):
+  
+app/views/showcase/index.html.slim:1
+Started GET "/" for ::1 at 2025-12-14 01:38:57 +0100
+Processing by ShowcaseController#index as */*
+  Rendering layout layouts/application.html.erb
+  Rendering showcase/index.html.slim within layouts/application
+  Rendered showcase/index.html.slim within layouts/application (Duration: 15.9ms | GC: 2.2ms)
+  Rendered layout layouts/application.html.erb (Duration: 16.0ms | GC: 2.2ms)
+Completed 500 Internal Server Error in 18ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 2.2ms)
+
+
+  
+ActionView::Template::Error (wrong number of arguments (given 1, expected 0))
+Caused by: ArgumentError (wrong number of arguments (given 1, expected 0))
+
+Information for: ActionView::Template::Error (wrong number of arguments (given 1, expected 0)):
+    1: / Title Bar
+    2: = chalky_title_bar(title: "ChalkyLayout Showcase", subtitle: "Component library demo") do |header|
+    3:   - header.with_actions do
+    4:     = link_to "#" do
+    5:       = chalky_icon_button(label: "New", icon: "fa-solid fa-plus")
+  
+app/views/showcase/index.html.slim:2
+
+Information for cause: ArgumentError (wrong number of arguments (given 1, expected 0)):
+  
+app/views/showcase/index.html.slim:2
+Started GET "/" for ::1 at 2025-12-14 01:39:43 +0100
+Processing by ShowcaseController#index as */*
+  Rendering layout layouts/application.html.erb
+  Rendering showcase/index.html.slim within layouts/application
+  Rendered showcase/index.html.slim within layouts/application (Duration: 28.3ms | GC: 2.8ms)
+  Rendered layout layouts/application.html.erb (Duration: 28.4ms | GC: 2.8ms)
+Completed 500 Internal Server Error in 31ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 2.8ms)
+
+
+  
+ActionView::Template::Error (wrong number of arguments (given 1, expected 0))
+Caused by: ArgumentError (wrong number of arguments (given 1, expected 0))
+
+Information for: ActionView::Template::Error (wrong number of arguments (given 1, expected 0)):
+    44:     = chalky_card do
+    45:       = chalky_heading(title: "Buttons", subtitle: "Action buttons and navigation")
+    46:       .flex.flex-wrap.gap-4.mt-4
+    47:         = chalky_icon_button(label: "Primary", icon: "fa-solid fa-star")
+    48:         = chalky_icon_button(label: "Settings", icon: "fa-solid fa-cog")
+    49:         = chalky_icon_button(label: "Delete", icon: "fa-solid fa-trash")
+    50:         = chalky_back(fallback_url: "/")
+  
+app/views/showcase/index.html.slim:47
+app/views/showcase/index.html.slim:44
+
+Information for cause: ArgumentError (wrong number of arguments (given 1, expected 0)):
+  
+app/views/showcase/index.html.slim:47
+app/views/showcase/index.html.slim:44
+Started GET "/" for ::1 at 2025-12-14 01:40:33 +0100
+Processing by ShowcaseController#index as */*
+  Rendering layout layouts/application.html.erb
+  Rendering showcase/index.html.slim within layouts/application
+  Rendered showcase/index.html.slim within layouts/application (Duration: 34.3ms | GC: 3.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 34.5ms | GC: 3.0ms)
+Completed 500 Internal Server Error in 37ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 3.2ms)
+
+
+  
+ActionView::Template::Error (uninitialized constant Chalky::Grid::Concerns::ColumnDefinitions::DateTimeColumns)
+Caused by: NameError (uninitialized constant Chalky::Grid::Concerns::ColumnDefinitions::DateTimeColumns)
+
+Information for: ActionView::Template::Error (uninitialized constant Chalky::Grid::Concerns::ColumnDefinitions::DateTimeColumns):
+    53:     = chalky_card do
+    54:       = chalky_heading(title: "Data Grid", subtitle: "Responsive data table")
+    55:       .mt-4
+    56:         = chalky_grid(rows: @users) do |grid|
+    57:           - grid.text(label: "Name", method: :name, priority: :primary)
+    58:           - grid.text(label: "Email", method: :email, priority: :secondary)
+    59:           - grid.badge(label: "Role", method: :role, color: :blue)
+  
+app/views/showcase/index.html.slim:56
+app/views/showcase/index.html.slim:53
+
+Information for cause: NameError (uninitialized constant Chalky::Grid::Concerns::ColumnDefinitions::DateTimeColumns):
+  
+app/views/showcase/index.html.slim:56
+app/views/showcase/index.html.slim:53
+Started GET "/" for ::1 at 2025-12-14 01:40:50 +0100
+Processing by ShowcaseController#index as */*
+  Rendering layout layouts/application.html.erb
+  Rendering showcase/index.html.slim within layouts/application
+  Rendered showcase/index.html.slim within layouts/application (Duration: 46.7ms | GC: 4.3ms)
+Importmap skipped missing path: controllers/chalky_layout/back_controller.js
+Importmap skipped missing path: controllers/chalky_layout/dropdown_controller.js
+Importmap skipped missing path: controllers/chalky_layout/grid_controller.js
+Importmap skipped missing path: controllers/chalky_layout/stop_propagation_controller.js
+Importmap skipped missing path: controllers/chalky_layout/back_controller.js
+Importmap skipped missing path: controllers/chalky_layout/dropdown_controller.js
+Importmap skipped missing path: controllers/chalky_layout/grid_controller.js
+Importmap skipped missing path: controllers/chalky_layout/stop_propagation_controller.js
+Importmap skipped missing path: controllers/chalky_layout/back_controller.js
+Importmap skipped missing path: controllers/chalky_layout/dropdown_controller.js
+Importmap skipped missing path: controllers/chalky_layout/grid_controller.js
+Importmap skipped missing path: controllers/chalky_layout/stop_propagation_controller.js
+  Rendered layout layouts/application.html.erb (Duration: 52.3ms | GC: 4.5ms)
+Completed 200 OK in 55ms (Views: 53.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 4.5ms)
+
+
