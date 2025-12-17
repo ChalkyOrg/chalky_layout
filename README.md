@@ -57,6 +57,8 @@ Main page wrapper with header and body slots.
     / Main content here
 ```
 
+![Page Layout](docs/screenshots/page.png)
+
 **Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -136,6 +138,8 @@ Simple container with shadow and border.
 = chalky_card(spacing: "mb-2", css_classes: "bg-blue-50") do
   p Custom spacing and classes
 ```
+
+![Card](docs/screenshots/card.png)
 
 **Parameters:**
 | Parameter | Type | Default | Description |
@@ -217,6 +221,8 @@ Form submit button.
 = chalky_button(label: "Delete", variant: :danger)
 ```
 
+![Button](docs/screenshots/button.png)
+
 **Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -231,6 +237,8 @@ Back navigation button with JavaScript history support.
 ```slim
 = chalky_back(fallback_url: "/admin")
 ```
+
+![Back](docs/screenshots/back.png)
 
 **Parameters:**
 | Parameter | Type | Default | Description |
@@ -335,6 +343,8 @@ Dropdown menu component.
     = link_to "Edit", edit_path, class: "dropdown-item"
     = link_to "Delete", delete_path, class: "dropdown-item text-red-600"
 ```
+
+![Dropdown](docs/screenshots/dropdown.png)
 
 **Parameters:**
 | Parameter | Type | Default | Description |
@@ -503,6 +513,8 @@ Navigation tabs for page sections. Typically used inside the header's navigation
         {name: "Categories", path: admin_categories_path}
       ])
 ```
+
+![Tabs](docs/screenshots/tabs.png)
 
 **Tab Options:**
 | Option | Type | Description |
