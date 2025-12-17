@@ -32,9 +32,9 @@ module Chalky::Grid
       @actions ||= []
     end
 
-    def initialize(rows:, horizontal_scroll: nil, row_data_attributes: nil, row_classes_proc: nil, index_badge_proc: nil, **)
+    def initialize(rows:, horizontal_scroll: nil, row_data_attributes: nil, row_classes_proc: nil, index_badge_proc: nil, **options)
       super()
-      component_opts = Chalky::Grid::ComponentOptions.new(**)
+      component_opts = Chalky::Grid::ComponentOptions.new(**options)
 
       @rows = rows
       @variant = component_opts.variant.to_sym
