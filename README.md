@@ -271,9 +271,34 @@ Responsive data table with multiple column types.
 **Badge Colors:** `:green`, `:red`, `:blue`, `:yellow`, `:purple`, `:orange`, `:gray`
 
 **Column Priority:**
-- `:primary` - Always visible
-- `:secondary` - Hidden on mobile
+- `:primary` - Always visible, used as card title on mobile
+- `:secondary` - Default, shown in card body on mobile
 - `:optional` - Only on large screens
+
+### Grid Actions
+
+Add row actions with dropdown menu:
+
+```slim
+= chalky_grid(rows: @users) do |grid|
+  - grid.action(name: "View", path: :user_path, icon: "fa-solid fa-eye")
+  - grid.action(name: "Edit", path: :edit_user_path, icon: "fa-solid fa-pen")
+  - grid.action(name: "Delete", path: :user_path, icon: "fa-solid fa-trash", data: { method: :delete, confirm: "Are you sure?" })
+  - grid.text(label: "Name", method: :name, priority: :primary)
+  - grid.text(label: "Email", method: :email)
+```
+
+**Action Parameters:**
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `name` | String | Action label |
+| `path` | Symbol | Route helper name (e.g., `:edit_user_path`) |
+| `icon` | String | Font Awesome icon class |
+| `data` | Hash | Data attributes (`:method`, `:confirm`, etc.) |
+| `options[:id_method]` | Symbol | Method to get row ID (default: `:id`) |
+| `options[:id_param_key]` | Symbol | Param key for ID (default: `:id`) |
+| `options[:unless]` | Symbol/Proc | Condition to hide action |
+| `options[:variant]` | Symbol | `:admin` or `:danger` |
 
 ### Custom Column Example
 
@@ -350,6 +375,29 @@ KPI card for dashboards with icon, value, and optional trend.
 | `icon_color` | Symbol | `:blue` | Icon background color |
 | `subtitle` | String | `nil` | Additional text below value |
 | `trend` | Symbol | `nil` | `:up`, `:down`, or `nil` |
+
+### `chalky_tooltip`
+
+Hover tooltip for contextual information.
+
+```slim
+= chalky_tooltip(text: "More information here") do
+  i.fa-solid.fa-circle-info.text-gray-400.cursor-help
+
+= chalky_tooltip(text: "Edit this item", position: :bottom) do
+  = chalky_icon_button(label: "Edit", icon: "fa-solid fa-pen")
+
+= chalky_tooltip(text: "Light variant", variant: :light, delay: 300) do
+  span.underline Hover me
+```
+
+**Parameters:**
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `text` | String | **required** | Tooltip text to display |
+| `position` | Symbol | `:top` | `:top`, `:bottom`, `:left`, `:right` |
+| `variant` | Symbol | `:dark` | `:dark` (black bg), `:light` (white bg with border) |
+| `delay` | Integer | `0` | Delay in milliseconds before showing |
 
 ### `chalky_hint`
 
@@ -496,6 +544,7 @@ Include Font Awesome for icons:
 | `chalky_back` | Back navigation |
 | `chalky_badge` | Colored status/tag label |
 | `chalky_stat` | KPI card for dashboards |
+| `chalky_tooltip` | Hover tooltip |
 | `chalky_hint` | Small help text |
 | `chalky_alert` | Info/warning/error message box |
 | `chalky_info_row` | Label/value display pair |
