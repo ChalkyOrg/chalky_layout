@@ -14,10 +14,11 @@ module ChalkyLayout
       app.config.eager_load_paths << root.join("app", "components")
     end
 
-    # Include helpers in views automatically - use action_controller for reliability
+    # Include helpers in views automatically
+    # Use config.to_prepare to ensure the helper is autoloaded before being included
     initializer "chalky_layout.helpers" do
-      ActiveSupport.on_load(:action_controller_base) do
-        helper ChalkyLayoutHelper
+      config.to_prepare do
+        ActionController::Base.helper ChalkyLayoutHelper
       end
     end
 
