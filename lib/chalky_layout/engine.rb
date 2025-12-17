@@ -38,9 +38,6 @@ module ChalkyLayout
           controller_name = File.basename(controller_file, ".js")
           app.importmap.pin "controllers/chalky_layout/#{controller_name}", to: controller_file
         end
-
-        # Add to cache sweeper paths
-        app.config.importmap.paths << root.join("config/importmap.rb") if app.config.importmap.respond_to?(:paths)
       end
     end
 
