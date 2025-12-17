@@ -31,10 +31,11 @@ module ChalkyLayout
     # Add JavaScript assets to asset pipeline and declare precompilation
     initializer "chalky_layout.assets", before: "importmap" do |app|
       if app.config.respond_to?(:assets)
-        # Add JS path to asset pipeline
+        # Add paths to asset pipeline
         app.config.assets.paths << root.join("app", "javascript")
-        # Declare assets for precompilation
-        app.config.assets.precompile += %w[chalky_layout/**/*.js]
+        app.config.assets.paths << root.join("app", "assets", "config")
+        # Use manifest file for Sprockets precompilation (handles link_tree directives)
+        app.config.assets.precompile += %w[chalky_layout_manifest.js]
       end
     end
 
