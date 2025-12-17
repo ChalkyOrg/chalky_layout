@@ -1,0 +1,7 @@
+- if data.present?
+  .relative.inline-block
+    = image_tag data.variant(**variant_options), class: image_classes
+- else
+  .relative.inline-block class=image_classes.gsub('object-cover', '')
+    .flex.items-center.justify-center.bg-gray-100.text-gray-400
+      i.fas.fa-image
