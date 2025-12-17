@@ -1,6 +1,6 @@
-.flex.flex-wrap.gap-1.items-end aria-label="Tabs"
+.flex.flex-wrap.gap-1.items-end aria-label="Tabs" data=container_data
   - tabs.each do |tab|
-    = link_to tab[:path], class: tab_classes(tab) do
+    = link_to tab_href(tab), class: tab_classes(tab), data: tab_data(tab) do
       - if tab[:icon]
         i class=tab[:icon]
       = tab[:name]

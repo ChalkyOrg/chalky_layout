@@ -1,7 +1,7 @@
 = chalky_page do |page|
   - page.with_header(title: "ChalkyLayout Showcase", subtitle: "Component library demo") do |header|
     - header.with_navigation do
-      - tabs_data = [{name: "Components", path: "#", icon: "fa-solid fa-cube"}, {name: "Examples", path: "#examples"}, {name: "Settings", path: "#settings", badge: 3}]
+      - tabs_data = [{name: "Components", path: "#components", icon: "fa-solid fa-cube", default: true}, {name: "Examples", path: "#examples"}, {name: "Settings", path: "#settings", badge: 3}]
       = chalky_tabs(tabs: tabs_data)
     - header.with_actions do
       .flex.items-center.gap-3
