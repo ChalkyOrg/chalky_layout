@@ -75,25 +75,22 @@ module ChalkyLayout
         say ""
       end
 
-      def show_tailwind_config
-        say "Add these colors to your tailwind.config.js:", :yellow
+      def setup_tailwind
         say ""
-        say "  theme: {"
-        say "    extend: {"
-        say "      colors: {"
-        say "        primary: '#3b82f6',"
-        say "        secondary: '#6b7280',"
-        say "        light: '#f9fafb',"
-        say "        content: '#374151',"
-        say "        contrast: '#111827',"
-        say "        midgray: '#6b7280',"
-        say "        contour: '#e5e7eb',"
-        say "      }"
-        say "    }"
-        say "  }"
+        say "Configuring Tailwind CSS...", :green
+
+        if tailwind_v4?
+          setup_tailwind_v4
+        else
+          setup_tailwind_v3
+        end
+      end
+
+      def show_tailwind_colors
         say ""
-        say "  Also ensure your content array includes:", :yellow
-        say "    Gem path: '#{ChalkyLayout::Engine.root.join('app/components/**/*.{rb,slim}')}'"
+        say "Ensure these colors are defined in your Tailwind config:", :yellow
+        say ""
+        say "  primary, secondary, light, content, contrast, midgray, contour"
         say ""
       end
 
@@ -132,6 +129,159 @@ module ChalkyLayout
 
       def using_importmap?
         File.exist?(Rails.root.join("config/importmap.rb"))
+      end
+
+      def tailwind_v4?
+        # Check for Tailwind v4 indicators
+        css_config = Rails.root.join("app/assets/stylesheets/application.tailwind.css")
+        return false unless File.exist?(css_config)
+
+        content = File.read(css_config)
+        content.include?("@import \"tailwindcss\"") || content.include?("@theme")
+      end
+
+      def setup_tailwind_v3
+        config_path = Rails.root.join("tailwind.config.js")
+
+        unless File.exist?(config_path)
+          say "tailwind.config.js not found, skipping automatic configuration", :yellow
+          show_manual_tailwind_v3_instructions
+          return
+        end
+
+        content = File.read(config_path)
+
+        # Check if already configured
+        if content.include?("chalky_layout") || content.include?("getChalkyLayoutPath")
+          say "Tailwind already configured for ChalkyLayout", :green
+          return
+        end
+
+        # Add the dynamic path resolution at the top
+        path_resolver = <<~JS
+
+          const { execSync } = require('child_process')
+
+          // Dynamically find the chalky_layout gem path
+          function getChalkyLayoutPath() {
+            try {
+              const gemPath = execSync('bundle show chalky_layout', { encoding: 'utf-8' }).trim()
+              return gemPath
+            } catch (e) {
+              console.warn('Could not find chalky_layout gem path')
+              return null
+            }
+          }
+
+          const chalkyLayoutPath = getChalkyLayoutPath()
+
+        JS
+
+        # Insert after the first require statement
+        if content.match?(/^const .+ = require\(.+\)/)
+          content = content.sub(/(^const .+ = require\(.+\)\n)/) do |match|
+            # Find all consecutive require statements
+            if content.match?(/^(const .+ = require\(.+\)\n)+/m)
+              content.match(/^(const .+ = require\(.+\)\n)+/m)[0] + path_resolver
+            else
+              match + path_resolver
+            end
+          end
+        else
+          content = path_resolver + content
+        end
+
+        # Add content paths
+        content_paths = <<~JS
+    // ChalkyLayout gem components (path resolved dynamically via `bundle show`)
+            ...(chalkyLayoutPath ? [
+              `${chalkyLayoutPath}/app/components/**/*.{rb,erb,html,slim}`,
+              `${chalkyLayoutPath}/app/helpers/**/*.rb`,
+            ] : []),
+        JS
+
+        # Find the content array and add paths
+        if content.match?(/content:\s*\[/)
+          # Add after the opening bracket of content array
+          content = content.sub(/(content:\s*\[\n?)/) do |match|
+            "#{match}#{content_paths}"
+          end
+
+          File.write(config_path, content)
+          say "Updated tailwind.config.js with ChalkyLayout paths", :green
+        else
+          say "Could not find content array in tailwind.config.js", :yellow
+          show_manual_tailwind_v3_instructions
+        end
+      end
+
+      def setup_tailwind_v4
+        css_path = Rails.root.join("app/assets/stylesheets/application.tailwind.css")
+
+        unless File.exist?(css_path)
+          say "application.tailwind.css not found", :yellow
+          show_manual_tailwind_v4_instructions
+          return
+        end
+
+        content = File.read(css_path)
+
+        # Check if already configured
+        if content.include?("chalky_layout")
+          say "Tailwind v4 already configured for ChalkyLayout", :green
+          return
+        end
+
+        gem_path = ChalkyLayout::Engine.root
+
+        source_directive = <<~CSS
+
+          /* ChalkyLayout gem components */
+          @source "#{gem_path}/app/components/**/*.{rb,slim}";
+        CSS
+
+        # Add after @import "tailwindcss" or at the beginning
+        if content.match?(/@import ["']tailwindcss["']/)
+          content = content.sub(/(@import ["']tailwindcss["'];?\n?)/) do |match|
+            match + source_directive
+          end
+        else
+          content = source_directive + content
+        end
+
+        File.write(css_path, content)
+        say "Updated application.tailwind.css with ChalkyLayout source", :green
+      end
+
+      def show_manual_tailwind_v3_instructions
+        say ""
+        say "Add this to the top of your tailwind.config.js:", :yellow
+        say ""
+        say "  const { execSync } = require('child_process')"
+        say ""
+        say "  function getChalkyLayoutPath() {"
+        say "    try {"
+        say "      return execSync('bundle show chalky_layout', { encoding: 'utf-8' }).trim()"
+        say "    } catch (e) { return null }"
+        say "  }"
+        say ""
+        say "  const chalkyLayoutPath = getChalkyLayoutPath()"
+        say ""
+        say "Then add to your content array:", :yellow
+        say ""
+        say "  ...(chalkyLayoutPath ? ["
+        say "    `${chalkyLayoutPath}/app/components/**/*.{rb,erb,html,slim}`,"
+        say "    `${chalkyLayoutPath}/app/helpers/**/*.rb`,"
+        say "  ] : []),"
+        say ""
+      end
+
+      def show_manual_tailwind_v4_instructions
+        say ""
+        say "Add this to your application.tailwind.css:", :yellow
+        say ""
+        say "  @source \"#{ChalkyLayout::Engine.root}/app/components/**/*.{rb,slim}\";"
+        say ""
       end
     end
   end

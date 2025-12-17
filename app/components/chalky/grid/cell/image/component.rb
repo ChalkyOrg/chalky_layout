@@ -4,7 +4,7 @@ module Chalky
   module Grid
     module Cell
       module Image
-        class Component < Chalky::Component
+        class Component < Chalky::ApplicationComponent
           attr_reader :data, :size
 
           def initialize(data:, size: :small)
