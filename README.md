@@ -78,6 +78,8 @@ The header is a sticky title bar with back button, title, subtitle, and actions.
       = chalky_icon_button(label: "Export", icon: "fa-solid fa-download")
 ```
 
+![Header](docs/screenshots/header.png)
+
 **Header Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -154,6 +156,8 @@ Collapsible section with icon.
   p Initially collapsed
 ```
 
+![Panel](docs/screenshots/panel.png)
+
 **Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -194,6 +198,8 @@ Button with icon and label, typically used in header actions.
 = link_to new_user_path do
   = chalky_icon_button(label: "Add", icon: "fa-solid fa-plus")
 ```
+
+![Buttons](docs/screenshots/buttons.png)
 
 **Parameters:**
 | Parameter | Type | Default | Description |
@@ -246,6 +252,8 @@ Responsive data table with multiple column types.
   - grid.date(label: "Created", method: :created_at, priority: :optional)
 ```
 
+![Data Grid](docs/screenshots/grid.png)
+
 **Grid Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -287,6 +295,8 @@ Add row actions with dropdown menu:
   - grid.text(label: "Name", method: :name, priority: :primary)
   - grid.text(label: "Email", method: :email)
 ```
+
+![Grid with Actions](docs/screenshots/grid-actions.png)
 
 **Action Parameters:**
 | Parameter | Type | Description |
@@ -345,6 +355,8 @@ Colored label for status, tags, categories.
 = chalky_badge(label: "Error", color: :red, icon: "fa-solid fa-xmark")
 ```
 
+![Badges](docs/screenshots/badges.png)
+
 **Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -365,6 +377,8 @@ KPI card for dashboards with icon, value, and optional trend.
   = chalky_stat(label: "Growth", value: "12%", icon: "fa-solid fa-chart-line", icon_color: :purple, trend: :up, subtitle: "+5%")
   = chalky_stat(label: "Errors", value: 3, icon: "fa-solid fa-bug", icon_color: :red)
 ```
+
+![Stats](docs/screenshots/stats.png)
 
 **Parameters:**
 | Parameter | Type | Default | Description |
@@ -391,6 +405,8 @@ Hover tooltip for contextual information.
   span.underline Hover me
 ```
 
+![Tooltips](docs/screenshots/tooltips.png)
+
 **Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -410,6 +426,8 @@ Small help text typically shown below form fields.
   | Custom hint with
   strong  bold text
 ```
+
+![Hints](docs/screenshots/hints.png)
 
 **Parameters:**
 | Parameter | Type | Default | Description |
@@ -436,6 +454,8 @@ Info, warning, success, or error message box.
   | An error occurred. Please try again.
 ```
 
+![Alerts](docs/screenshots/alerts.png)
+
 **Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
@@ -458,6 +478,8 @@ Label/value display pair for detail pages.
     = chalky_info_row(label: "Role", value: @user.role.humanize)
     = chalky_info_row(label: "Total", value: number_to_currency(@order.total), separator: true, bold_value: true)
 ```
+
+![Info Rows](docs/screenshots/info-rows.png)
 
 **Parameters:**
 | Parameter | Type | Default | Description |
