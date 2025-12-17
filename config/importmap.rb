@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
-# ChalkyLayout Stimulus controllers
-controllers_path = ChalkyLayout::Engine.root.join("app/javascript/chalky_layout/controllers")
-Dir[controllers_path.join("*_controller.js")].each do |controller_file|
-  controller_name = File.basename(controller_file, ".js")
-  pin "controllers/chalky_layout/#{controller_name}", to: controller_file
-end
+# Pin all Stimulus controllers from chalky_layout
+pin "controllers/chalky_layout/back_controller", to: "chalky_layout/controllers/back_controller.js"
+pin "controllers/chalky_layout/dropdown_controller", to: "chalky_layout/controllers/dropdown_controller.js"
+pin "controllers/chalky_layout/grid_controller", to: "chalky_layout/controllers/grid_controller.js"
+pin "controllers/chalky_layout/stop_propagation_controller", to: "chalky_layout/controllers/stop_propagation_controller.js"
+pin "controllers/chalky_layout/tabs_controller", to: "chalky_layout/controllers/tabs_controller.js"
+pin "controllers/chalky_layout/tooltip_controller", to: "chalky_layout/controllers/tooltip_controller.js"
