@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "basic_columns"
-require_relative "datetime_columns"
+require_relative "date_time_columns"
 require_relative "association_columns"
 require_relative "interactive_columns"
 
