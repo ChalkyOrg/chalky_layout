@@ -1,10 +1,48 @@
-.min-h-screen.bg-gray-100
-  / Simple header
-  .bg-white.border-b.border-gray-200.py-4.px-6
-    h1.text-2xl.font-bold ChalkyLayout Showcase
-    p.text-gray-600 Component library demo
+= chalky_page do |page|
+  - page.with_header(title: "ChalkyLayout Showcase", subtitle: "Component library demo") do |header|
+    - header.with_actions do
+      .flex.items-center.gap-3
+        = chalky_button(label: "Secondary", variant: :secondary, size: :sm)
+        = chalky_button(label: "Primary", variant: :primary, size: :sm)
+        = chalky_icon_button(label: "Settings", icon: "fa-solid fa-cog")
 
-  .max-w-7xl.mx-auto.py-8.px-4
+        / Dropdown with full features
+        = chalky_dropdown(variant: :admin, pop_direction: :right) do |dropdown|
+          - dropdown.with_trigger do
+            = render Chalky::Buttons::Option::Component.new(label: "Options", icon: "fa-solid fa-bars")
+
+          / Header text
+          - dropdown.with_item(type: :text) do
+            | Actions
+
+          / Regular items with icons
+          - dropdown.with_item(href: "#", icon: "fa-solid fa-eye") do
+            | View details
+          - dropdown.with_item(href: "#", icon: "fa-solid fa-pen") do
+            | Edit item
+          - dropdown.with_item(href: "#", icon: "fa-solid fa-copy") do
+            | Duplicate
+
+          / Divider
+          - dropdown.with_item(type: :divider)
+
+          / Secondary section header
+          - dropdown.with_item(type: :text) do
+            | More options
+
+          - dropdown.with_item(href: "#", icon: "fa-solid fa-download") do
+            | Export
+          - dropdown.with_item(href: "#", icon: "fa-solid fa-share") do
+            | Share
+
+          / Divider before danger zone
+          - dropdown.with_item(type: :divider)
+
+          / Danger item
+          - dropdown.with_item(href: "#", icon: "fa-solid fa-trash", variant: :danger, confirm: "Are you sure?") do
+            | Delete
+
+  - page.with_body do
     / Stats Section
     = chalky_card do
       = chalky_heading(title: "Statistics", subtitle: "KPI cards for dashboards")
@@ -49,6 +87,45 @@
         = chalky_icon_button(label: "Delete", icon: "fa-solid fa-trash")
         = chalky_back(fallback_url: "/")
 
+    / Tooltips Section
+    = chalky_card do
+      = chalky_heading(title: "Tooltips", subtitle: "Hover hints and contextual information")
+      .flex.flex-wrap.items-center.gap-8.mt-4.py-4
+        / Position variants
+        = chalky_tooltip(text: "Tooltip on top", position: :top) do
+          .px-4.py-2.bg-gray-100.rounded-lg.cursor-pointer.hover:bg-gray-200.transition
+            | Hover me (top)
+        = chalky_tooltip(text: "Tooltip on bottom", position: :bottom) do
+          .px-4.py-2.bg-gray-100.rounded-lg.cursor-pointer.hover:bg-gray-200.transition
+            | Hover me (bottom)
+        = chalky_tooltip(text: "Tooltip on left", position: :left) do
+          .px-4.py-2.bg-gray-100.rounded-lg.cursor-pointer.hover:bg-gray-200.transition
+            | Hover me (left)
+        = chalky_tooltip(text: "Tooltip on right", position: :right) do
+          .px-4.py-2.bg-gray-100.rounded-lg.cursor-pointer.hover:bg-gray-200.transition
+            | Hover me (right)
+
+      .flex.flex-wrap.items-center.gap-8.mt-4.py-4
+        / Style variants
+        = chalky_tooltip(text: "Dark variant (default)", variant: :dark) do
+          .px-4.py-2.bg-blue-100.text-blue-700.rounded-lg.cursor-pointer.hover:bg-blue-200.transition
+            | Dark tooltip
+        = chalky_tooltip(text: "Light variant with border", variant: :light) do
+          .px-4.py-2.bg-blue-100.text-blue-700.rounded-lg.cursor-pointer.hover:bg-blue-200.transition
+            | Light tooltip
+        = chalky_tooltip(text: "With 500ms delay", delay: 500) do
+          .px-4.py-2.bg-green-100.text-green-700.rounded-lg.cursor-pointer.hover:bg-green-200.transition
+            | Delayed tooltip
+
+      .flex.flex-wrap.items-center.gap-8.mt-4.py-4
+        / On icons and buttons
+        = chalky_tooltip(text: "Edit this item") do
+          = chalky_icon_button(label: "Edit", icon: "fa-solid fa-pen")
+        = chalky_tooltip(text: "Delete permanently", position: :bottom) do
+          = chalky_icon_button(label: "Delete", icon: "fa-solid fa-trash")
+        = chalky_tooltip(text: "More information about this feature") do
+          i.fa-solid.fa-circle-info.text-gray-400.text-lg.cursor-help
+
     / Grid Section
     = chalky_card do
       = chalky_heading(title: "Data Grid", subtitle: "Responsive data table")
@@ -59,6 +136,19 @@
           - grid.badge(label: "Role", method: :role, color: :blue)
           - grid.boolean(label: "Active", method: :active)
           - grid.datetime(label: "Created", method: :created_at, priority: :optional)
+
+    / Grid with Actions Section
+    = chalky_card do
+      = chalky_heading(title: "Data Grid with Actions", subtitle: "Table with dropdown actions per row")
+      .mt-4
+        = chalky_grid(rows: @users) do |grid|
+          - grid.action(name: "View", path: :user_path, icon: "fa-solid fa-eye")
+          - grid.action(name: "Edit", path: :edit_user_path, icon: "fa-solid fa-pen")
+          - grid.action(name: "Delete", path: :delete_user_path, icon: "fa-solid fa-trash", data: { method: :delete, confirm: "Are you sure?" })
+          - grid.text(label: "Name", method: :name, priority: :primary)
+          - grid.text(label: "Email", method: :email, priority: :secondary)
+          - grid.badge(label: "Role", method: :role, color: :blue)
+          - grid.boolean(label: "Active", method: :active)
 
     / Info Rows Section
     = chalky_card do

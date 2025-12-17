@@ -1,7 +1,7 @@
 .relative.inline-block data=dropdown_data
   .h-full
     - if trigger.present?
-      button.flex.items-center.justify-center.focus:ring.focus:ring-solid class=button_classes aria-expanded="true" aria-haspopup="true" data-test-id="dropdown_btn" data-action="dropdown#toggle" type="button"
+      button class=trigger_wrapper_classes aria-expanded="true" aria-haspopup="true" data-test-id="dropdown_btn" data-action="dropdown#toggle" type="button"
         = trigger
     - else
       button.rounded-full.w-8.flex.items-center.justify-center.focus:ring.focus:ring-solid class="#{button_classes} !h-8" aria-expanded="true" aria-haspopup="true" data-test-id="dropdown_btn" data-action="dropdown#toggle" type="button"

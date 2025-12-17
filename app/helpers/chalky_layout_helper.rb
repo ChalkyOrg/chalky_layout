@@ -118,7 +118,14 @@ module ChalkyLayoutHelper
   # @param variant [Symbol] button variant
   # @param type [Symbol] button type (:submit, :button)
   def chalky_button(label: nil, **options, &block)
-    render Chalky::AdminForms::Button::Component.new(label: label, **options), &block
+    component = Chalky::AdminForms::Button::Component.new(**options)
+    if block_given?
+      render(component, &block)
+    elsif label
+      render(component) { label }
+    else
+      render(component)
+    end
   end
 
   # ============================================
@@ -214,6 +221,20 @@ module ChalkyLayoutHelper
       text: text,
       size: size,
       icon: icon
+    ), &block
+  end
+
+  # Tooltip - hover tooltip with text
+  # @param text [String] tooltip text to display
+  # @param position [Symbol] :top, :bottom, :left, :right
+  # @param variant [Symbol] :dark, :light
+  # @param delay [Integer] delay in ms before showing
+  def chalky_tooltip(text:, position: :top, variant: :dark, delay: 0, &block)
+    render Chalky::Ui::Tooltip::Component.new(
+      text: text,
+      position: position,
+      variant: variant,
+      delay: delay
     ), &block
   end
 

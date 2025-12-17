@@ -52,6 +52,11 @@ module Chalky::AdminForms
         [base_classes, variant_classes, css_classes].compact.join(" ")
       end
 
+      # Minimal classes for custom trigger wrapper - no styling, just functionality
+      def trigger_wrapper_classes
+        "focus-visible:outline-none focus:outline-none cursor-pointer"
+      end
+
       def menu_classes
         base_classes = "dropdown-menu hidden absolute z-[9999] mt-2 max-w-72 divide-y divide-gray-200 rounded-md focus:outline-none"
         variant_classes = VARIANTS[variant][:menu]

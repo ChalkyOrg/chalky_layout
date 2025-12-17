@@ -8,8 +8,10 @@ import DropdownController from "controllers/chalky_layout/dropdown_controller"
 import GridController from "controllers/chalky_layout/grid_controller"
 import BackController from "controllers/chalky_layout/back_controller"
 import StopPropagationController from "controllers/chalky_layout/stop_propagation_controller"
+import TooltipController from "controllers/chalky_layout/tooltip_controller"
 
 application.register("dropdown", DropdownController)
 application.register("grid", GridController)
 application.register("back", BackController)
 application.register("stop-propagation", StopPropagationController)
+application.register("tooltip", TooltipController)

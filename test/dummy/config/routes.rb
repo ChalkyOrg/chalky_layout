@@ -11,4 +11,10 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "showcase#index"
+  get "showcase" => "showcase#index"
+
+  # Dummy routes for grid actions demo
+  get "users/:id/edit" => "showcase#index", as: :edit_user
+  get "users/:id" => "showcase#index", as: :user
+  delete "users/:id" => "showcase#index", as: :delete_user
 end

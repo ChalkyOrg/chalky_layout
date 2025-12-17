@@ -22,7 +22,7 @@ module Chalky::Page
       def container_classes
         return "" if full_width
 
-        "mx-auto max-w-7xl px-2 md:px-4"
+        "mx-auto max-w-7xl px-3 md:px-8"
       end
 
       def pagination?
