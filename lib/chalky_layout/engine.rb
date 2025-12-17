@@ -30,11 +30,17 @@ module ChalkyLayout
     end
 
     # Register Stimulus controllers with importmap
-    # Add the gem's importmap config to the application
-    initializer "chalky_layout.importmap", before: :load_config_initializers do |app|
-      if defined?(Importmap)
-        # Create an importmap sweeper for the gem's JavaScript files
-        app.config.importmap.paths << root.join("config/importmap.rb")
+    initializer "chalky_layout.importmap", after: "importmap" do |app|
+      if app.respond_to?(:importmap) && app.importmap
+        # Pin each controller file
+        controllers_path = root.join("app/javascript/chalky_layout/controllers")
+        Dir[controllers_path.join("*_controller.js")].each do |controller_file|
+          controller_name = File.basename(controller_file, ".js")
+          app.importmap.pin "controllers/chalky_layout/#{controller_name}", to: controller_file
+        end
+
+        # Add to cache sweeper paths
+        app.config.importmap.paths << root.join("config/importmap.rb") if app.config.importmap.respond_to?(:paths)
       end
     end
 
