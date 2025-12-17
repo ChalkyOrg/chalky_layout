@@ -520,15 +520,25 @@ Navigation tabs for page sections. Typically used inside the header's navigation
 | Option | Type | Description |
 |--------|------|-------------|
 | `name` | String | Tab label (required) |
-| `path` | String | Tab URL (required) |
+| `path` | String | Tab URL or anchor (required) |
 | `icon` | String | Optional Font Awesome icon class |
 | `badge` | Integer | Optional badge count (e.g., notifications) |
+| `default` | Boolean | Set to true for default active anchor tab |
 | `active_param` | String | Query param name for active detection |
 | `active_value` | String | Query param value for active detection |
 
-Active tab detection:
-- By default, active tab is detected by matching `path` with current URL
-- For query param based tabs, use `active_param` and `active_value`
+**Smart Tab Behavior:**
+- **Anchor tabs** (`#section`): Client-side switching with Stimulus, no page reload
+- **URL tabs** (`/admin/users`): Standard Rails navigation with active state detection
+
+```slim
+/ Mixed example: anchors + URLs
+= chalky_tabs(tabs: [
+  {name: "Overview", path: "#overview", default: true},  / Anchor - JS switching
+  {name: "Details", path: "#details"},                   / Anchor - JS switching
+  {name: "Settings", path: admin_settings_path}          / URL - page navigation
+])
+```
 
 ## Requirements
 
