@@ -29,22 +29,24 @@ module ChalkyLayout
       end
     end
 
-    # Register Stimulus controllers with importmap
-    initializer "chalky_layout.importmap", after: "importmap" do |app|
-      if app.respond_to?(:importmap) && app.importmap
-        # Pin each controller file
-        controllers_path = root.join("app/javascript/chalky_layout/controllers")
-        Dir[controllers_path.join("*_controller.js")].each do |controller_file|
-          controller_name = File.basename(controller_file, ".js")
-          app.importmap.pin "controllers/chalky_layout/#{controller_name}", to: controller_file
-        end
+    # Add JavaScript path for asset pipeline BEFORE importmap registration
+    initializer "chalky_layout.assets", before: "importmap" do |app|
+      if app.config.respond_to?(:assets)
+        app.config.assets.paths << root.join("app", "javascript")
       end
     end
 
-    # Add JavaScript path for asset pipeline (Sprockets/Propshaft)
-    initializer "chalky_layout.assets" do |app|
-      if app.config.respond_to?(:assets)
-        app.config.assets.paths << root.join("app", "javascript")
+    # Register Stimulus controllers with importmap using relative paths
+    initializer "chalky_layout.importmap", after: "importmap" do |app|
+      if app.respond_to?(:importmap) && app.importmap
+        # Pin each controller using relative path (served by asset pipeline)
+        controllers_path = root.join("app/javascript/chalky_layout/controllers")
+        Dir[controllers_path.join("*_controller.js")].each do |controller_file|
+          controller_name = File.basename(controller_file, ".js")
+          # Use relative path that will be resolved by asset pipeline
+          app.importmap.pin "controllers/chalky_layout/#{controller_name}",
+                            to: "chalky_layout/controllers/#{controller_name}.js"
+        end
       end
     end
   end
