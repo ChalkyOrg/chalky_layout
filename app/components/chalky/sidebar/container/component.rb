@@ -18,10 +18,9 @@ module Chalky
         end
 
         def container_data
-          {
-            controller: "chalky-sidebar",
-            chalky_sidebar_storage_key_value: "chalky_sidebar_collapsed"
-          }.merge(data_attributes)
+          # Note: Le controller chalky-sidebar est maintenant géré par le Layout component
+          # Ce container n'en a plus besoin
+          data_attributes
         end
       end
     end

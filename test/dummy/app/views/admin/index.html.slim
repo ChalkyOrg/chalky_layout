@@ -1,0 +1,30 @@
+= chalky_page do |page|
+  - page.with_header(title: "Dashboard Admin", subtitle: "Bienvenue sur votre espace d'administration") do |header|
+    - header.with_actions do
+      .flex.items-center.gap-3
+        = chalky_button(label: "Nouvelle commande", variant: :primary, size: :sm)
+
+  - page.with_body do
+    / Stats Section
+    = chalky_card do
+      = chalky_heading(title: "Statistiques", subtitle: "Aperçu de votre activité")
+      .grid.grid-cols-1.md:grid-cols-4.gap-6.mt-4
+        = chalky_stat(label: "Commandes", value: "156", icon: "fa-solid fa-shopping-cart", icon_color: :blue)
+        = chalky_stat(label: "Revenus", value: "12,345€", icon: "fa-solid fa-euro-sign", icon_color: :green)
+        = chalky_stat(label: "Utilisateurs", value: "1,234", icon: "fa-solid fa-users", icon_color: :purple)
+        = chalky_stat(label: "Produits", value: "89", icon: "fa-solid fa-box", icon_color: :orange)
+
+    / Recent Activity
+    = chalky_card do
+      = chalky_heading(title: "Activité récente", subtitle: "Dernières actions")
+      .space-y-4.mt-4
+        = chalky_alert(message: "3 nouvelles commandes en attente de traitement.", variant: :info)
+        = chalky_alert(message: "Stock faible sur 2 produits.", variant: :warning)
+
+    / Quick Actions
+    = chalky_card do
+      = chalky_heading(title: "Actions rapides")
+      .flex.flex-wrap.gap-4.mt-4
+        = chalky_button(label: "Ajouter un produit", variant: :secondary)
+        = chalky_button(label: "Voir les commandes", variant: :secondary)
+        = chalky_button(label: "Gérer les utilisateurs", variant: :secondary)

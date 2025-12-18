@@ -138,6 +138,13 @@ html.sidebar-starts-collapsed .chalky-sidebar {
   width: 5rem !important; /* 80px - override inline */
 }
 
+/* Main content margin when sidebar is collapsed */
+@media (min-width: 1024px) {
+  .sidebar-collapsed ~ .chalky-main {
+    margin-left: 5rem !important;
+  }
+}
+
 /* Header - center the toggle button */
 .sidebar-collapsed .sidebar-header {
   justify-content: center;

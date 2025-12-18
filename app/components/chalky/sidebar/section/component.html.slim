@@ -1,2 +1,21 @@
 div class=section_classes
+  / Section header with icon (only shown if title and icon_path provided)
+  - if show_header?
+    div class=header_classes
+      .icon-container class=icon_container_classes
+        svg.w-4.h-4 fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+          path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d=icon_path
+
+      .sidebar-section-content.min-w-0.flex-1
+        h3.text-sm.font-semibold.text-gray-900 = title
+        - if description
+          p.text-xs.text-gray-500 class="mt-0.5" = description
+
+  / Menu items list (auto-generated ul)
+  - if menu_items.any?
+    ul.space-y-1 class=(show_header? ? "mt-4" : "")
+      - menu_items.each do |menu_item|
+        = menu_item
+
+  / Block content for backward compatibility (used by Footer)
   = content

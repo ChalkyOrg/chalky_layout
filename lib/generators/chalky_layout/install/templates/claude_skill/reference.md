@@ -398,47 +398,66 @@ Label/value display pair.
 
 ## Sidebar Components
 
-### `chalky_sidebar_container`
+### `chalky_sidebar_layout` (Recommended)
 
-Root wrapper for admin sidebar.
-
-```slim
-= chalky_sidebar_container(css_classes: "", data_attributes: {}) do
-  / Sections and footer
-```
-
-### `chalky_sidebar_section`
-
-Card container for menu groups.
+Complete sidebar layout with mobile and desktop support.
 
 ```slim
-= chalky_sidebar_section(spacing: "mb-6") do
-  = chalky_sidebar_section_header(...)
-  ul.space-y-1.mt-3
-    = chalky_sidebar_menu_item(...)
-```
+= chalky_sidebar_layout(menu_title: "Menu") do |layout|
+  - layout.with_header do
+    = image_tag "logo.png", class: "h-8"
 
-### `chalky_sidebar_section_header`
+  - layout.with_section(title: "Navigation", icon_path: "M3 12l2-2m0...", icon_color: :blue) do |section|
+    - section.with_menu_item(path: "/admin", title: "Dashboard", icon_classes: "fa-solid fa-gauge")
+    - section.with_menu_item(path: "/admin/orders", title: "Orders", icon_classes: "fa-solid fa-shopping-cart")
 
-Section header with icon.
+  - layout.with_footer(user_name: current_user.name, user_email: current_user.email, logout_path: logout_path) do |footer|
+    - footer.with_menu_item(path: profile_path, title: "Profile", icon_classes: "fa-solid fa-user")
 
-```slim
-= chalky_sidebar_section_header(
-  title: "Navigation",
-  icon_path: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3...",
-  description: "Main menu",
-  icon_color: :blue
-)
+  = yield
 ```
 
 **Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
+| `menu_title` | String | `"Menu"` | Title shown in mobile menu header |
+
+**Slots:**
+| Slot | Description |
+|------|-------------|
+| `with_header` | Logo/branding area |
+| `with_section` | Navigation section (can have multiple) |
+| `with_footer` | User profile and logout |
+
+**Section Parameters:**
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
 | `title` | String | **required** | Section title |
 | `icon_path` | String | **required** | SVG path data |
-| `description` | String | `nil` | Description |
+| `description` | String | `nil` | Optional description |
 | `icon_color` | Symbol | `:blue` | `:blue`, `:green`, `:purple`, `:orange`, `:red`, `:gray`, `:indigo` |
-| `spacing` | String | `"mb-3"` | Margin |
+
+**Footer Parameters:**
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `user_name` | String | **required** | Display name |
+| `user_email` | String | **required** | Email |
+| `logout_path` | String | **required** | Logout URL |
+| `avatar_url` | String | `nil` | Avatar image |
+| `role_label` | String | `nil` | Role badge |
+| `role_color` | Symbol | `:gray` | Badge color |
+| `profile_path` | String | `nil` | Profile URL |
+| `logout_method` | Symbol | `:delete` | HTTP method |
+
+### `chalky_sidebar_head_script`
+
+Script to prevent FOUC (Flash of Unstyled Content) for sidebar collapsed state. Must be placed in `<head>`.
+
+```slim
+head
+  = chalky_sidebar_head_script
+  / ... other head content
+```
 
 ### `chalky_sidebar_menu_item`
 
@@ -461,32 +480,3 @@ Navigation link with auto active detection.
 | `icon_classes` | String | `nil` | Font Awesome classes |
 | `icon_path` | String | `nil` | SVG path (alternative) |
 | `active` | Boolean/nil | `nil` | Override active state |
-
-### `chalky_sidebar_footer`
-
-User profile with logout.
-
-```slim
-= chalky_sidebar_footer(
-  user_name: current_user.name,
-  user_email: current_user.email,
-  logout_path: logout_path,
-  avatar_url: current_user.avatar_url,
-  role_label: "Admin",
-  role_color: :purple,
-  logout_method: :delete
-) do |footer|
-  - footer.with_menu_item(path: settings_path, title: "Settings", icon_classes: "fa-solid fa-cog")
-```
-
-**Parameters:**
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `user_name` | String | **required** | Display name |
-| `user_email` | String | **required** | Email |
-| `logout_path` | String | **required** | Logout URL |
-| `avatar_url` | String | `nil` | Avatar image |
-| `role_label` | String | `nil` | Role badge |
-| `role_color` | Symbol | `:gray` | Badge color |
-| `profile_path` | String | `nil` | Profile URL |
-| `logout_method` | Symbol | `:delete` | HTTP method |

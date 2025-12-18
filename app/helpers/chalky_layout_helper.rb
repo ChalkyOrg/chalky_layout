@@ -286,77 +286,46 @@ module ChalkyLayoutHelper
   # Sidebar Components
   # ============================================
 
-  # Sidebar container - root wrapper for admin sidebar
-  # @param css_classes [String] additional CSS classes
-  # @param data_attributes [Hash] data attributes
-  def chalky_sidebar_container(css_classes: "", data_attributes: {}, &block)
-    render Chalky::Sidebar::Container::Component.new(
-      css_classes: css_classes,
-      data_attributes: data_attributes
+  # Sidebar layout - complete sidebar with mobile/desktop support
+  # Renders the full sidebar structure including:
+  # - Mobile hamburger button
+  # - Mobile overlay and slide-in menu
+  # - Desktop fixed sidebar with collapse toggle
+  # - Main content wrapper
+  #
+  # @param menu_title [String] Title shown in mobile menu header (default: "Menu")
+  #
+  # Usage:
+  #   = chalky_sidebar_layout(menu_title: "Menu") do |layout|
+  #     - layout.with_header do
+  #       / Your logo here
+  #
+  #     - layout.with_section(title: "Boutique", icon_path: "M16 11V7...", icon_color: :blue) do |section|
+  #       - section.with_menu_item(path: "/admin", title: "Dashboard", icon_classes: "fa-solid fa-gauge")
+  #
+  #     - layout.with_footer(user_name: "Admin", user_email: "admin@example.com", logout_path: "/logout") do |footer|
+  #       - footer.with_menu_item(path: "/profile", title: "Mon profil", icon_classes: "fa-solid fa-user")
+  #
+  #     = yield
+  def chalky_sidebar_layout(menu_title: "Menu", &block)
+    render Chalky::Sidebar::Layout::Component.new(
+      menu_title: menu_title
     ), &block
   end
 
-  # Sidebar section - card container for menu item groups
-  # @param spacing [String] margin classes (default: "mb-6")
-  # @param css_classes [String] additional CSS classes
-  def chalky_sidebar_section(spacing: "mb-6", css_classes: "", &block)
-    render Chalky::Sidebar::Section::Component.new(
-      spacing: spacing,
-      css_classes: css_classes
-    ), &block
-  end
-
-  # Sidebar section header - header with icon, title, and description
-  # @param title [String] section title
-  # @param icon_path [String] SVG path for the icon
-  # @param description [String] optional description
-  # @param icon_color [Symbol] :blue, :green, :purple, :orange, :red, :gray, :indigo
-  # @param spacing [String] margin classes (default: "mb-3")
-  def chalky_sidebar_section_header(title:, icon_path:, description: nil, icon_color: :blue, spacing: "mb-3")
-    render Chalky::Sidebar::SectionHeader::Component.new(
-      title: title,
-      icon_path: icon_path,
-      description: description,
-      icon_color: icon_color,
-      spacing: spacing
-    )
-  end
-
-  # Sidebar menu item - navigation link with icon
-  # @param path [String] link destination
-  # @param title [String] menu item label
-  # @param icon_classes [String] Font Awesome classes (e.g., "fa-solid fa-book")
-  # @param icon_path [String] SVG path (alternative to icon_classes)
-  # @param active [Boolean, nil] override active state detection (nil = auto-detect)
-  def chalky_sidebar_menu_item(path:, title:, icon_classes: nil, icon_path: nil, active: nil)
-    render Chalky::Sidebar::MenuItem::Component.new(
-      path: path,
-      title: title,
-      icon_classes: icon_classes,
-      icon_path: icon_path,
-      active: active
-    )
-  end
-
-  # Sidebar footer - user profile section with logout
-  # @param user_name [String] user's display name
-  # @param user_email [String] user's email
-  # @param logout_path [String] logout URL
-  # @param avatar_url [String] optional avatar image URL
-  # @param role_label [String] optional role badge label
-  # @param role_color [Symbol] role badge color (:blue, :purple, :gray, etc.)
-  # @param profile_path [String] optional profile page URL
-  # @param logout_method [Symbol] HTTP method for logout (:delete, :post)
-  def chalky_sidebar_footer(user_name:, user_email:, logout_path:, avatar_url: nil, role_label: nil, role_color: :gray, profile_path: nil, logout_method: :delete, &block)
-    render Chalky::Sidebar::Footer::Component.new(
-      user_name: user_name,
-      user_email: user_email,
-      logout_path: logout_path,
-      avatar_url: avatar_url,
-      role_label: role_label,
-      role_color: role_color,
-      profile_path: profile_path,
-      logout_method: logout_method
-    ), &block
+  # Script to prevent FOUC (Flash of Unstyled Content) for sidebar
+  # Must be placed in the <head> section of your layout
+  # Reads localStorage to apply collapsed state before first render
+  def chalky_sidebar_head_script
+    content_tag(:script) do
+      <<~JS.html_safe
+        (function() {
+          var collapsed = localStorage.getItem('chalky_sidebar_collapsed') === 'true';
+          if (collapsed) {
+            document.documentElement.classList.add('sidebar-starts-collapsed');
+          }
+        })();
+      JS
+    end
   end
 end

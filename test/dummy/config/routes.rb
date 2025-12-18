@@ -13,6 +13,17 @@ Rails.application.routes.draw do
   root "showcase#index"
   get "showcase" => "showcase#index"
 
+  # Admin routes with sidebar
+  get "admin" => "admin#index", as: :admin
+  get "admin/orders" => "admin#index", as: :admin_orders
+  get "admin/products" => "admin#index", as: :admin_products
+  get "admin/users" => "admin#index", as: :admin_users
+  get "admin/roles" => "admin#index", as: :admin_roles
+  get "admin/settings" => "admin#index", as: :admin_settings
+  get "admin/integrations" => "admin#index", as: :admin_integrations
+  get "admin/profile" => "admin#index", as: :admin_profile
+  delete "logout" => "admin#index", as: :logout
+
   # Dummy routes for grid actions demo
   get "users/:id/edit" => "showcase#index", as: :edit_user
   get "users/:id" => "showcase#index", as: :user

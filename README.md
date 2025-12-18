@@ -551,71 +551,129 @@ Navigation tabs for page sections. Typically used inside the header's navigation
 
 ## Sidebar Navigation
 
-Complete sidebar system for admin layouts with collapsible sections, menu items, and user profile.
+Complete sidebar system for admin layouts with mobile support, collapsible sections, menu items, and user profile.
 
-### `chalky_sidebar_container`
+### `chalky_sidebar_layout` (Recommended)
 
-Root wrapper for the admin sidebar. Includes Stimulus controller for collapse/expand functionality with localStorage persistence.
+Full-featured sidebar layout with built-in mobile and desktop support. This is the recommended way to create admin layouts.
+
+**Features:**
+- Mobile: Hamburger button, overlay, slide-in menu from right
+- Desktop: Fixed sidebar with collapse/expand toggle
+- localStorage persistence for collapsed state
+- Smooth transitions and animations
 
 ```slim
-= chalky_sidebar_container do
-  / Sidebar content here
+= chalky_sidebar_layout(menu_title: "Menu") do |layout|
+  - layout.with_header do
+    a.flex.items-center.gap-2 href="/"
+      .w-8.h-8.bg-blue-600.rounded-lg.flex.items-center.justify-center
+        span.text-white.font-bold C
+      span.text-lg.font-semibold.text-gray-900 Chalky
+
+  - layout.with_section(title: "Boutique", description: "Gestion du magasin", icon_path: "M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z", icon_color: :blue) do |section|
+    - section.with_menu_item(path: "/admin", title: "Dashboard", icon_classes: "fa-solid fa-gauge")
+    - section.with_menu_item(path: "/admin/orders", title: "Commandes", icon_classes: "fa-solid fa-book")
+    - section.with_menu_item(path: "/admin/products", title: "Produits", icon_classes: "fa-solid fa-box")
+
+  - layout.with_section(title: "Utilisateurs", icon_path: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z", icon_color: :green) do |section|
+    - section.with_menu_item(path: "/admin/users", title: "Utilisateurs", icon_classes: "fa-solid fa-users")
+
+  - layout.with_footer(user_name: current_user.name, user_email: current_user.email, logout_path: logout_path) do |footer|
+    - footer.with_menu_item(path: profile_path, title: "Mon profil", icon_classes: "fa-solid fa-user")
+
+  = yield
 ```
+
+![Sidebar Layout](docs/screenshots/sidebar-layout.png)
 
 **Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `css_classes` | String | `""` | Additional CSS classes |
-| `data_attributes` | Hash | `{}` | Additional data attributes |
+| `menu_title` | String | `"Menu"` | Title shown in mobile menu header |
 
-### `chalky_sidebar_section`
+**Slots:**
 
-Card container for grouping menu items. Provides visual separation with shadow, border, and hover effects.
+| Slot | Description |
+|------|-------------|
+| `with_header` | Logo/branding area at top of sidebar |
+| `with_section` | Navigation section with menu items (can have multiple) |
+| `with_footer` | User profile and logout at bottom |
 
-```slim
-= chalky_sidebar_section do
-  = chalky_sidebar_section_header(title: "Navigation", icon_path: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1...")
-  ul.space-y-1.mt-3
-    = chalky_sidebar_menu_item(path: "/dashboard", title: "Dashboard", icon_classes: "fa-solid fa-home")
-```
-
-**Parameters:**
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `spacing` | String | `"mb-6"` | Margin classes |
-| `css_classes` | String | `""` | Additional CSS classes |
-
-### `chalky_sidebar_section_header`
-
-Header with icon, title, and optional description for sidebar sections.
-
-```slim
-= chalky_sidebar_section_header(
-  title: "Gestion",
-  icon_path: "M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2...",
-  description: "Commandes et clients",
-  icon_color: :blue
-)
-```
-
-**Parameters:**
+**Section Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `title` | String | **required** | Section title |
 | `icon_path` | String | **required** | SVG path data for the icon |
 | `description` | String | `nil` | Optional description below title |
 | `icon_color` | Symbol | `:blue` | `:blue`, `:green`, `:purple`, `:orange`, `:red`, `:gray`, `:indigo` |
-| `spacing` | String | `"mb-3"` | Margin classes |
+
+**Footer Parameters:**
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `user_name` | String | **required** | User's display name |
+| `user_email` | String | **required** | User's email address |
+| `logout_path` | String | **required** | Logout URL |
+| `avatar_url` | String | `nil` | Avatar image URL (shows initials if nil) |
+| `role_label` | String | `nil` | Optional role badge text |
+| `role_color` | Symbol | `:gray` | Role badge color |
+| `profile_path` | String | `nil` | Optional profile page URL |
+| `logout_method` | Symbol | `:delete` | HTTP method for logout |
+
+### `chalky_sidebar_head_script`
+
+Script to prevent FOUC (Flash of Unstyled Content) for sidebar collapsed state. Must be placed in the `<head>` section of your layout.
+
+```slim
+head
+  / ... other head content ...
+  = chalky_sidebar_head_script
+```
+
+This script reads localStorage before rendering to apply the collapsed state immediately.
+
+### Complete Layout Example
+
+```slim
+doctype html
+html.h-full
+  head
+    title Admin
+    = csrf_meta_tags
+    = chalky_sidebar_head_script
+    = stylesheet_link_tag "application"
+    = javascript_importmap_tags
+
+  body.h-full
+    = chalky_sidebar_layout(menu_title: "Menu") do |layout|
+      - layout.with_header do
+        = image_tag "logo.png", class: "h-8"
+
+      - layout.with_section(title: "Navigation", icon_path: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6", icon_color: :blue) do |section|
+        - section.with_menu_item(path: admin_root_path, title: "Dashboard", icon_classes: "fa-solid fa-gauge")
+        - section.with_menu_item(path: admin_orders_path, title: "Commandes", icon_classes: "fa-solid fa-shopping-cart")
+        - section.with_menu_item(path: admin_products_path, title: "Produits", icon_classes: "fa-solid fa-box")
+
+      - layout.with_footer(user_name: current_user.name, user_email: current_user.email, logout_path: logout_path, role_label: "Admin", role_color: :blue) do |footer|
+        - footer.with_menu_item(path: profile_path, title: "Profil", icon_classes: "fa-solid fa-user")
+        - footer.with_menu_item(path: settings_path, title: "Paramètres", icon_classes: "fa-solid fa-cog")
+
+      = yield
+```
+
+---
+
+## Sidebar Components (Low-level API)
+
+For advanced customization, you can use the individual sidebar components directly.
 
 ### `chalky_sidebar_menu_item`
 
 Navigation link with icon and automatic active state detection.
 
 ```slim
-ul.space-y-1
-  = chalky_sidebar_menu_item(path: admin_orders_path, title: "Commandes", icon_classes: "fa-solid fa-shopping-cart")
-  = chalky_sidebar_menu_item(path: admin_customers_path, title: "Clients", icon_classes: "fa-solid fa-users")
-  = chalky_sidebar_menu_item(path: admin_products_path, title: "Produits", icon_path: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4")
+= chalky_sidebar_menu_item(path: admin_orders_path, title: "Commandes", icon_classes: "fa-solid fa-shopping-cart")
+= chalky_sidebar_menu_item(path: admin_products_path, title: "Produits", icon_path: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4")
 ```
 
 **Parameters:**
@@ -632,79 +690,7 @@ ul.space-y-1
 - Use `icon_path` for custom SVG icons: `"M20 7l-8-4-8 4m16 0l-8 4..."`
 - If both provided, `icon_path` takes precedence
 
-### `chalky_sidebar_footer`
-
-User profile section with avatar, role badge, and logout action. Supports additional menu items via slots.
-
-```slim
-= chalky_sidebar_footer(
-  user_name: current_user.name,
-  user_email: current_user.email,
-  logout_path: logout_path,
-  avatar_url: current_user.avatar_url,
-  role_label: "Administrateur",
-  role_color: :purple,
-  profile_path: profile_path
-) do |footer|
-  - footer.with_menu_item(path: settings_path, title: "Paramètres", icon_classes: "fa-solid fa-cog")
-```
-
-![Sidebar](docs/screenshots/sidebar.png)
-
-**Parameters:**
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `user_name` | String | **required** | User's display name |
-| `user_email` | String | **required** | User's email address |
-| `logout_path` | String | **required** | Logout URL |
-| `avatar_url` | String | `nil` | Avatar image URL (shows initials if nil) |
-| `role_label` | String | `nil` | Optional role badge text |
-| `role_color` | Symbol | `:gray` | Role badge color |
-| `profile_path` | String | `nil` | Optional profile page URL |
-| `logout_method` | Symbol | `:delete` | HTTP method for logout (`:delete`, `:post`) |
-
-**Role Colors:** `:blue`, `:green`, `:purple`, `:orange`, `:red`, `:gray`, `:indigo`
-
-### Complete Sidebar Example
-
-```slim
-.flex.h-screen
-  aside.w-64.bg-gray-50.border-r.border-gray-200
-    = chalky_sidebar_container do
-      / Main navigation section
-      = chalky_sidebar_section do
-        = chalky_sidebar_section_header(
-          title: "Navigation",
-          icon_path: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6",
-          icon_color: :blue
-        )
-        ul.space-y-1.mt-3
-          = chalky_sidebar_menu_item(path: "/admin", title: "Dashboard", icon_classes: "fa-solid fa-home")
-          = chalky_sidebar_menu_item(path: "/admin/orders", title: "Commandes", icon_classes: "fa-solid fa-shopping-cart")
-
-      / Management section
-      = chalky_sidebar_section do
-        = chalky_sidebar_section_header(
-          title: "Gestion",
-          icon_path: "M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10",
-          icon_color: :purple
-        )
-        ul.space-y-1.mt-3
-          = chalky_sidebar_menu_item(path: "/admin/products", title: "Produits", icon_classes: "fa-solid fa-box")
-          = chalky_sidebar_menu_item(path: "/admin/categories", title: "Catégories", icon_classes: "fa-solid fa-tags")
-
-      / Footer with user profile
-      = chalky_sidebar_footer(
-        user_name: "Jean Dupont",
-        user_email: "jean@example.com",
-        logout_path: "/logout",
-        role_label: "Admin",
-        role_color: :purple
-      )
-
-  main.flex-1
-    / Page content
-```
+**Icon Colors (for sections):** `:blue`, `:green`, `:purple`, `:orange`, `:red`, `:gray`, `:indigo`
 
 ## Requirements
 
@@ -759,11 +745,9 @@ Include Font Awesome for icons:
 | `chalky_alert` | Info/warning/error message box |
 | `chalky_info_row` | Label/value display pair |
 | `chalky_tabs` | Navigation tabs for page sections |
-| `chalky_sidebar_container` | Sidebar root wrapper |
-| `chalky_sidebar_section` | Sidebar card container |
-| `chalky_sidebar_section_header` | Sidebar section header with icon |
+| `chalky_sidebar_layout` | Complete sidebar layout with mobile/desktop support (recommended) |
+| `chalky_sidebar_head_script` | Anti-FOUC script for sidebar (place in `<head>`) |
 | `chalky_sidebar_menu_item` | Sidebar navigation link |
-| `chalky_sidebar_footer` | Sidebar user profile and logout |
 
 ## License
 

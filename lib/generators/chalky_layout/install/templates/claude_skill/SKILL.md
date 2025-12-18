@@ -104,19 +104,27 @@ This skill applies to ALL frontend work including:
     = link_to "Option 1", path1
 ```
 
-### Sidebar (Admin layouts)
+### Sidebar Layout (Recommended)
 ```slim
-= chalky_sidebar_container do
-  = chalky_sidebar_section do
-    = chalky_sidebar_section_header(title: "Navigation", icon_path: "M3 12l2-2m0...")
-    ul.space-y-1.mt-3
-      = chalky_sidebar_menu_item(path: "/admin", title: "Dashboard", icon_classes: "fa-solid fa-home")
+/ In your layout file (e.g., admin.html.slim)
+doctype html
+html.h-full
+  head
+    = chalky_sidebar_head_script  / IMPORTANT: Prevents flash of unstyled content
 
-  = chalky_sidebar_footer(
-    user_name: current_user.name,
-    user_email: current_user.email,
-    logout_path: logout_path
-  )
+  body.h-full
+    = chalky_sidebar_layout(menu_title: "Menu") do |layout|
+      - layout.with_header do
+        = image_tag "logo.png", class: "h-8"
+
+      - layout.with_section(title: "Navigation", icon_path: "M3 12l2-2m0...", icon_color: :blue) do |section|
+        - section.with_menu_item(path: "/admin", title: "Dashboard", icon_classes: "fa-solid fa-gauge")
+        - section.with_menu_item(path: "/admin/orders", title: "Orders", icon_classes: "fa-solid fa-shopping-cart")
+
+      - layout.with_footer(user_name: current_user.name, user_email: current_user.email, logout_path: logout_path) do |footer|
+        - footer.with_menu_item(path: profile_path, title: "Profile", icon_classes: "fa-solid fa-user")
+
+      = yield
 ```
 
 ## Available Helpers
@@ -140,11 +148,9 @@ This skill applies to ALL frontend work including:
 | `chalky_alert` | Message box |
 | `chalky_info_row` | Label/value pair |
 | `chalky_tabs` | Navigation tabs |
-| `chalky_sidebar_container` | Sidebar wrapper |
-| `chalky_sidebar_section` | Sidebar card |
-| `chalky_sidebar_section_header` | Sidebar header |
-| `chalky_sidebar_menu_item` | Sidebar link |
-| `chalky_sidebar_footer` | User profile section |
+| `chalky_sidebar_layout` | Complete sidebar with mobile/desktop support (recommended) |
+| `chalky_sidebar_head_script` | Anti-FOUC script for sidebar (place in `<head>`) |
+| `chalky_sidebar_menu_item` | Sidebar navigation link |
 
 ## Full Documentation
 
