@@ -1,0 +1,358 @@
+/*
+ * Chalky Layout - Sidebar Styles
+ *
+ * This file contains all styles for the collapsible sidebar component.
+ *
+ * States:
+ * - Default (expanded): Full width sidebar with visible text
+ * - .sidebar-collapsed: Icon-only sidebar
+ * - html.sidebar-starts-collapsed: Initial collapsed state (no transitions)
+ * - .transitions-enabled: Enables transitions after first user interaction
+ *
+ * Structure:
+ * - .chalky-sidebar: Main sidebar container
+ * - .chalky-main: Main content area
+ * - .sidebar-section: Card container for menu groups
+ * - .sidebar-section-header: Section title with icon
+ * - .sidebar-menu-item: Navigation link
+ * - .sidebar-tooltip: Hover tooltip in collapsed mode
+ */
+
+/* ============================================
+   BASE LAYOUT - No transitions by default
+   ============================================ */
+
+.chalky-sidebar {
+  width: 20rem; /* 320px - expanded width */
+}
+
+.chalky-main {
+  margin-left: 0; /* Mobile default */
+}
+
+@media (min-width: 1024px) {
+  .chalky-main {
+    margin-left: 20rem; /* 320px - match sidebar */
+  }
+}
+
+/* ============================================
+   INITIAL COLLAPSED STATE
+   Applied immediately via inline script
+   NO TRANSITIONS - instant state
+   ============================================ */
+
+html.sidebar-starts-collapsed .chalky-sidebar {
+  width: 5rem; /* 80px - collapsed width */
+}
+
+html.sidebar-starts-collapsed .chalky-main {
+  margin-left: 0;
+}
+
+@media (min-width: 1024px) {
+  html.sidebar-starts-collapsed .chalky-main {
+    margin-left: 5rem;
+  }
+}
+
+/* Apply collapsed visual state immediately */
+html.sidebar-starts-collapsed .chalky-sidebar {
+  /* This will be combined with .sidebar-collapsed by JS */
+}
+
+/* ============================================
+   TRANSITIONS - Only enabled after first interaction
+   ============================================ */
+
+.transitions-enabled .chalky-sidebar {
+  transition: width 300ms ease-in-out;
+}
+
+.transitions-enabled .chalky-main {
+  transition: margin-left 300ms ease-in-out;
+}
+
+.transitions-enabled .sidebar-section {
+  transition:
+    padding 300ms ease-in-out,
+    background-color 300ms ease-in-out,
+    border-color 300ms ease-in-out,
+    box-shadow 300ms ease-in-out,
+    margin 300ms ease-in-out;
+}
+
+.transitions-enabled .sidebar-section-header,
+.transitions-enabled .sidebar-section-content,
+.transitions-enabled .menu-title,
+.transitions-enabled .sidebar-footer-profile,
+.transitions-enabled .sidebar-footer-role,
+.transitions-enabled .sidebar-footer-user-info {
+  transition:
+    opacity 200ms ease-in-out,
+    visibility 200ms ease-in-out;
+}
+
+.transitions-enabled .sidebar-menu-item {
+  transition:
+    padding 300ms ease-in-out,
+    width 300ms ease-in-out,
+    justify-content 300ms ease-in-out;
+}
+
+.transitions-enabled .sidebar-menu-icon {
+  transition: margin 300ms ease-in-out;
+}
+
+.transitions-enabled [data-chalky-sidebar-target="logo"] {
+  transition:
+    opacity 200ms ease-in-out,
+    visibility 200ms ease-in-out;
+}
+
+.transitions-enabled [data-chalky-sidebar-target="logo"] span {
+  transition:
+    opacity 200ms ease-in-out,
+    width 200ms ease-in-out;
+}
+
+/* ============================================
+   TEXT - Prevent wrapping during transitions
+   ============================================ */
+
+.chalky-sidebar .menu-title,
+.chalky-sidebar .sidebar-section-header,
+.chalky-sidebar .sidebar-footer-profile,
+.chalky-sidebar .sidebar-footer-role,
+.chalky-sidebar .sidebar-footer-user-info {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* ============================================
+   COLLAPSED STATE - Visual styles
+   Applied via .sidebar-collapsed class
+   ============================================ */
+
+.sidebar-collapsed {
+  width: 5rem !important; /* 80px - override inline */
+}
+
+/* Header - center the toggle button */
+.sidebar-collapsed .sidebar-header {
+  justify-content: center;
+  padding: 1rem 0.5rem;
+}
+
+.sidebar-collapsed .sidebar-toggle-btn {
+  margin: 0 auto;
+}
+
+/* Hide entire logo in collapsed mode (blue square + text) */
+.sidebar-collapsed [data-chalky-sidebar-target="logo"] {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+  pointer-events: none;
+}
+
+/* Logo text always hidden */
+[data-chalky-sidebar-target="logo"] span {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Sections - remove card styling */
+.sidebar-collapsed .sidebar-section {
+  padding: 0.5rem;
+  background-color: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  margin-bottom: 0.5rem;
+  border-radius: 0;
+}
+
+/* Hide section headers */
+.sidebar-collapsed .sidebar-section-header {
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  position: absolute;
+}
+
+/* Hide section content text */
+.sidebar-collapsed .sidebar-section-content {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Nav container - center items */
+.sidebar-collapsed .sidebar-nav {
+  padding: 0.5rem;
+}
+
+.sidebar-collapsed .sidebar-container {
+  padding: 0.5rem;
+  align-items: center;
+}
+
+/* Menu items - icon only, centered */
+.sidebar-collapsed .sidebar-menu-item {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  margin: 0.25rem auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  position: relative;
+}
+
+/* Hide menu text */
+.sidebar-collapsed .menu-title {
+  opacity: 0;
+  visibility: hidden;
+  width: 0;
+  position: absolute;
+  overflow: hidden;
+}
+
+/* Center icon container */
+.sidebar-collapsed .sidebar-menu-icon {
+  margin: 0;
+}
+
+/* Menu lists - center items */
+.sidebar-collapsed ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-collapsed li {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Override space-y utilities in collapsed mode */
+.sidebar-collapsed .space-y-1 > :not([hidden]) ~ :not([hidden]) {
+  margin-top: 0;
+}
+
+.sidebar-collapsed ul.mt-4 {
+  margin-top: 0;
+}
+
+/* ============================================
+   FOOTER IN COLLAPSED STATE
+   ============================================ */
+
+.sidebar-collapsed .sidebar-footer-section {
+  padding: 0.5rem;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.sidebar-collapsed .sidebar-footer-profile,
+.sidebar-collapsed .sidebar-footer-role,
+.sidebar-collapsed .sidebar-footer-user-info {
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+}
+
+.sidebar-collapsed .sidebar-footer-logout {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+}
+
+/* ============================================
+   TOOLTIPS
+   Shown on hover in collapsed mode only
+   ============================================ */
+
+.sidebar-tooltip {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background-color: #111827;
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  white-space: nowrap;
+  z-index: 9999;
+  pointer-events: none;
+
+  /* Hidden by default */
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 150ms ease-in-out,
+    visibility 150ms ease-in-out;
+}
+
+.sidebar-tooltip-arrow {
+  position: absolute;
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: #111827;
+  transform: translateY(-50%) rotate(45deg);
+  left: -0.25rem;
+  top: 50%;
+}
+
+/* Show tooltip on hover only in collapsed mode */
+.sidebar-collapsed .sidebar-menu-item:hover .sidebar-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Ensure tooltips can overflow sidebar bounds */
+.sidebar-collapsed {
+  overflow: visible;
+}
+
+.sidebar-collapsed .sidebar-nav {
+  overflow: visible;
+}
+
+.sidebar-collapsed nav {
+  overflow: visible;
+}
+
+.sidebar-collapsed ul {
+  overflow: visible;
+}
+
+.sidebar-collapsed li {
+  overflow: visible;
+}
+
+/* Boost sidebar z-index when hovering menu items to ensure tooltip appears above main content */
+.sidebar-collapsed:has(.sidebar-menu-item:hover) {
+  z-index: 9999;
+}
