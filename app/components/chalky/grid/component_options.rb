@@ -13,7 +13,8 @@ module Chalky::Grid
       css_classes: "",
       responsive: true,
       bulk_selection: false,
-      index_badge_proc: nil
+      index_badge_proc: nil,
+      pagy: nil
     }.freeze
 
     attr_reader :options

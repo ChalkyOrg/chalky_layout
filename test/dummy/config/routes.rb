@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "showcase#index"
   get "showcase" => "showcase#index"
+  get "pagination" => "pagination#index", as: :pagination
 
   # Admin routes with sidebar
   get "admin" => "admin#index", as: :admin

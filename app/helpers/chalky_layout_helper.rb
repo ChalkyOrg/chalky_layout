@@ -75,8 +75,23 @@ module ChalkyLayoutHelper
   # @param details_path [Symbol] path helper for row links
   # @param responsive [Boolean] enable responsive mode
   # @param horizontal_scroll [Boolean] enable horizontal scroll
+  # @param pagy [Pagy] optional Pagy object for automatic pagination
   def chalky_grid(rows:, **options, &block)
     render Chalky::Grid::Component.new(rows: rows, **options), &block
+  end
+
+  # Pagination - navigation component for paginated data (requires Pagy gem)
+  # @param pagy [Pagy] Pagy object with pagination info
+  # @param url_builder [Proc] optional proc to build page URLs, receives page number
+  #
+  # Usage:
+  #   = chalky_pagination(pagy: @pagy)
+  #
+  # With custom URL builder:
+  #   = chalky_pagination(pagy: @pagy, url_builder: ->(page) { users_path(page: page) })
+  def chalky_pagination(pagy:, url_builder: nil)
+    url_builder ||= ->(page) { url_for(request.query_parameters.merge(page: page)) }
+    render Chalky::Pagination::Component.new(pagy: pagy, url_builder: url_builder)
   end
 
   # ============================================

@@ -53,6 +53,13 @@ This skill applies to ALL frontend work including:
   - grid.badge(label: "Status", method: :status, color: :green)
   - grid.date(label: "Created", method: :created_at)
   - grid.action(name: "Edit", path: :edit_item_path, icon: "fa-solid fa-pen")
+
+/ Grid with automatic pagination (requires Pagy gem)
+= chalky_grid(rows: @users, pagy: @pagy) do |grid|
+  - grid.text(label: "Name", method: :name)
+
+/ Standalone pagination
+= chalky_pagination(pagy: @pagy)
 ```
 
 ### Containers
@@ -136,7 +143,8 @@ html.h-full
 | `chalky_card` | Card container |
 | `chalky_panel` | Collapsible section |
 | `chalky_heading` | Section title |
-| `chalky_grid` | Data table |
+| `chalky_grid` | Data table (supports `pagy:` for pagination) |
+| `chalky_pagination` | Standalone pagination (requires Pagy) |
 | `chalky_dropdown` | Dropdown menu |
 | `chalky_icon_button` | Button with icon |
 | `chalky_button` | Form button |

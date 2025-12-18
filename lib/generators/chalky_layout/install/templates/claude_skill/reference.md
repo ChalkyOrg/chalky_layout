@@ -211,6 +211,7 @@ Responsive data table with multiple column types.
 | `variant` | Symbol | `:default` | Grid variant |
 | `responsive` | Boolean | `true` | Enable responsive mode |
 | `horizontal_scroll` | Boolean | `false` | Enable horizontal scroll |
+| `pagy` | Pagy | `nil` | Pagy object for automatic pagination |
 
 **Column Types:**
 | Type | Description | Extra Parameters |
@@ -241,6 +242,40 @@ Responsive data table with multiple column types.
 | `icon` | String | Font Awesome class |
 | `data` | Hash | Data attributes |
 | `options[:variant]` | Symbol | `:admin` or `:danger` |
+
+### `chalky_pagination`
+
+Standalone pagination component. Requires the [Pagy](https://github.com/ddnexus/pagy) gem.
+
+```slim
+= chalky_pagination(pagy: @pagy)
+
+/ With custom URL builder (preserves query params)
+= chalky_pagination(pagy: @pagy, url_builder: ->(page) { users_path(page: page, search: params[:search]) })
+```
+
+**Parameters:**
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `pagy` | Pagy | **required** | Pagy object containing pagination info |
+| `url_builder` | Proc | `nil` | Custom proc to build page URLs (receives page number) |
+
+**Features:**
+- First, previous, next, last page buttons
+- Page number display with ellipsis for large page counts
+- Responsive: shows "Page X of Y" on desktop, "X-Y of Total" on mobile
+- Turbo-compatible with `data-turbo-action="replace"`
+- Only renders when there are multiple pages
+
+**Controller Setup:**
+```ruby
+# In your controller
+include Pagy::Backend
+
+def index
+  @pagy, @users = pagy(User.all, items: 25)
+end
+```
 
 ---
 

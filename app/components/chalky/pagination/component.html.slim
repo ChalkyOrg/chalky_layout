@@ -1,0 +1,54 @@
+nav.chalky-pagination aria-label="Pagination"
+  .flex.flex-col.sm:flex-row.items-center.justify-between.gap-4
+
+    / Info text (left side)
+    .text-sm.text-gray-600
+      span.hidden.sm:inline = page_info_text
+      span.sm:hidden = info_text
+
+    / Navigation buttons (right side)
+    .flex.items-center.gap-1
+
+      / First page button
+      - if pagy.page > 1
+        a href=page_url(1) class=nav_button_classes(enabled: true) aria-label="Premiere page" data-turbo-action="replace"
+          i.fa-solid.fa-angles-left
+      - else
+        span class=nav_button_classes(enabled: false) aria-disabled="true"
+          i.fa-solid.fa-angles-left
+
+      / Previous page button
+      - if pagy.prev
+        a href=page_url(pagy.prev) class=nav_button_classes(enabled: true) aria-label="Page precedente" data-turbo-action="replace"
+          i.fa-solid.fa-chevron-left
+      - else
+        span class=nav_button_classes(enabled: false) aria-disabled="true"
+          i.fa-solid.fa-chevron-left
+
+      / Page numbers
+      .hidden.sm:flex.items-center.gap-1
+        - pages_to_show.each do |page|
+          - if page == :gap
+            span class=gap_classes ...
+          - elsif page == pagy.page
+            span class=page_button_classes(current: true) aria-current="page"
+              = page
+          - else
+            a href=page_url(page) class=page_button_classes(current: false) data-turbo-action="replace"
+              = page
+
+      / Next page button
+      - if pagy.next
+        a href=page_url(pagy.next) class=nav_button_classes(enabled: true) aria-label="Page suivante" data-turbo-action="replace"
+          i.fa-solid.fa-chevron-right
+      - else
+        span class=nav_button_classes(enabled: false) aria-disabled="true"
+          i.fa-solid.fa-chevron-right
+
+      / Last page button
+      - if pagy.page < pagy.pages
+        a href=page_url(pagy.pages) class=nav_button_classes(enabled: true) aria-label="Derniere page" data-turbo-action="replace"
+          i.fa-solid.fa-angles-right
+      - else
+        span class=nav_button_classes(enabled: false) aria-disabled="true"
+          i.fa-solid.fa-angles-right

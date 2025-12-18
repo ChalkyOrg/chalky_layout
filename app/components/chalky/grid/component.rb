@@ -8,7 +8,7 @@ module Chalky::Grid
     include Chalky::Grid::Concerns::Styling
 
     attr_reader :columns, :rows, :details_path, :details_path_id_method, :row_count_key, :details_path_attributes, :variant, :css_classes, :bulk_selection,
-                :row_data_attributes, :row_classes_proc, :index_badge_proc
+                :row_data_attributes, :row_classes_proc, :index_badge_proc, :pagy
 
     VARIANTS = {
       default: {
@@ -49,8 +49,17 @@ module Chalky::Grid
       @row_data_attributes = row_data_attributes
       @row_classes_proc = row_classes_proc
       @index_badge_proc = index_badge_proc || component_opts.index_badge_proc
+      @pagy = component_opts.pagy
       @columns = []
       @actions = []
+    end
+
+    def has_pagination?
+      pagy.present? && pagy.pages > 1
+    end
+
+    def turbo_frame_id
+      @turbo_frame_id ||= "chalky_paginated_grid"
     end
 
     # Action method to define row actions

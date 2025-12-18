@@ -277,6 +277,7 @@ Responsive data table with multiple column types.
 | `variant` | Symbol | `:default` | Grid variant |
 | `responsive` | Boolean | `true` | Enable responsive mode |
 | `horizontal_scroll` | Boolean | `false` | Enable horizontal scroll |
+| `pagy` | Pagy | `nil` | Pagy object for automatic pagination (displays pagination below grid) |
 
 **Column Types:**
 
@@ -336,6 +337,55 @@ Add row actions with dropdown menu:
     span.font-bold = number_to_currency(order.total)
   - grid.custom(label: "Actions") do |order|
     = link_to "View", admin_order_path(order)
+```
+
+### Grid with Pagination
+
+You can add pagination to a grid by passing a Pagy object:
+
+```slim
+= chalky_grid(rows: @users, pagy: @pagy, details_path: :admin_user_path) do |grid|
+  - grid.text(label: "Name", method: :name, priority: :primary)
+  - grid.text(label: "Email", method: :email)
+  - grid.badge(label: "Role", method: :role, color: :blue)
+```
+
+The pagination component will be automatically displayed below the grid when there are multiple pages.
+
+### `chalky_pagination`
+
+Standalone pagination component for use outside of grids. Requires the [Pagy](https://github.com/ddnexus/pagy) gem.
+
+```slim
+= chalky_pagination(pagy: @pagy)
+
+/ With custom URL builder
+= chalky_pagination(pagy: @pagy, url_builder: ->(page) { users_path(page: page, search: params[:search]) })
+```
+
+![Pagination](docs/screenshots/pagination.png)
+
+**Parameters:**
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `pagy` | Pagy | **required** | Pagy object containing pagination info |
+| `url_builder` | Proc | `nil` | Custom proc to build page URLs (receives page number) |
+
+**Features:**
+- First, previous, next, last page buttons
+- Page number display with ellipsis for large page counts
+- Responsive: shows "Page X of Y" on desktop, "X-Y of Total" on mobile
+- Turbo-compatible with `data-turbo-action="replace"`
+- Only renders when there are multiple pages
+
+**Controller Setup:**
+```ruby
+# In your controller
+include Pagy::Backend
+
+def index
+  @pagy, @users = pagy(User.all, items: 25)
+end
 ```
 
 ## Interactive
@@ -751,7 +801,8 @@ Include Font Awesome for icons:
 | `chalky_card` | Simple card container |
 | `chalky_panel` | Collapsible section with icon |
 | `chalky_heading` | Section title with optional icon |
-| `chalky_grid` | Responsive data table |
+| `chalky_grid` | Responsive data table (supports `pagy:` for pagination) |
+| `chalky_pagination` | Standalone pagination component (requires Pagy gem) |
 | `chalky_dropdown` | Dropdown menu |
 | `chalky_icon_button` | Button with icon |
 | `chalky_button` | Form button |

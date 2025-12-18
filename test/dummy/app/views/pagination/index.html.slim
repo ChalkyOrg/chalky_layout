@@ -1,0 +1,52 @@
+= chalky_page do |page|
+  - page.with_header(title: "Pagination Demo", subtitle: "Automatic pagination with Pagy integration") do |header|
+    - header.with_actions do
+      = link_to showcase_path, class: "inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50" do
+        i.fa-solid.fa-arrow-left
+        span Back to Showcase
+
+  - page.with_body do
+    / Info alert about the pagination
+    .mb-6
+      = chalky_alert(variant: :info, title: "Pagination automatique") do
+        | Cette page d\u00e9montre la pagination automatique int\u00e9gr\u00e9e au composant Grid.
+        | Passez simplement l'objet <code class="bg-blue-100 px-1 rounded">pagy:</code> au helper
+        | <code class="bg-blue-100 px-1 rounded">chalky_grid</code> et la pagination s'affiche automatiquement.
+
+    / Stats
+    .grid.grid-cols-1.md:grid-cols-3.gap-4.mb-6
+      = chalky_stat(label: "Total Users", value: @pagy.count, icon: "fa-solid fa-users", icon_color: :blue)
+      = chalky_stat(label: "Current Page", value: "#{@pagy.page} / #{@pagy.pages}", icon: "fa-solid fa-file", icon_color: :green)
+      = chalky_stat(label: "Items per Page", value: @pagy.limit, icon: "fa-solid fa-list", icon_color: :purple)
+
+    / Grid with automatic pagination (Turbo Frame is built-in!)
+    = chalky_card do
+      = chalky_heading(title: "Users Grid", description: "100 users with automatic pagination (20 per page)")
+
+      = chalky_grid(rows: @users, pagy: @pagy, variant: :admin) do |grid|
+        - grid.text(label: "ID", method: :id, priority: :primary)
+        - grid.text(label: "Name", method: :name, priority: :primary)
+        - grid.text(label: "Email", method: :email, priority: :secondary)
+        - grid.badge(label: "Role", method: :role, colors: { admin: :red, user: :blue, moderator: :green, editor: :yellow, viewer: :gray }, priority: :secondary)
+        - grid.badge(label: "Status", method: :status, colors: { active: :green, inactive: :gray, pending: :yellow, suspended: :red }, priority: :optional)
+        - grid.datetime(label: "Created", method: :created_at, formatted_as: :short, priority: :optional)
+
+    / Code example
+    .mt-8
+      = chalky_panel(title: "Code Example", icon: "fa-solid fa-code", icon_color: :purple) do
+        pre.bg-gray-900.text-gray-100.p-4.rounded-lg.overflow-x-auto.text-sm
+          code
+            | # Controller
+            br
+            | @pagy, @users = pagy(User.all, limit: 20)
+            br
+            br
+            | # View - pagination is automatic!
+            br
+            | = chalky_grid(rows: @users, pagy: @pagy) do |grid|
+            br
+            |   - grid.text(label: "Name", method: :name)
+            br
+            |   - grid.text(label: "Email", method: :email)
+            br
+            |   # ... more columns
