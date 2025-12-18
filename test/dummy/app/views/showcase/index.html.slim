@@ -1,7 +1,8 @@
 = chalky_page do |page|
   - page.with_header(title: "ChalkyLayout Showcase", subtitle: "Component library demo") do |header|
     - header.with_navigation do
-      - tabs_data = [{name: "Components", path: "#components", icon: "fa-solid fa-cube", default: true}, {name: "Examples", path: "#examples"}, {name: "Settings", path: "#settings", badge: 3}]
+      / Test avec 6 onglets pour valider le comportement mobile (scroll horizontal + icônes seules)
+      - tabs_data = [{name: "Components", path: "#components", icon: "fa-solid fa-cube", default: true}, {name: "Examples", path: "#examples"}, {name: "Settings", path: "#settings", icon: "fa-solid fa-cog", badge: 3}, {name: "Analytics", path: "#analytics", icon: "fa-solid fa-chart-line"}, {name: "Users", path: "#users", icon: "fa-solid fa-users"}, {name: "Docs", path: "#docs"}]
       = chalky_tabs(tabs: tabs_data)
     - header.with_actions do
       .flex.items-center.gap-3
@@ -175,8 +176,14 @@
           input.mt-1.block.w-full.rounded-md.border-gray-300.shadow-sm type="password"
           = chalky_hint(text: "Minimum 8 characters with at least one number.")
 
-    / Panel Section
+    / Panel Section - Multiple panels to show spacing
     = chalky_panel(title: "Collapsible Panel", icon: "fa-solid fa-cog", icon_color: :blue) do
       p.text-gray-600 This is a collapsible panel with an icon. Click the header to toggle.
       .mt-4
         = chalky_badge(label: "Inside panel", color: :blue)
+
+    = chalky_panel(title: "Second Panel", icon: "fa-solid fa-star", icon_color: :purple) do
+      p.text-gray-600 Another panel to demonstrate spacing between panels.
+
+    = chalky_panel(title: "Third Panel", icon: "fa-solid fa-heart", icon_color: :red, open: false) do
+      p.text-gray-600 This panel is closed by default.

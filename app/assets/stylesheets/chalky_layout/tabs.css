@@ -1,0 +1,17 @@
+/*
+ * Chalky Layout - Tabs Styles
+ *
+ * Responsive tab navigation:
+ * - Mobile: Icons only (or first letter fallback) with horizontal scroll
+ * - Desktop: Full text with icons
+ */
+
+/* Hide scrollbar while maintaining scroll functionality */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}

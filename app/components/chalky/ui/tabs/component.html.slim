@@ -1,8 +1,15 @@
-.flex.flex-wrap.gap-1.items-end aria-label="Tabs" data=container_data
+/ Mobile: scroll horizontal, icônes seules (ou première lettre si pas d'icône)
+/ Desktop: affichage complet avec texte
+.flex.flex-nowrap.gap-1.items-end.overflow-x-auto.-mx-3.px-3.md:mx-0.md:px-0.md:overflow-visible.scrollbar-hide aria-label="Tabs" data=container_data
   - tabs.each do |tab|
-    = link_to tab_href(tab), class: tab_classes(tab), data: tab_data(tab) do
+    = link_to tab_href(tab), class: tab_classes(tab), data: tab_data(tab), title: tab[:name] do
       - if tab[:icon]
         i class=tab[:icon]
-      = tab[:name]
+      - else
+        / Fallback mobile: première lettre dans un cercle
+        span.flex.items-center.justify-center.w-5.h-5.rounded-full.bg-gray-200.text-gray-700.text-xs.font-medium.md:hidden
+          = tab[:name][0].upcase
+      / Texte masqué en mobile, visible en desktop
+      span.hidden.md:inline = tab[:name]
       - if tab[:badge] && tab[:badge] > 0
         span.ml-1.px-1.5.py-0.5.text-xs.rounded-full.bg-red-500.text-white = tab[:badge]
