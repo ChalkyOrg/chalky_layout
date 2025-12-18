@@ -459,17 +459,14 @@ head
   / ... other head content
 ```
 
-### `chalky_sidebar_menu_item`
+### Menu Items (via `with_menu_item`)
 
-Navigation link with auto active detection.
+Menu items are added via the `with_menu_item` method on sections and footers within `chalky_sidebar_layout`.
 
 ```slim
-= chalky_sidebar_menu_item(
-  path: admin_users_path,
-  title: "Users",
-  icon_classes: "fa-solid fa-users",
-  active: nil
-)
+- layout.with_section(title: "Navigation", icon_path: "...", icon_color: :blue) do |section|
+  - section.with_menu_item(path: admin_users_path, title: "Users", icon_classes: "fa-solid fa-users")
+  - section.with_menu_item(path: admin_orders_path, title: "Orders", icon_classes: "fa-solid fa-shopping-cart")
 ```
 
 **Parameters:**

@@ -1,7 +1,8 @@
 import { Controller } from "@hotwired/stimulus";
 
 // Controls mobile menu slide-in/out animations
-// Connects to data-controller="chalky-mobile-menu"
+// Connects to data-controller="chalky-layout--mobile-menu"
+// (Stimulus auto-naming convention for controllers in controllers/chalky_layout/)
 export default class extends Controller {
   static targets = ["menu", "overlay"]
 

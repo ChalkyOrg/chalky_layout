@@ -150,7 +150,6 @@ html.h-full
 | `chalky_tabs` | Navigation tabs |
 | `chalky_sidebar_layout` | Complete sidebar with mobile/desktop support (recommended) |
 | `chalky_sidebar_head_script` | Anti-FOUC script for sidebar (place in `<head>`) |
-| `chalky_sidebar_menu_item` | Sidebar navigation link |
 
 ## Full Documentation
 

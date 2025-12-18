@@ -1,6 +1,19 @@
 # frozen_string_literal: true
 
-# Pin all Stimulus controllers from chalky_layout
+# =============================================================================
+# ChalkyLayout Importmap Configuration
+# =============================================================================
+#
+# Pour utiliser les contrôleurs Stimulus de la gem, ajoutez dans votre application.js :
+#   import "chalky_layout"
+#
+# Cela enregistrera automatiquement tous les contrôleurs avec les bons noms.
+# =============================================================================
+
+# Point d'entrée principal - auto-registration de tous les contrôleurs
+pin "chalky_layout", to: "chalky_layout.js"
+
+# Contrôleurs individuels (utilisés par le fichier chalky_layout.js)
 pin "controllers/chalky_layout/back_controller", to: "chalky_layout/controllers/back_controller.js"
 pin "controllers/chalky_layout/dropdown_controller", to: "chalky_layout/controllers/dropdown_controller.js"
 pin "controllers/chalky_layout/grid_controller", to: "chalky_layout/controllers/grid_controller.js"

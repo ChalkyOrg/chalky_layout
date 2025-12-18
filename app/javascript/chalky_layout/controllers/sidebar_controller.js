@@ -1,7 +1,8 @@
 import { Controller } from "@hotwired/stimulus";
 
 // Controls sidebar collapse/expand state with localStorage persistence
-// Connects to data-controller="chalky-sidebar"
+// Connects to data-controller="chalky-layout--sidebar"
+// (Stimulus auto-naming convention for controllers in controllers/chalky_layout/)
 export default class extends Controller {
   static targets = ["sidebar", "content", "toggleIcon", "logo"]
   static classes = ["collapsed"]

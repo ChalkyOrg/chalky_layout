@@ -663,20 +663,17 @@ html.h-full
 
 ---
 
-## Sidebar Components (Low-level API)
+## Sidebar Menu Items
 
-For advanced customization, you can use the individual sidebar components directly.
-
-### `chalky_sidebar_menu_item`
-
-Navigation link with icon and automatic active state detection.
+Menu items are added via the `with_menu_item` method on sections and footers within `chalky_sidebar_layout`.
 
 ```slim
-= chalky_sidebar_menu_item(path: admin_orders_path, title: "Commandes", icon_classes: "fa-solid fa-shopping-cart")
-= chalky_sidebar_menu_item(path: admin_products_path, title: "Produits", icon_path: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4")
+- layout.with_section(title: "Navigation", icon_path: "...", icon_color: :blue) do |section|
+  - section.with_menu_item(path: admin_orders_path, title: "Commandes", icon_classes: "fa-solid fa-shopping-cart")
+  - section.with_menu_item(path: admin_products_path, title: "Produits", icon_path: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4")
 ```
 
-**Parameters:**
+**Menu Item Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `path` | String | **required** | Link destination URL |
@@ -704,15 +701,36 @@ Navigation link with icon and automatic active state detection.
 
 ## Post-Installation Setup
 
-The install generator will:
-- Copy Stimulus controllers to `app/javascript/controllers/`
-- Create an initializer at `config/initializers/chalky_layout.rb`
-- Display the exact paths and configuration needed for your setup
+### JavaScript Setup (Required)
 
-Follow the instructions displayed by the generator to:
-1. Register the Stimulus controllers in your `index.js`
-2. Add the gem's component path to your Tailwind `content` array
-3. Add the required color tokens to your Tailwind theme
+Add the following line to your `app/javascript/application.js`:
+
+```javascript
+import "chalky_layout"
+```
+
+This single import will automatically register all Stimulus controllers from the gem with the correct names. No need to copy files or register controllers manually.
+
+### Tailwind Setup (Required)
+
+Add the gem's component path to your Tailwind `content` array in `tailwind.config.js`:
+
+```javascript
+module.exports = {
+  content: [
+    // ... your paths
+    // Add chalky_layout components (adjust path based on your bundler)
+    "./node_modules/chalky_layout/**/*.{slim,rb}",
+    // Or for bundled gems:
+    `${process.env.GEM_HOME}/gems/chalky_layout-*/app/**/*.{slim,rb}`
+  ],
+  // ...
+}
+```
+
+### Color Tokens (Optional)
+
+Add the required color tokens to your Tailwind theme if you want to customize the default colors
 
 ### Font Awesome
 
@@ -747,7 +765,6 @@ Include Font Awesome for icons:
 | `chalky_tabs` | Navigation tabs for page sections |
 | `chalky_sidebar_layout` | Complete sidebar layout with mobile/desktop support (recommended) |
 | `chalky_sidebar_head_script` | Anti-FOUC script for sidebar (place in `<head>`) |
-| `chalky_sidebar_menu_item` | Sidebar navigation link |
 
 ## License
 
