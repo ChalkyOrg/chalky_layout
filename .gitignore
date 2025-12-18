@@ -9,3 +9,10 @@
 *.gem
 .rspec_status
 Gemfile.lock
+
+# Test dummy
+test/dummy/log/
+test/dummy/tmp/
+
+# Playwright screenshots (temporary)
+.playwright-mcp/

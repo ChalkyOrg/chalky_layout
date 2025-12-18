@@ -7,3 +7,5 @@ pin "controllers/chalky_layout/grid_controller", to: "chalky_layout/controllers/
 pin "controllers/chalky_layout/stop_propagation_controller", to: "chalky_layout/controllers/stop_propagation_controller.js"
 pin "controllers/chalky_layout/tabs_controller", to: "chalky_layout/controllers/tabs_controller.js"
 pin "controllers/chalky_layout/tooltip_controller", to: "chalky_layout/controllers/tooltip_controller.js"
+pin "controllers/chalky_layout/sidebar_controller", to: "chalky_layout/controllers/sidebar_controller.js"
+pin "controllers/chalky_layout/mobile_menu_controller", to: "chalky_layout/controllers/mobile_menu_controller.js"

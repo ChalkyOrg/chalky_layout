@@ -174,12 +174,16 @@ Collapsible section with icon.
 
 ### `chalky_heading`
 
-Section title with optional description.
+Section title with optional description and icon.
 
 ```slim
 = chalky_heading(title: "Section Title")
 
 = chalky_heading(title: "Users", subtitle: "Active accounts only")
+
+= chalky_heading(title: "Settings", icon_path: "fa-solid fa-cog", icon_color: :blue)
+
+= chalky_heading(title: "Products", icon_path: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4...", icon_color: :purple)
 ```
 
 **Parameters:**
@@ -188,6 +192,9 @@ Section title with optional description.
 | `title` | String | **required** | Heading title |
 | `subtitle` | String | `nil` | Optional description |
 | `description` | String | `nil` | Alias for subtitle |
+| `icon_path` | String | `nil` | Font Awesome class (e.g., `"fa-solid fa-cog"`) or SVG path data |
+| `icon_color` | Symbol | `:blue` | Icon background color (`:blue`, `:green`, `:purple`, `:orange`, `:red`, `:gray`) |
+| `spacing` | String | `"mb-6"` | Margin classes |
 
 ## Buttons
 
@@ -282,6 +289,8 @@ Responsive data table with multiple column types.
 | `datetime` | Date and time | - |
 | `boolean` | Yes/No indicator | - |
 | `link` | Clickable link | `path:` |
+| `image` | Image thumbnail | `size:` (`:small`, `:medium`, `:large`) |
+| `icon` | Conditional icon | `icon:` (Font Awesome class) |
 | `custom` | Custom block | Block required |
 
 **Badge Colors:** `:green`, `:red`, `:blue`, `:yellow`, `:purple`, `:orange`, `:gray`
@@ -540,6 +549,163 @@ Navigation tabs for page sections. Typically used inside the header's navigation
 ])
 ```
 
+## Sidebar Navigation
+
+Complete sidebar system for admin layouts with collapsible sections, menu items, and user profile.
+
+### `chalky_sidebar_container`
+
+Root wrapper for the admin sidebar. Includes Stimulus controller for collapse/expand functionality with localStorage persistence.
+
+```slim
+= chalky_sidebar_container do
+  / Sidebar content here
+```
+
+**Parameters:**
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `css_classes` | String | `""` | Additional CSS classes |
+| `data_attributes` | Hash | `{}` | Additional data attributes |
+
+### `chalky_sidebar_section`
+
+Card container for grouping menu items. Provides visual separation with shadow, border, and hover effects.
+
+```slim
+= chalky_sidebar_section do
+  = chalky_sidebar_section_header(title: "Navigation", icon_path: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1...")
+  ul.space-y-1.mt-3
+    = chalky_sidebar_menu_item(path: "/dashboard", title: "Dashboard", icon_classes: "fa-solid fa-home")
+```
+
+**Parameters:**
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `spacing` | String | `"mb-6"` | Margin classes |
+| `css_classes` | String | `""` | Additional CSS classes |
+
+### `chalky_sidebar_section_header`
+
+Header with icon, title, and optional description for sidebar sections.
+
+```slim
+= chalky_sidebar_section_header(
+  title: "Gestion",
+  icon_path: "M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2...",
+  description: "Commandes et clients",
+  icon_color: :blue
+)
+```
+
+**Parameters:**
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `title` | String | **required** | Section title |
+| `icon_path` | String | **required** | SVG path data for the icon |
+| `description` | String | `nil` | Optional description below title |
+| `icon_color` | Symbol | `:blue` | `:blue`, `:green`, `:purple`, `:orange`, `:red`, `:gray`, `:indigo` |
+| `spacing` | String | `"mb-3"` | Margin classes |
+
+### `chalky_sidebar_menu_item`
+
+Navigation link with icon and automatic active state detection.
+
+```slim
+ul.space-y-1
+  = chalky_sidebar_menu_item(path: admin_orders_path, title: "Commandes", icon_classes: "fa-solid fa-shopping-cart")
+  = chalky_sidebar_menu_item(path: admin_customers_path, title: "Clients", icon_classes: "fa-solid fa-users")
+  = chalky_sidebar_menu_item(path: admin_products_path, title: "Produits", icon_path: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4")
+```
+
+**Parameters:**
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `path` | String | **required** | Link destination URL |
+| `title` | String | **required** | Menu item label |
+| `icon_classes` | String | `nil` | Font Awesome classes (e.g., `"fa-solid fa-book"`) |
+| `icon_path` | String | `nil` | SVG path data (alternative to icon_classes) |
+| `active` | Boolean/nil | `nil` | Override active state (`nil` = auto-detect from URL) |
+
+**Icon Options:**
+- Use `icon_classes` for Font Awesome icons: `"fa-solid fa-shopping-cart"`
+- Use `icon_path` for custom SVG icons: `"M20 7l-8-4-8 4m16 0l-8 4..."`
+- If both provided, `icon_path` takes precedence
+
+### `chalky_sidebar_footer`
+
+User profile section with avatar, role badge, and logout action. Supports additional menu items via slots.
+
+```slim
+= chalky_sidebar_footer(
+  user_name: current_user.name,
+  user_email: current_user.email,
+  logout_path: logout_path,
+  avatar_url: current_user.avatar_url,
+  role_label: "Administrateur",
+  role_color: :purple,
+  profile_path: profile_path
+) do |footer|
+  - footer.with_menu_item(path: settings_path, title: "Paramètres", icon_classes: "fa-solid fa-cog")
+```
+
+![Sidebar](docs/screenshots/sidebar.png)
+
+**Parameters:**
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `user_name` | String | **required** | User's display name |
+| `user_email` | String | **required** | User's email address |
+| `logout_path` | String | **required** | Logout URL |
+| `avatar_url` | String | `nil` | Avatar image URL (shows initials if nil) |
+| `role_label` | String | `nil` | Optional role badge text |
+| `role_color` | Symbol | `:gray` | Role badge color |
+| `profile_path` | String | `nil` | Optional profile page URL |
+| `logout_method` | Symbol | `:delete` | HTTP method for logout (`:delete`, `:post`) |
+
+**Role Colors:** `:blue`, `:green`, `:purple`, `:orange`, `:red`, `:gray`, `:indigo`
+
+### Complete Sidebar Example
+
+```slim
+.flex.h-screen
+  aside.w-64.bg-gray-50.border-r.border-gray-200
+    = chalky_sidebar_container do
+      / Main navigation section
+      = chalky_sidebar_section do
+        = chalky_sidebar_section_header(
+          title: "Navigation",
+          icon_path: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6",
+          icon_color: :blue
+        )
+        ul.space-y-1.mt-3
+          = chalky_sidebar_menu_item(path: "/admin", title: "Dashboard", icon_classes: "fa-solid fa-home")
+          = chalky_sidebar_menu_item(path: "/admin/orders", title: "Commandes", icon_classes: "fa-solid fa-shopping-cart")
+
+      / Management section
+      = chalky_sidebar_section do
+        = chalky_sidebar_section_header(
+          title: "Gestion",
+          icon_path: "M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10",
+          icon_color: :purple
+        )
+        ul.space-y-1.mt-3
+          = chalky_sidebar_menu_item(path: "/admin/products", title: "Produits", icon_classes: "fa-solid fa-box")
+          = chalky_sidebar_menu_item(path: "/admin/categories", title: "Catégories", icon_classes: "fa-solid fa-tags")
+
+      / Footer with user profile
+      = chalky_sidebar_footer(
+        user_name: "Jean Dupont",
+        user_email: "jean@example.com",
+        logout_path: "/logout",
+        role_label: "Admin",
+        role_color: :purple
+      )
+
+  main.flex-1
+    / Page content
+```
+
 ## Requirements
 
 - Rails 7.0+
@@ -580,7 +746,7 @@ Include Font Awesome for icons:
 | `chalky_content` | Standalone content wrapper |
 | `chalky_card` | Simple card container |
 | `chalky_panel` | Collapsible section with icon |
-| `chalky_heading` | Section title |
+| `chalky_heading` | Section title with optional icon |
 | `chalky_grid` | Responsive data table |
 | `chalky_dropdown` | Dropdown menu |
 | `chalky_icon_button` | Button with icon |
@@ -593,6 +759,11 @@ Include Font Awesome for icons:
 | `chalky_alert` | Info/warning/error message box |
 | `chalky_info_row` | Label/value display pair |
 | `chalky_tabs` | Navigation tabs for page sections |
+| `chalky_sidebar_container` | Sidebar root wrapper |
+| `chalky_sidebar_section` | Sidebar card container |
+| `chalky_sidebar_section_header` | Sidebar section header with icon |
+| `chalky_sidebar_menu_item` | Sidebar navigation link |
+| `chalky_sidebar_footer` | Sidebar user profile and logout |
 
 ## License
 

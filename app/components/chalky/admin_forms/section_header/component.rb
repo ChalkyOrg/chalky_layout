@@ -36,6 +36,11 @@ module Chalky::AdminForms
       def show_icon?
         icon_path.present?
       end
+
+      # Detect if icon_path is a Font Awesome class (fa-*) or a SVG path
+      def font_awesome_icon?
+        icon_path.present? && icon_path.to_s.start_with?("fa-")
+      end
     end
   end
 end

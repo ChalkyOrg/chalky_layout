@@ -12,6 +12,8 @@ module ChalkyLayout
 
       class_option :skip_stimulus, type: :boolean, default: false,
                                    desc: "Skip Stimulus controller installation"
+      class_option :skip_claude, type: :boolean, default: false,
+                                 desc: "Skip Claude Code skill installation"
 
       def check_dependencies
         say "Checking dependencies...", :green
@@ -94,6 +96,37 @@ module ChalkyLayout
         say ""
       end
 
+      def setup_claude_skill
+        return if options[:skip_claude]
+
+        say ""
+        skill_dir = Rails.root.join(".claude", "skills", "chalky-layout")
+        skill_file = skill_dir.join("SKILL.md")
+        reference_file = skill_dir.join("reference.md")
+
+        if File.exist?(skill_file)
+          say "Claude Code skill already installed at .claude/skills/chalky-layout/", :green
+          say "Updating reference.md only (SKILL.md preserved)...", :cyan
+
+          # Only update reference.md, preserve user's SKILL.md customizations
+          FileUtils.mkdir_p(skill_dir)
+          template "claude_skill/reference.md", reference_file, force: true
+
+          say "Reference documentation updated.", :green
+        else
+          say "Installing Claude Code skill...", :green
+
+          FileUtils.mkdir_p(skill_dir)
+          template "claude_skill/SKILL.md", skill_file
+          template "claude_skill/reference.md", reference_file
+
+          say "Claude Code skill installed at .claude/skills/chalky-layout/", :green
+          say ""
+          say "Claude Code will now automatically use chalky_layout helpers", :cyan
+          say "for any frontend work (views, templates, components, etc.)", :cyan
+        end
+      end
+
       def show_post_install_message
         say ""
         say "=" * 60, :green
@@ -114,8 +147,19 @@ module ChalkyLayout
         say "  Data:       chalky_grid"
         say "  Containers: chalky_panel, chalky_card, chalky_heading"
         say "  Buttons:    chalky_button, chalky_icon_button, chalky_back"
-        say "  Other:      chalky_dropdown"
+        say "  UI:         chalky_badge, chalky_stat, chalky_tooltip, chalky_hint"
+        say "  UI:         chalky_alert, chalky_info_row, chalky_tabs, chalky_dropdown"
+        say "  Sidebar:    chalky_sidebar_container, chalky_sidebar_section"
+        say "  Sidebar:    chalky_sidebar_section_header, chalky_sidebar_menu_item"
+        say "  Sidebar:    chalky_sidebar_footer"
         say ""
+
+        unless options[:skip_claude]
+          say "Claude Code Integration:", :yellow
+          say "  A skill has been installed at .claude/skills/chalky-layout/"
+          say "  Claude will automatically use these helpers for frontend work."
+          say ""
+        end
       end
 
       private

@@ -1,0 +1,42 @@
+.sidebar-footer-section.pb-4
+  = render Chalky::Sidebar::Section::Component.new(spacing: "mt-auto mb-0") do
+    = render Chalky::Sidebar::SectionHeader::Component.new(\
+        title: "Profil",\
+        description: "Informations utilisateur",\
+        icon_path: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z",\
+        icon_color: :gray)
+
+    / Menu items additionnels (profile, settings, etc.)
+    - if show_menu_items?
+      ul.space-y-1.mt-4.mb-4
+        - menu_items.each do |menu_item|
+          = menu_item
+
+    / Section profil utilisateur avec avatar et infos
+    .sidebar-footer-profile.border-t.border-gray-200.pt-4.mt-4
+      .flex.items-center.gap-x-3.mb-3
+        / Avatar
+        .relative.flex-shrink-0
+          - if avatar_url.present?
+            img.w-10.h-10.rounded-full.object-cover src=avatar_url alt=user_name
+          - else
+            .w-10.h-10.rounded-full.bg-gray-200.flex.items-center.justify-center.text-gray-600.text-sm.font-medium
+              = avatar_initials
+
+        / Informations utilisateur
+        .sidebar-footer-user-info.flex-1.min-w-0
+          .text-sm.font-semibold.text-gray-900.truncate = user_name
+          .text-xs.text-gray-500.truncate = user_email
+
+      / Badge de rôle
+      - if show_role_badge?
+        .sidebar-footer-role.text-center.px-3.rounded-full.text-xs.font-medium.mb-3 class="py-1.5 #{role_badge_classes}"
+          = role_label
+
+      / Action déconnexion
+      ul.space-y-1
+        li
+          = link_to logout_path, data: { turbo_method: logout_method }, class: logout_menu_classes, title: "Se déconnecter" do
+            .icon-container class=logout_icon_container_classes
+              i.fa-solid.fa-arrow-right-from-bracket
+            span.menu-title Se déconnecter
