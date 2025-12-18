@@ -16,6 +16,9 @@ export default class extends Controller {
   }
 
   toggle() {
+    // Enable transitions after first user interaction
+    document.documentElement.classList.add("transitions-enabled")
+
     if (this.isCollapsed) {
       this.expand()
     } else {
@@ -41,6 +44,9 @@ export default class extends Controller {
   }
 
   expand() {
+    // Remove initial collapsed state from html (set by anti-FOUC script)
+    document.documentElement.classList.remove("sidebar-starts-collapsed")
+
     if (this.hasSidebarTarget) {
       this.sidebarTarget.classList.remove("sidebar-collapsed")
       this.sidebarTarget.classList.remove("lg:w-20")
