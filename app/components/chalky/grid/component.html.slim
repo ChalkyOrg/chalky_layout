@@ -13,7 +13,7 @@
 
     / Desktop Table Layout (>= 1024px)
     - if show_table_layout?
-      .table-layout.hidden.lg:block
+      .table-layout.hidden.lg:block.overflow-x-auto
         table class=table_classes data-grid-target=(responsive? ? "table" : nil)
           thead.w-full
             tr

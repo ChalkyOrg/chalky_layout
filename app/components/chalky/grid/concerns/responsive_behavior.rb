@@ -28,11 +28,9 @@ module Chalky::Grid
       def container_classes
         base_classes = responsive? ? "grid-responsive" : "grid-container"
         bulk_classes = bulk_selection ? "bulk-enabled" : ""
-        scroll_classes = "grid-horizontal-scroll"
         [
-          (responsive? ? base_classes.to_s : "scrollbox #{base_classes}"),
+          base_classes,
           bulk_classes,
-          scroll_classes,
           css_classes
         ].compact.join(" ").strip
       end
@@ -40,7 +38,6 @@ module Chalky::Grid
       def container_data_attributes
         controllers = []
         controllers << "grid" if responsive?
-        controllers << "grid-scroll"
 
         data_attrs = controllers.any? ? { controller: controllers.join(" ") } : {}
         data_attrs[:grid_columns_count] = total_columns_count

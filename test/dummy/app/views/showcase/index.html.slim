@@ -130,16 +130,21 @@
         = chalky_tooltip(text: "More information about this feature") do
           i.fa-solid.fa-circle-info.text-gray-400.text-lg.cursor-help
 
-    / Grid Section
+    / Grid Section - Many columns to test horizontal scroll
     = chalky_card do
-      = chalky_heading(title: "Data Grid", subtitle: "Responsive data table")
+      = chalky_heading(title: "Data Grid (Many Columns)", subtitle: "Test horizontal scroll with overflow-x-auto")
       .mt-4
         = chalky_grid(rows: @users) do |grid|
           - grid.text(label: "Name", method: :name, priority: :primary)
           - grid.text(label: "Email", method: :email, priority: :secondary)
           - grid.badge(label: "Role", method: :role, color: :blue)
           - grid.boolean(label: "Active", method: :active)
-          - grid.datetime(label: "Created", method: :created_at, priority: :optional)
+          - grid.datetime(label: "Created", method: :created_at)
+          - grid.text(label: "Phone", method: :phone)
+          - grid.text(label: "Address", method: :address)
+          - grid.text(label: "City", method: :city)
+          - grid.text(label: "Country", method: :country)
+          - grid.datetime(label: "Updated", method: :updated_at)
 
     / Grid with Actions Section
     = chalky_card do
