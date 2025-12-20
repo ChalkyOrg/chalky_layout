@@ -8,6 +8,8 @@ export default class extends Controller {
 
   connect() {
     this.timeout = null
+    // Reset tooltip state on connect (fixes Turbo Drive cache issue)
+    this.hideTooltip()
   }
 
   disconnect() {
