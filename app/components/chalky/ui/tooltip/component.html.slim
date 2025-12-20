@@ -1,9 +1,10 @@
-.inline-block.relative data=container_data
+.inline-block data=container_data
   / Trigger element
   .tooltip-trigger data-tooltip-target="trigger" data-action="mouseenter->tooltip#show mouseleave->tooltip#hide focus->tooltip#show blur->tooltip#hide"
     = content
 
-  / Tooltip content
-  .tooltip-content.opacity-0.invisible class=tooltip_classes data-tooltip-target="tooltip"
-    = text
+  / Tooltip content - fixed positioning to escape document flow
+  .tooltip-content.fixed.opacity-0.invisible data-tooltip-target="tooltip" class=tooltip_wrapper_classes
+    .tooltip-body.relative.z-10 class=tooltip_classes
+      = text
     .tooltip-arrow class=arrow_classes data-tooltip-target="arrow"

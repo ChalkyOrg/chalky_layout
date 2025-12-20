@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["trigger", "tooltip"]
+  static targets = ["trigger", "tooltip", "arrow"]
   static values = {
     delay: { type: Number, default: 0 },
     position: { type: String, default: "top" }
@@ -45,7 +45,6 @@ export default class extends Controller {
 
   positionTooltip(tooltip, trigger) {
     const triggerRect = trigger.getBoundingClientRect()
-    const tooltipRect = tooltip.getBoundingClientRect()
     const position = this.positionValue
 
     // Use fixed positioning
@@ -78,6 +77,50 @@ export default class extends Controller {
         tooltip.style.top = `${triggerRect.top - gap}px`
         tooltip.style.left = `${triggerRect.left + triggerRect.width / 2}px`
         tooltip.style.transform = "translate(-50%, -100%)"
+        break
+    }
+
+    // Position the arrow
+    if (this.hasArrowTarget) {
+      this.positionArrow(position)
+    }
+  }
+
+  positionArrow(position) {
+    const arrow = this.arrowTarget
+    // Reset arrow styles
+    arrow.style.top = ""
+    arrow.style.bottom = ""
+    arrow.style.left = ""
+    arrow.style.right = ""
+    arrow.style.transform = ""
+
+    // Note: must include rotate(45deg) to maintain the diamond shape
+    // Position at -1px so the arrow is half inside the tooltip (hidden by z-index)
+    switch (position) {
+      case "bottom":
+        // Arrow points up (at top of tooltip)
+        arrow.style.top = "-1px"
+        arrow.style.left = "50%"
+        arrow.style.transform = "translateX(-50%) translateY(-50%) rotate(45deg)"
+        break
+      case "left":
+        // Arrow points right (at right of tooltip)
+        arrow.style.right = "-1px"
+        arrow.style.top = "50%"
+        arrow.style.transform = "translateX(50%) translateY(-50%) rotate(45deg)"
+        break
+      case "right":
+        // Arrow points left (at left of tooltip)
+        arrow.style.left = "-1px"
+        arrow.style.top = "50%"
+        arrow.style.transform = "translateX(-50%) translateY(-50%) rotate(45deg)"
+        break
+      default: // top
+        // Arrow points down (at bottom of tooltip)
+        arrow.style.bottom = "-1px"
+        arrow.style.left = "50%"
+        arrow.style.transform = "translateX(-50%) translateY(50%) rotate(45deg)"
         break
     }
   }

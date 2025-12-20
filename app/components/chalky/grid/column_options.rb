@@ -11,8 +11,7 @@ module Chalky::Grid
       formatted_as: :default,
       size: :small,
       color: :green,
-      unit: nil,
-      tooltip: nil
+      unit: nil
     }.freeze
 
     attr_reader :options

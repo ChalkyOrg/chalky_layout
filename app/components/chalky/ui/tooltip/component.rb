@@ -16,8 +16,13 @@ module Chalky::Ui
         @delay = delay
       end
 
+      def tooltip_wrapper_classes
+        "z-50 pointer-events-none transition-all duration-200"
+      end
+
       def tooltip_classes
-        base = "absolute z-50 px-3 py-2 text-sm font-medium rounded-lg shadow-lg whitespace-nowrap pointer-events-none transition-all duration-200"
+        # Base classes for the tooltip body (text container)
+        base = "px-3 py-2 text-sm font-medium rounded-lg shadow-lg whitespace-nowrap"
 
         variant_classes = case variant
                           when :light
@@ -26,42 +31,22 @@ module Chalky::Ui
                             "bg-gray-900 text-white"
                           end
 
-        position_classes = case position
-                           when :top
-                             "bottom-full left-1/2 -translate-x-1/2 mb-2"
-                           when :bottom
-                             "top-full left-1/2 -translate-x-1/2 mt-2"
-                           when :left
-                             "right-full top-1/2 -translate-y-1/2 mr-2"
-                           when :right
-                             "left-full top-1/2 -translate-y-1/2 ml-2"
-                           end
-
-        "#{base} #{variant_classes} #{position_classes}"
+        "#{base} #{variant_classes}"
       end
 
       def arrow_classes
-        base = "absolute w-2 h-2 rotate-45"
+        # Base classes - positioning and rotation handled by JavaScript
+        # -z-10 places arrow behind tooltip content so only the tip is visible
+        base = "absolute w-2 h-2 -z-10"
 
         variant_classes = case variant
                           when :light
-                            "bg-white border-gray-200"
+                            "bg-white border border-gray-200"
                           else
                             "bg-gray-900"
                           end
 
-        position_classes = case position
-                           when :top
-                             "-bottom-1 left-1/2 -translate-x-1/2 #{variant == :light ? 'border-b border-r' : ''}"
-                           when :bottom
-                             "-top-1 left-1/2 -translate-x-1/2 #{variant == :light ? 'border-t border-l' : ''}"
-                           when :left
-                             "-right-1 top-1/2 -translate-y-1/2 #{variant == :light ? 'border-t border-r' : ''}"
-                           when :right
-                             "-left-1 top-1/2 -translate-y-1/2 #{variant == :light ? 'border-b border-l' : ''}"
-                           end
-
-        "#{base} #{variant_classes} #{position_classes}"
+        "#{base} #{variant_classes}"
       end
 
       def container_data

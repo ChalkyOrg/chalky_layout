@@ -57,23 +57,14 @@
                       .text-left class=text_cell_classes
                         = index
                   - columns.each_with_index do |column, column_index|
-                    - tooltip_opts = resolve_tooltip(column, row)
                     td class=td_classes(column, index, rows.size) data-column=column.label&.parameterize data-priority=column.priority
                       - if details_path && row.public_send(details_path_id_method) && !link_cell?(column)
                         = link_to public_send(details_path, row.public_send(details_path_id_method)), class: "-m-2 p-2 block", data: { test_id: column_index.zero? ? "row-#{row.id}" : nil }.merge(details_path_attributes) do
                           div class=text_cell_classes
-                            - if tooltip_opts
-                              = chalky_tooltip(text: tooltip_opts[:text], position: tooltip_opts[:position], variant: tooltip_opts[:variant], delay: tooltip_opts[:delay]) do
-                                = render column.component.call(row)
-                            - else
-                              = render column.component.call(row)
+                            = render column.component.call(row)
                       - else
                         div class=text_cell_classes
-                          - if tooltip_opts
-                            = chalky_tooltip(text: tooltip_opts[:text], position: tooltip_opts[:position], variant: tooltip_opts[:variant], delay: tooltip_opts[:delay]) do
-                              = render column.component.call(row)
-                          - else
-                            = render column.component.call(row)
+                          = render column.component.call(row)
 
     / Mobile Cards Layout (< 1024px)
     - if show_cards_layout?

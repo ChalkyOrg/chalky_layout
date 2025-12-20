@@ -100,33 +100,6 @@ module Chalky::Grid
       nil
     end
 
-    # Method to resolve tooltip options for a column/row combination
-    def resolve_tooltip(column, row)
-      return nil unless column.has_tooltip?
-
-      tooltip_config = column.tooltip
-
-      # If tooltip is a Proc, call it with the row to get dynamic content
-      if tooltip_config.is_a?(Proc)
-        result = tooltip_config.call(row)
-        return nil if result.nil?
-
-        # If proc returns a string, wrap it in default options
-        return { text: result, position: :top, variant: :dark, delay: 0 } if result.is_a?(String)
-
-        # If proc returns a hash, merge with defaults
-        { text: result[:text], position: result[:position] || :top, variant: result[:variant] || :dark, delay: result[:delay] || 0 }
-      elsif tooltip_config.is_a?(Hash)
-        # Static hash configuration
-        { text: tooltip_config[:text], position: tooltip_config[:position] || :top, variant: tooltip_config[:variant] || :dark, delay: tooltip_config[:delay] || 0 }
-      elsif tooltip_config.is_a?(String)
-        # Simple string tooltip
-        { text: tooltip_config, position: :top, variant: :dark, delay: 0 }
-      end
-    rescue StandardError
-      nil
-    end
-
     private
 
     # By calling content, we ensure that the view component calls the block, and @columns get populated
@@ -139,21 +112,16 @@ module Chalky::Grid
     end
 
     class Column
-      attr_reader :label, :component, :data_type, :priority, :responsive, :tooltip
+      attr_reader :label, :component, :data_type, :priority, :responsive
 
       PRIORITY_LEVELS = %i[primary secondary optional].freeze
 
-      def initialize(label, component, data_type: nil, priority: :secondary, responsive: {}, tooltip: nil)
+      def initialize(label, component, data_type: nil, priority: :secondary, responsive: {})
         @label = label
         @component = component
         @data_type = data_type
         @priority = PRIORITY_LEVELS.include?(priority.to_sym) ? priority.to_sym : :secondary
         @responsive = responsive
-        @tooltip = tooltip
-      end
-
-      def has_tooltip?
-        tooltip.present?
       end
 
       def visible_on?(breakpoint)
