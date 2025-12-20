@@ -1,0 +1,100 @@
+= chalky_page do |page|
+  - page.with_header(title: "Layout Components", subtitle: "Page, Panel, Card, Heading, Info Row")
+
+  - page.with_body do
+    /! ==================== PAGE ====================
+    = chalky_card do
+      = chalky_heading(title: "Page", subtitle: "Main page wrapper with header and body")
+
+      = component_example("Page structure")
+      .mt-4.p-4.bg-gray-50.rounded-lg.border.border-dashed.border-gray-300
+        .bg-white.rounded-lg.shadow-sm.overflow-hidden
+          .bg-gray-100.px-4.py-3.border-b.border-gray-200
+            .flex.items-center.justify-between
+              div
+                .font-semibold.text-gray-900 Page Title
+                .text-sm.text-gray-500 Subtitle
+              .flex.gap-2
+                .px-3.py-1.bg-blue-500.text-white.text-xs.rounded Action
+          .p-4
+            .text-sm.text-gray-500 Page body content goes here...
+
+      = code_snippet '= chalky_page do |page|', '  - page.with_header(title: "Page Title", subtitle: "Subtitle") do |header|', '    - header.with_actions do', '      = chalky_button(label: "Action", variant: :primary)', '', '  - page.with_body do', '    | Page content goes here...'
+
+      = component_example("Page header with navigation tabs")
+      .mt-4.p-4.bg-gray-50.rounded-lg.border.border-dashed.border-gray-300
+        .bg-white.rounded-lg.shadow-sm.overflow-hidden
+          .bg-gray-100.px-4.py-3.border-b.border-gray-200
+            .flex.items-center.justify-between
+              .font-semibold.text-gray-900 Dashboard
+            .mt-2
+              .flex.gap-4.text-sm
+                span.text-blue-600.border-b-2.border-blue-600.pb-2 Overview
+                span.text-gray-500.pb-2 Analytics
+                span.text-gray-500.pb-2 Settings
+          .p-4
+            .text-sm.text-gray-500 Content...
+
+      = code_snippet '= chalky_page do |page|', '  - page.with_header(title: "Dashboard") do |header|', '    - header.with_navigation do', '      = chalky_tabs(tabs: tabs)', '', '  - page.with_body do', '    | Content...'
+
+    /! ==================== CARD ====================
+    = chalky_card do
+      = chalky_heading(title: "Card", subtitle: "Simple container with padding and shadow")
+
+      = component_example("Basic card")
+      .mt-4
+        = chalky_card do
+          p.text-gray-600 This is content inside a card. Cards provide a clean container with consistent padding and subtle shadow.
+
+      = code_snippet '= chalky_card do', '  p.text-gray-600 This is content inside a card. Cards provide a clean container with consistent padding and subtle shadow.'
+
+    /! ==================== HEADING ====================
+    = chalky_card do
+      = chalky_heading(title: "Heading", subtitle: "Section title with optional subtitle")
+
+      = component_example("Heading variants")
+      .space-y-6.mt-4
+        = chalky_heading(title: "Simple heading")
+        = chalky_heading(title: "Heading with subtitle", subtitle: "This is the subtitle text")
+
+      = code_snippet '= chalky_heading(title: "Simple heading")', '', '= chalky_heading(title: "Heading with subtitle", subtitle: "This is the subtitle text")'
+
+    /! ==================== PANEL ====================
+    = chalky_card do
+      = chalky_heading(title: "Panel", subtitle: "Collapsible section with icon")
+
+      = component_example("Panel variants")
+      .space-y-4.mt-4
+        = chalky_panel(title: "Open by default", icon: "fa-solid fa-cog", icon_color: :blue) do
+          p.text-gray-600 This panel is open by default. Click the header to collapse it.
+          .mt-2
+            = chalky_badge(label: "Content inside", color: :blue)
+
+        = chalky_panel(title: "Closed by default", icon: "fa-solid fa-star", icon_color: :purple, open: false) do
+          p.text-gray-600 This panel starts closed. Click to expand.
+
+        = chalky_panel(title: "Different icon color", icon: "fa-solid fa-heart", icon_color: :red) do
+          p.text-gray-600 Panels can have different icon colors.
+
+      = code_snippet '= chalky_panel(title: "Open by default", icon: "fa-solid fa-cog", icon_color: :blue) do', '  p.text-gray-600 This panel is open by default. Click the header to collapse it.', '  .mt-2', '    = chalky_badge(label: "Content inside", color: :blue)', '', '= chalky_panel(title: "Closed by default", icon: "fa-solid fa-star", icon_color: :purple, open: false) do', '  p.text-gray-600 This panel starts closed. Click to expand.', '', '= chalky_panel(title: "Different icon color", icon: "fa-solid fa-heart", icon_color: :red) do', '  p.text-gray-600 Panels can have different icon colors.'
+
+    /! ==================== INFO ROW ====================
+    = chalky_card do
+      = chalky_heading(title: "Info Row", subtitle: "Label/value pairs for detail pages")
+
+      = component_example("Basic info rows")
+      .space-y-2.mt-4.max-w-md
+        = chalky_info_row(label: "Name", value: "Alice Martin")
+        = chalky_info_row(label: "Email", value: "alice@example.com")
+        = chalky_info_row(label: "Role", value: "Administrator")
+        = chalky_info_row(label: "Status", value: "Active")
+
+      = code_snippet '= chalky_info_row(label: "Name", value: "Alice Martin")', '= chalky_info_row(label: "Email", value: "alice@example.com")', '= chalky_info_row(label: "Role", value: "Administrator")', '= chalky_info_row(label: "Status", value: "Active")'
+
+      = component_example("With separator and bold value")
+      .space-y-2.mt-4.max-w-md
+        = chalky_info_row(label: "Subtotal", value: "$99.00")
+        = chalky_info_row(label: "Tax", value: "$9.90")
+        = chalky_info_row(label: "Total", value: "$108.90", separator: true, bold_value: true)
+
+      = code_snippet '= chalky_info_row(label: "Subtotal", value: "$99.00")', '= chalky_info_row(label: "Tax", value: "$9.90")', '= chalky_info_row(label: "Total", value: "$108.90", separator: true, bold_value: true)'

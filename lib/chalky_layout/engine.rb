@@ -38,6 +38,7 @@ module ChalkyLayout
         # Use manifest file for Sprockets precompilation (handles link_tree directives)
         app.config.assets.precompile += %w[chalky_layout_manifest.js]
         app.config.assets.precompile += %w[chalky_layout/sidebar.css]
+        app.config.assets.precompile += %w[chalky_layout/grid.css]
       end
     end
 

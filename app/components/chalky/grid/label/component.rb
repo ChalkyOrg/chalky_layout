@@ -3,25 +3,25 @@
 module Chalky::Grid
   module Label
     class Component < Chalky::ApplicationComponent
+      # Icons available in Font Awesome 6 Free (solid)
+      # Note: :text and :string are intentionally excluded to keep text columns clean
       ICONS = {
-        text: "text",
         number: "hashtag",
-        date: "calendar-day",
-        datetime: "calendar-day",
-        date_time_range: "calendar-day",
-        string: "text",
-        select: "chevron-circle-down",
-        boolean: "check-square",
+        date: "calendar",
+        datetime: "calendar",
+        date_time_range: "calendar",
+        select: "circle-chevron-down",
+        boolean: "square-check",
         files: "file",
-        link: "file",
-        references: "ballot-check",
-        users: "user-friends",
-        formula: "function",
-        lookups: "search",
+        link: "link",
+        references: "list-check",
+        users: "user-group",
+        formula: "calculator",
+        lookups: "magnifying-glass",
         created_at: "calendar-plus",
-        last_modified_at: "calendar-edit",
+        last_modified_at: "pen",
         created_by: "user-plus",
-        last_modified_by: "user-edit",
+        last_modified_by: "user-pen",
         image: "image",
         status_icon: "circle",
         price_range: "dollar-sign"
@@ -47,6 +47,7 @@ module Chalky::Grid
       end
 
       def icon_class = icon ? "fa-#{icon}" : "fa-#{ICONS[data_type]}"
+      def has_icon? = icon.present? || ICONS.key?(data_type)
       def error_class = error ? "!text-red-600" : ""
       def display_required? = data_required
       def display_sync? = data_sync

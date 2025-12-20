@@ -13,57 +13,67 @@
 
     / Desktop Table Layout (>= 1024px)
     - if show_table_layout?
-      .table-layout.hidden.lg:block.overflow-x-auto
-        table class=table_classes data-grid-target=(responsive? ? "table" : nil)
-          thead.w-full
-            tr
-              - if bulk_selection
-                th class="#{th_classes} w-8"
-                  span.sr-only Select
-              - if actions.any?
-                th class="#{th_classes} w-4"
-              th class="#{th_classes} w-16"
-              - columns.each do |column|
-                th class=th_classes(column) data-column=column.label&.parameterize data-priority=column.priority
-                  = render Chalky::Grid::Label::Component.new(label: column.label, data_type: column.data_type)
-
-          tbody
-            - rows.each.with_index(1) do |row, index|
-              tr class=row_classes(index, rows.size, row) id="#{row.respond_to?(:id) ? dom_id(row) : "row-#{index}"}" data=row_data_attributes_for(row)
+      .table-layout.hidden.lg:block.scroll-shadow-wrapper data-controller="scroll-shadow"
+        .scroll-shadow-scroller.overflow-x-auto data-scroll-shadow-target="scroller"
+          table class=table_classes data-grid-target=(responsive? ? "table" : nil)
+            thead.w-full
+              tr
                 - if bulk_selection
-                  td class="#{td_classes} text-center w-8 !pr-2"
-                    = check_box_tag "item_#{row.id}", row.id, false, { id: "#{row.id}", class: "w-6 h-6 rounded-md text-primary focus:ring-primary", data: { action: "change->bulk-edit-items#select" } }
+                  th class="#{th_classes} w-8"
+                    span.sr-only Select
                 - if actions.any?
-                  td class="#{td_classes} !pr-2 !py-0 w-12"
-                    = render Chalky::AdminForms::Dropdown::Component.new(variant: :admin, pop_direction: :left) do |dropdown|
-                      - actions.each do |action|
-                        - if action.unless_option
-                          - display_action = action.unless_option.is_a?(Proc) ? !action.unless_option.call(row) : !row.send(action.unless_option)
-                        - else
-                          - display_action = true
-                        - if display_action
-                          - dropdown.with_item do
-                            = render Chalky::AdminForms::Dropdown::Item::Component.new(href: public_send(action.path, { action.id_param_key => row.public_send(action.id_method) }), icon: action.icon, variant: :admin, method: action.data[:method], confirm: action.data[:confirm], **action.data.except(:method, :confirm)) do
-                              = action.name
+                  th class="#{th_classes} w-4"
+                th class="#{th_classes} w-16"
+                - columns.each do |column|
+                  th class=th_classes(column) data-column=column.label&.parameterize data-priority=column.priority
+                    = render Chalky::Grid::Label::Component.new(label: column.label, data_type: column.data_type)
 
-                td class="#{td_classes} !px-2"
-                  - badge_classes = index_badge_classes_for(row)
-                  - if badge_classes
-                    .flex.items-center.justify-center
-                      span.inline-flex.items-center.justify-center.w-7.h-7.rounded-full.text-xs.font-semibold class=badge_classes
-                        = index
-                  - else
-                    .text-left class=text_cell_classes
-                      = index
-                - columns.each_with_index do |column, column_index|
-                  td class=td_classes(column, index, rows.size) data-column=column.label&.parameterize data-priority=column.priority
-                    - if details_path && row.public_send(details_path_id_method) && !link_cell?(column)
-                      = link_to public_send(details_path, row.public_send(details_path_id_method)), class: "-m-2 p-2 block", data: { test_id: column_index.zero? ? "row-#{row.id}" : nil }.merge(details_path_attributes) do
-                        div class=text_cell_classes
-                          = render column.component.call(row)
+            tbody
+              - rows.each.with_index(1) do |row, index|
+                tr class=row_classes(index, rows.size, row) id="#{row.respond_to?(:id) ? dom_id(row) : "row-#{index}"}" data=row_data_attributes_for(row)
+                  - if bulk_selection
+                    td class="#{td_classes} text-center w-8 !pr-2"
+                      = check_box_tag "item_#{row.id}", row.id, false, { id: "#{row.id}", class: "w-6 h-6 rounded-md text-primary focus:ring-primary", data: { action: "change->bulk-edit-items#select" } }
+                  - if actions.any?
+                    td class="#{td_classes} !pr-2 !py-0 w-12"
+                      = render Chalky::AdminForms::Dropdown::Component.new(variant: :admin, pop_direction: :left) do |dropdown|
+                        - actions.each do |action|
+                          - if action.unless_option
+                            - display_action = action.unless_option.is_a?(Proc) ? !action.unless_option.call(row) : !row.send(action.unless_option)
+                          - else
+                            - display_action = true
+                          - if display_action
+                            - dropdown.with_item do
+                              = render Chalky::AdminForms::Dropdown::Item::Component.new(href: public_send(action.path, { action.id_param_key => row.public_send(action.id_method) }), icon: action.icon, variant: :admin, method: action.data[:method], confirm: action.data[:confirm], **action.data.except(:method, :confirm)) do
+                                = action.name
+
+                  td class="#{td_classes} !px-2"
+                    - badge_classes = index_badge_classes_for(row)
+                    - if badge_classes
+                      .flex.items-center.justify-center
+                        span.inline-flex.items-center.justify-center.w-7.h-7.rounded-full.text-xs.font-semibold class=badge_classes
+                          = index
                     - else
-                      div class=text_cell_classes
-                        = render column.component.call(row)
+                      .text-left class=text_cell_classes
+                        = index
+                  - columns.each_with_index do |column, column_index|
+                    - tooltip_opts = resolve_tooltip(column, row)
+                    td class=td_classes(column, index, rows.size) data-column=column.label&.parameterize data-priority=column.priority
+                      - if details_path && row.public_send(details_path_id_method) && !link_cell?(column)
+                        = link_to public_send(details_path, row.public_send(details_path_id_method)), class: "-m-2 p-2 block", data: { test_id: column_index.zero? ? "row-#{row.id}" : nil }.merge(details_path_attributes) do
+                          div class=text_cell_classes
+                            - if tooltip_opts
+                              = chalky_tooltip(text: tooltip_opts[:text], position: tooltip_opts[:position], variant: tooltip_opts[:variant], delay: tooltip_opts[:delay]) do
+                                = render column.component.call(row)
+                            - else
+                              = render column.component.call(row)
+                      - else
+                        div class=text_cell_classes
+                          - if tooltip_opts
+                            = chalky_tooltip(text: tooltip_opts[:text], position: tooltip_opts[:position], variant: tooltip_opts[:variant], delay: tooltip_opts[:delay]) do
+                              = render column.component.call(row)
+                          - else
+                            = render column.component.call(row)
 
     / Mobile Cards Layout (< 1024px)
     - if show_cards_layout?

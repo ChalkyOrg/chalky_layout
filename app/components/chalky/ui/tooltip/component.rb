@@ -67,7 +67,8 @@ module Chalky::Ui
       def container_data
         {
           controller: "tooltip",
-          tooltip_delay_value: delay
+          tooltip_delay_value: delay,
+          tooltip_position_value: position.to_s
         }
       end
     end

@@ -20,6 +20,7 @@ import GridController from "controllers/chalky_layout/grid_controller"
 import StopPropagationController from "controllers/chalky_layout/stop_propagation_controller"
 import TabsController from "controllers/chalky_layout/tabs_controller"
 import TooltipController from "controllers/chalky_layout/tooltip_controller"
+import ScrollShadowController from "controllers/chalky_layout/scroll_shadow_controller"
 
 // Contrôleurs sidebar avec nommage Stimulus standard (namespace--controller)
 import SidebarController from "controllers/chalky_layout/sidebar_controller"
@@ -32,5 +33,6 @@ application.register("grid", GridController)
 application.register("stop-propagation", StopPropagationController)
 application.register("tabs", TabsController)
 application.register("tooltip", TooltipController)
+application.register("scroll-shadow", ScrollShadowController)
 application.register("chalky-layout--sidebar", SidebarController)
 application.register("chalky-layout--mobile-menu", MobileMenuController)

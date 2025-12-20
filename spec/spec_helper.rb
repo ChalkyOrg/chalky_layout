@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 require "bundler/setup"
-require "chalky_layout"
+
+# Load the Rails dummy application for component testing
+ENV["RAILS_ENV"] ||= "test"
+require File.expand_path("../test/dummy/config/environment", __dir__)
+require "rspec/rails" if defined?(RSpec::Rails)
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|

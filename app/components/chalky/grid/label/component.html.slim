@@ -1,5 +1,6 @@
 .flex.items-center.truncate
-  i.mr-1.far.fa-fw class=("#{icon_class} #{error_class}")
+  - if has_icon?
+    i.mr-1.fas.fa-fw class=("#{icon_class} #{error_class}")
   span class=(error_class) = label
   - if display_required?
     span.text-gray-500 class=(error_class) *

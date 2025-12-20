@@ -1,0 +1,58 @@
+/*
+ * Chalky Layout - Grid Styles
+ *
+ * Horizontal scroll shadows for tables with overflow.
+ * Uses a wrapper/scroller structure so shadows stay fixed at edges.
+ * Controlled by Stimulus controller that toggles classes based on scroll position.
+ */
+
+/* Wrapper - contains the shadows (doesn't scroll) */
+.scroll-shadow-wrapper {
+  position: relative;
+}
+
+/* Scroller - the element that actually scrolls */
+.scroll-shadow-scroller {
+  /* overflow-x-auto is applied via Tailwind class */
+  /* Allow tooltips to overflow vertically while keeping horizontal scroll */
+  overflow-y: visible !important;
+}
+
+/* Left shadow - shown when scrolled right */
+.scroll-shadow-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 50px;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.05) 50%, transparent);
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* Right shadow - shown when there's more content to scroll */
+.scroll-shadow-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 50px;
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.05) 50%, transparent);
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+/* Show shadows based on scroll position (controlled by Stimulus) */
+.scroll-shadow-wrapper.scroll-shadow-left::before {
+  opacity: 1;
+}
+
+.scroll-shadow-wrapper.scroll-shadow-right::after {
+  opacity: 1;
+}

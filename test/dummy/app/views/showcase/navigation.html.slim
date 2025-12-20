@@ -1,0 +1,89 @@
+= chalky_page do |page|
+  - page.with_header(title: "Navigation Components", subtitle: "Tabs, Sidebar, Dropdown")
+
+  - page.with_body do
+    /! ==================== TABS ====================
+    = chalky_card do
+      = chalky_heading(title: "Tabs", subtitle: "Navigation tabs with optional icons and badges")
+
+      = component_example("Basic tabs")
+      .mt-4
+        - basic_tabs = [{name: "Overview", path: "#overview", default: true}, {name: "Details", path: "#details"}, {name: "Settings", path: "#settings"}]
+        = chalky_tabs(tabs: basic_tabs)
+
+      = code_snippet '- tabs = [', '    {name: "Overview", path: "#overview", default: true},', '    {name: "Details", path: "#details"},', '    {name: "Settings", path: "#settings"}', '  ]', '', '= chalky_tabs(tabs: tabs)'
+
+      = component_example("Tabs with icons")
+      .mt-4
+        - icon_tabs = [{name: "Dashboard", path: "#dashboard", icon: "fa-solid fa-gauge", default: true}, {name: "Users", path: "#users", icon: "fa-solid fa-users"}, {name: "Settings", path: "#settings", icon: "fa-solid fa-cog"}]
+        = chalky_tabs(tabs: icon_tabs)
+
+      = code_snippet '- tabs = [', '    {name: "Dashboard", path: "#dashboard", icon: "fa-solid fa-gauge", default: true},', '    {name: "Users", path: "#users", icon: "fa-solid fa-users"},', '    {name: "Settings", path: "#settings", icon: "fa-solid fa-cog"}', '  ]', '', '= chalky_tabs(tabs: tabs)'
+
+      = component_example("Tabs with badges (scroll on mobile)")
+      .mt-4
+        - full_tabs = [{name: "Components", path: "#components", icon: "fa-solid fa-cube", default: true}, {name: "Examples", path: "#examples"}, {name: "Settings", path: "#settings", icon: "fa-solid fa-cog", badge: 3}, {name: "Analytics", path: "#analytics", icon: "fa-solid fa-chart-line"}, {name: "Users", path: "#users", icon: "fa-solid fa-users"}, {name: "Docs", path: "#docs"}]
+        = chalky_tabs(tabs: full_tabs)
+
+      = code_snippet '- tabs = [', '    {name: "Components", path: "#components", icon: "fa-solid fa-cube", default: true},', '    {name: "Examples", path: "#examples"},', '    {name: "Settings", path: "#settings", icon: "fa-solid fa-cog", badge: 3},', '    {name: "Analytics", path: "#analytics", icon: "fa-solid fa-chart-line"},', '    {name: "Users", path: "#users", icon: "fa-solid fa-users"},', '    {name: "Docs", path: "#docs"}', '  ]', '', '= chalky_tabs(tabs: tabs)'
+
+    /! ==================== DROPDOWN ====================
+    = chalky_card do
+      = chalky_heading(title: "Dropdown", subtitle: "Menu with items, dividers and sections")
+
+      = component_example("Basic dropdown")
+      .flex.flex-wrap.gap-4.mt-4
+        = chalky_dropdown(variant: :admin) do |dropdown|
+          - dropdown.with_trigger do
+            = chalky_button(label: "Actions", variant: :secondary, size: :sm)
+          - dropdown.with_item(href: "#", icon: "fa-solid fa-eye") do
+            | View
+          - dropdown.with_item(href: "#", icon: "fa-solid fa-pen") do
+            | Edit
+          - dropdown.with_item(href: "#", icon: "fa-solid fa-trash") do
+            | Delete
+
+      = code_snippet '= chalky_dropdown(variant: :admin) do |dropdown|', '  - dropdown.with_trigger do', '    = chalky_button(label: "Actions", variant: :secondary, size: :sm)', '', '  - dropdown.with_item(href: "#", icon: "fa-solid fa-eye") do', '    | View', '  - dropdown.with_item(href: "#", icon: "fa-solid fa-pen") do', '    | Edit', '  - dropdown.with_item(href: "#", icon: "fa-solid fa-trash") do', '    | Delete'
+
+      = component_example("Dropdown with sections and dividers")
+      .flex.flex-wrap.gap-4.mt-4
+        = chalky_dropdown(variant: :admin, pop_direction: :right) do |dropdown|
+          - dropdown.with_trigger do
+            = render Chalky::Buttons::Option::Component.new(label: "Options", icon: "fa-solid fa-bars")
+
+          - dropdown.with_item(type: :text) do
+            | Actions
+          - dropdown.with_item(href: "#", icon: "fa-solid fa-eye") do
+            | View details
+          - dropdown.with_item(href: "#", icon: "fa-solid fa-pen") do
+            | Edit item
+
+          - dropdown.with_item(type: :divider)
+
+          - dropdown.with_item(href: "#", icon: "fa-solid fa-trash", variant: :danger, confirm: "Are you sure?") do
+            | Delete
+
+      = code_snippet '= chalky_dropdown(variant: :admin, pop_direction: :right) do |dropdown|', '  - dropdown.with_trigger do', '    = render Chalky::Buttons::Option::Component.new(label: "Options", icon: "fa-solid fa-bars")', '', '  - dropdown.with_item(type: :text) do', '    | Actions', '  - dropdown.with_item(href: "#", icon: "fa-solid fa-eye") do', '    | View details', '  - dropdown.with_item(href: "#", icon: "fa-solid fa-pen") do', '    | Edit item', '', '  - dropdown.with_item(type: :divider)', '', '  - dropdown.with_item(href: "#", icon: "fa-solid fa-trash", variant: :danger, confirm: "Are you sure?") do', '    | Delete'
+
+    /! ==================== SIDEBAR ====================
+    = chalky_card do
+      = chalky_heading(title: "Sidebar Layout", subtitle: "Complete sidebar with sections, menu items and footer")
+
+      = component_example("Structure overview")
+      .mt-4.p-4.bg-gray-50.rounded-lg
+        p.text-gray-600.text-sm
+          | The sidebar layout wraps your entire page content. It includes:
+        ul.mt-2.space-y-1.text-sm.text-gray-600.list-disc.list-inside
+          li Header slot for logo/branding
+          li Sections with icon and menu items
+          li Footer with user profile and logout
+
+      = code_snippet '= chalky_sidebar_layout(menu_title: "Menu") do |layout|', '  - layout.with_header do', '    a href="/"', '      span.font-bold Chalky', '', '  - layout.with_section(title: "Dashboard", icon_color: :blue) do |section|', '    - section.with_menu_item(path: "/", title: "Home", icon_classes: "fa-solid fa-home")', '', '  - layout.with_footer(user_name: "John Doe", logout_path: "/logout")', '', '  = yield'
+
+      .mt-6
+        p.text-sm.text-gray-500
+          | The sidebar you see on this page is a live example of
+          code.bg-gray-100.px-1.rounded  chalky_sidebar_layout
+          | . Check the layout file for full implementation.
+
+      = code_snippet '/! In layout file:', '= chalky_sidebar_head_script  /! Add in <head> to prevent FOUC', '', 'body', '  = chalky_sidebar_layout(...) do |layout|', '    ...', '    = yield'

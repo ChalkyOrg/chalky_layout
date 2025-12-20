@@ -1,194 +1,50 @@
 = chalky_page do |page|
-  - page.with_header(title: "ChalkyLayout Showcase", subtitle: "Component library demo") do |header|
-    - header.with_navigation do
-      / Test avec 6 onglets pour valider le comportement mobile (scroll horizontal + icônes seules)
-      - tabs_data = [{name: "Components", path: "#components", icon: "fa-solid fa-cube", default: true}, {name: "Examples", path: "#examples"}, {name: "Settings", path: "#settings", icon: "fa-solid fa-cog", badge: 3}, {name: "Analytics", path: "#analytics", icon: "fa-solid fa-chart-line"}, {name: "Users", path: "#users", icon: "fa-solid fa-users"}, {name: "Docs", path: "#docs"}]
-      = chalky_tabs(tabs: tabs_data)
-    - header.with_actions do
-      .flex.items-center.gap-3
-        = chalky_button(label: "Secondary", variant: :secondary, size: :sm)
-        = chalky_button(label: "Primary", variant: :primary, size: :sm)
-        = chalky_icon_button(label: "Settings", icon: "fa-solid fa-cog")
-
-        / Dropdown with full features
-        = chalky_dropdown(variant: :admin, pop_direction: :right) do |dropdown|
-          - dropdown.with_trigger do
-            = render Chalky::Buttons::Option::Component.new(label: "Options", icon: "fa-solid fa-bars")
-
-          / Header text
-          - dropdown.with_item(type: :text) do
-            | Actions
-
-          / Regular items with icons
-          - dropdown.with_item(href: "#", icon: "fa-solid fa-eye") do
-            | View details
-          - dropdown.with_item(href: "#", icon: "fa-solid fa-pen") do
-            | Edit item
-          - dropdown.with_item(href: "#", icon: "fa-solid fa-copy") do
-            | Duplicate
-
-          / Divider
-          - dropdown.with_item(type: :divider)
-
-          / Secondary section header
-          - dropdown.with_item(type: :text) do
-            | More options
-
-          - dropdown.with_item(href: "#", icon: "fa-solid fa-download") do
-            | Export
-          - dropdown.with_item(href: "#", icon: "fa-solid fa-share") do
-            | Share
-
-          / Divider before danger zone
-          - dropdown.with_item(type: :divider)
-
-          / Danger item
-          - dropdown.with_item(href: "#", icon: "fa-solid fa-trash", variant: :danger, confirm: "Are you sure?") do
-            | Delete
+  - page.with_header(title: "ChalkyLayout", subtitle: "Component library for Rails")
 
   - page.with_body do
-    / Stats Section
     = chalky_card do
-      = chalky_heading(title: "Statistics", subtitle: "KPI cards for dashboards")
-      .grid.grid-cols-1.md:grid-cols-4.gap-6.mt-4
-        = chalky_stat(label: "Total Users", value: "1,234", icon: "fa-solid fa-users", icon_color: :blue)
-        = chalky_stat(label: "Revenue", value: "$12,345", icon: "fa-solid fa-dollar-sign", icon_color: :green)
-        = chalky_stat(label: "Growth", value: "12%", icon: "fa-solid fa-chart-line", icon_color: :purple, trend: :up, subtitle: "+5% vs last month")
-        = chalky_stat(label: "Errors", value: "3", icon: "fa-solid fa-bug", icon_color: :red, trend: :down)
+      = chalky_heading(title: "Welcome", subtitle: "Explore the component library")
+      p.mt-4.text-gray-600
+        | ChalkyLayout is a ViewComponent-based UI library for Rails applications.
+        | Browse the components using the sidebar navigation.
 
-    / Alerts Section
-    = chalky_card do
-      = chalky_heading(title: "Alerts", subtitle: "Info, success, warning, error messages")
-      .space-y-4.mt-4
-        = chalky_alert(message: "This is an informational message.", variant: :info)
-        = chalky_alert(message: "Your changes have been saved successfully!", variant: :success)
-        = chalky_alert(title: "Warning", message: "This action cannot be undone.", variant: :warning)
-        = chalky_alert(message: "An error occurred. Please try again.", variant: :error, dismissible: true)
+    .grid.grid-cols-1.md:grid-cols-2.lg:grid-cols-3.gap-6.mt-6
+      = link_to feedback_path, class: "block p-6 bg-white rounded-xl shadow-sm border border-gray-200 hover:border-blue-300 hover:shadow-md transition group" do
+        .flex.items-center.gap-4
+          .w-12.h-12.bg-blue-100.rounded-lg.flex.items-center.justify-center.group-hover:bg-blue-200.transition
+            i.fa-solid.fa-bell.text-blue-600.text-xl
+          div
+            h3.font-semibold.text-gray-900 Feedback
+            p.text-sm.text-gray-500 Alert, Badge, Stat, Tooltip, Hint
 
-    / Badges Section
-    = chalky_card do
-      = chalky_heading(title: "Badges", subtitle: "Status labels and tags")
-      .flex.flex-wrap.gap-3.mt-4
-        = chalky_badge(label: "Active", color: :green)
-        = chalky_badge(label: "Pending", color: :yellow)
-        = chalky_badge(label: "Inactive", color: :gray)
-        = chalky_badge(label: "Error", color: :red)
-        = chalky_badge(label: "Info", color: :blue)
-        = chalky_badge(label: "Premium", color: :purple)
-        = chalky_badge(label: "New", color: :orange)
-      .flex.flex-wrap.gap-3.mt-4
-        = chalky_badge(label: "Pill style", color: :blue, style: :pill)
-        = chalky_badge(label: "With icon", color: :green, icon: "fa-solid fa-check")
-        = chalky_badge(label: "Extra small", color: :purple, size: :xs)
-        = chalky_badge(label: "Medium", color: :red, size: :md)
+      = link_to navigation_path, class: "block p-6 bg-white rounded-xl shadow-sm border border-gray-200 hover:border-green-300 hover:shadow-md transition group" do
+        .flex.items-center.gap-4
+          .w-12.h-12.bg-green-100.rounded-lg.flex.items-center.justify-center.group-hover:bg-green-200.transition
+            i.fa-solid.fa-compass.text-green-600.text-xl
+          div
+            h3.font-semibold.text-gray-900 Navigation
+            p.text-sm.text-gray-500 Tabs, Sidebar, Dropdown
 
-    / Buttons Section
-    = chalky_card do
-      = chalky_heading(title: "Buttons", subtitle: "Action buttons and navigation")
-      .flex.flex-wrap.gap-4.mt-4
-        = chalky_icon_button(label: "Primary", icon: "fa-solid fa-star")
-        = chalky_icon_button(label: "Settings", icon: "fa-solid fa-cog")
-        = chalky_icon_button(label: "Delete", icon: "fa-solid fa-trash")
-        = chalky_back(fallback_url: "/")
+      = link_to layout_path, class: "block p-6 bg-white rounded-xl shadow-sm border border-gray-200 hover:border-purple-300 hover:shadow-md transition group" do
+        .flex.items-center.gap-4
+          .w-12.h-12.bg-purple-100.rounded-lg.flex.items-center.justify-center.group-hover:bg-purple-200.transition
+            i.fa-solid.fa-table-cells.text-purple-600.text-xl
+          div
+            h3.font-semibold.text-gray-900 Layout
+            p.text-sm.text-gray-500 Page, Panel, Card, Heading, Info Row
 
-    / Tooltips Section
-    = chalky_card do
-      = chalky_heading(title: "Tooltips", subtitle: "Hover hints and contextual information")
-      .flex.flex-wrap.items-center.gap-8.mt-4.py-4
-        / Position variants
-        = chalky_tooltip(text: "Tooltip on top", position: :top) do
-          .px-4.py-2.bg-gray-100.rounded-lg.cursor-pointer.hover:bg-gray-200.transition
-            | Hover me (top)
-        = chalky_tooltip(text: "Tooltip on bottom", position: :bottom) do
-          .px-4.py-2.bg-gray-100.rounded-lg.cursor-pointer.hover:bg-gray-200.transition
-            | Hover me (bottom)
-        = chalky_tooltip(text: "Tooltip on left", position: :left) do
-          .px-4.py-2.bg-gray-100.rounded-lg.cursor-pointer.hover:bg-gray-200.transition
-            | Hover me (left)
-        = chalky_tooltip(text: "Tooltip on right", position: :right) do
-          .px-4.py-2.bg-gray-100.rounded-lg.cursor-pointer.hover:bg-gray-200.transition
-            | Hover me (right)
+      = link_to buttons_path, class: "block p-6 bg-white rounded-xl shadow-sm border border-gray-200 hover:border-orange-300 hover:shadow-md transition group" do
+        .flex.items-center.gap-4
+          .w-12.h-12.bg-orange-100.rounded-lg.flex.items-center.justify-center.group-hover:bg-orange-200.transition
+            i.fa-solid.fa-hand-pointer.text-orange-600.text-xl
+          div
+            h3.font-semibold.text-gray-900 Buttons
+            p.text-sm.text-gray-500 Button, Icon Button, Back
 
-      .flex.flex-wrap.items-center.gap-8.mt-4.py-4
-        / Style variants
-        = chalky_tooltip(text: "Dark variant (default)", variant: :dark) do
-          .px-4.py-2.bg-blue-100.text-blue-700.rounded-lg.cursor-pointer.hover:bg-blue-200.transition
-            | Dark tooltip
-        = chalky_tooltip(text: "Light variant with border", variant: :light) do
-          .px-4.py-2.bg-blue-100.text-blue-700.rounded-lg.cursor-pointer.hover:bg-blue-200.transition
-            | Light tooltip
-        = chalky_tooltip(text: "With 500ms delay", delay: 500) do
-          .px-4.py-2.bg-green-100.text-green-700.rounded-lg.cursor-pointer.hover:bg-green-200.transition
-            | Delayed tooltip
-
-      .flex.flex-wrap.items-center.gap-8.mt-4.py-4
-        / On icons and buttons
-        = chalky_tooltip(text: "Edit this item") do
-          = chalky_icon_button(label: "Edit", icon: "fa-solid fa-pen")
-        = chalky_tooltip(text: "Delete permanently", position: :bottom) do
-          = chalky_icon_button(label: "Delete", icon: "fa-solid fa-trash")
-        = chalky_tooltip(text: "More information about this feature") do
-          i.fa-solid.fa-circle-info.text-gray-400.text-lg.cursor-help
-
-    / Grid Section - Many columns to test horizontal scroll
-    = chalky_card do
-      = chalky_heading(title: "Data Grid (Many Columns)", subtitle: "Test horizontal scroll with overflow-x-auto")
-      .mt-4
-        = chalky_grid(rows: @users) do |grid|
-          - grid.text(label: "Name", method: :name, priority: :primary)
-          - grid.text(label: "Email", method: :email, priority: :secondary)
-          - grid.badge(label: "Role", method: :role, color: :blue)
-          - grid.boolean(label: "Active", method: :active)
-          - grid.datetime(label: "Created", method: :created_at)
-          - grid.text(label: "Phone", method: :phone)
-          - grid.text(label: "Address", method: :address)
-          - grid.text(label: "City", method: :city)
-          - grid.text(label: "Country", method: :country)
-          - grid.datetime(label: "Updated", method: :updated_at)
-
-    / Grid with Actions Section
-    = chalky_card do
-      = chalky_heading(title: "Data Grid with Actions", subtitle: "Table with dropdown actions per row")
-      .mt-4
-        = chalky_grid(rows: @users) do |grid|
-          - grid.action(name: "View", path: :user_path, icon: "fa-solid fa-eye")
-          - grid.action(name: "Edit", path: :edit_user_path, icon: "fa-solid fa-pen")
-          - grid.action(name: "Delete", path: :delete_user_path, icon: "fa-solid fa-trash", data: { method: :delete, confirm: "Are you sure?" })
-          - grid.text(label: "Name", method: :name, priority: :primary)
-          - grid.text(label: "Email", method: :email, priority: :secondary)
-          - grid.badge(label: "Role", method: :role, color: :blue)
-          - grid.boolean(label: "Active", method: :active)
-
-    / Info Rows Section
-    = chalky_card do
-      = chalky_heading(title: "Info Rows", subtitle: "Label/value pairs for detail pages")
-      .space-y-2.mt-4
-        = chalky_info_row(label: "Name", value: "Alice Martin")
-        = chalky_info_row(label: "Email", value: "alice@example.com")
-        = chalky_info_row(label: "Role", value: "Administrator")
-        = chalky_info_row(label: "Total", value: "$1,234.56", separator: true, bold_value: true)
-
-    / Hints Section
-    = chalky_card do
-      = chalky_heading(title: "Hints", subtitle: "Help text for forms")
-      .space-y-4.mt-4
-        div
-          label.block.text-sm.font-medium.text-gray-700 Email
-          input.mt-1.block.w-full.rounded-md.border-gray-300.shadow-sm type="email" placeholder="you@example.com"
-          = chalky_hint(text: "We'll never share your email with anyone else.")
-        div
-          label.block.text-sm.font-medium.text-gray-700 Password
-          input.mt-1.block.w-full.rounded-md.border-gray-300.shadow-sm type="password"
-          = chalky_hint(text: "Minimum 8 characters with at least one number.")
-
-    / Panel Section - Multiple panels to show spacing
-    = chalky_panel(title: "Collapsible Panel", icon: "fa-solid fa-cog", icon_color: :blue) do
-      p.text-gray-600 This is a collapsible panel with an icon. Click the header to toggle.
-      .mt-4
-        = chalky_badge(label: "Inside panel", color: :blue)
-
-    = chalky_panel(title: "Second Panel", icon: "fa-solid fa-star", icon_color: :purple) do
-      p.text-gray-600 Another panel to demonstrate spacing between panels.
-
-    = chalky_panel(title: "Third Panel", icon: "fa-solid fa-heart", icon_color: :red, open: false) do
-      p.text-gray-600 This panel is closed by default.
+      = link_to data_path, class: "block p-6 bg-white rounded-xl shadow-sm border border-gray-200 hover:border-red-300 hover:shadow-md transition group" do
+        .flex.items-center.gap-4
+          .w-12.h-12.bg-red-100.rounded-lg.flex.items-center.justify-center.group-hover:bg-red-200.transition
+            i.fa-solid.fa-table.text-red-600.text-xl
+          div
+            h3.font-semibold.text-gray-900 Data
+            p.text-sm.text-gray-500 Grid, Pagination

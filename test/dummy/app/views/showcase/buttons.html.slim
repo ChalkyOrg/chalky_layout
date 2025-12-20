@@ -1,0 +1,80 @@
+= chalky_page do |page|
+  - page.with_header(title: "Button Components", subtitle: "Button, Icon Button, Back")
+
+  - page.with_body do
+    /! ==================== BUTTON ====================
+    = chalky_card do
+      = chalky_heading(title: "Button", subtitle: "Form buttons with variants and sizes")
+
+      = component_example("Variants")
+      .flex.flex-wrap.gap-4.mt-4
+        = chalky_button(label: "Primary", variant: :primary)
+        = chalky_button(label: "Secondary", variant: :secondary)
+        = chalky_button(label: "Danger", variant: :danger)
+        = chalky_button(label: "Success", variant: :success)
+
+      = code_snippet '= chalky_button(label: "Primary", variant: :primary)', '= chalky_button(label: "Secondary", variant: :secondary)', '= chalky_button(label: "Danger", variant: :danger)', '= chalky_button(label: "Success", variant: :success)'
+
+      = component_example("Sizes")
+      .flex.flex-wrap.items-center.gap-4.mt-4
+        = chalky_button(label: "Small", variant: :primary, size: :sm)
+        = chalky_button(label: "Medium", variant: :primary, size: :md)
+        = chalky_button(label: "Large", variant: :primary, size: :lg)
+
+      = code_snippet '= chalky_button(label: "Small", variant: :primary, size: :sm)', '', '= chalky_button(label: "Medium", variant: :primary, size: :md)', '', '= chalky_button(label: "Large", variant: :primary, size: :lg)'
+
+      = component_example("With icons")
+      .flex.flex-wrap.gap-4.mt-4
+        = chalky_button(label: "Save", variant: :primary, icon: "fa-solid fa-save")
+        = chalky_button(label: "Download", variant: :secondary, icon: "fa-solid fa-download")
+        = chalky_button(label: "Delete", variant: :danger, icon: "fa-solid fa-trash")
+
+      = code_snippet '= chalky_button(label: "Save", variant: :primary, icon: "fa-solid fa-save")', '= chalky_button(label: "Download", variant: :secondary, icon: "fa-solid fa-download")', '= chalky_button(label: "Delete", variant: :danger, icon: "fa-solid fa-trash")'
+
+    /! ==================== ICON BUTTON ====================
+    = chalky_card do
+      = chalky_heading(title: "Icon Button", subtitle: "Compact button with icon only")
+
+      = component_example("Common actions")
+      .flex.flex-wrap.gap-4.mt-4
+        = chalky_icon_button(label: "Edit", icon: "fa-solid fa-pen")
+        = chalky_icon_button(label: "Delete", icon: "fa-solid fa-trash")
+        = chalky_icon_button(label: "Settings", icon: "fa-solid fa-cog")
+        = chalky_icon_button(label: "Star", icon: "fa-solid fa-star")
+        = chalky_icon_button(label: "Share", icon: "fa-solid fa-share")
+
+      = code_snippet '= chalky_icon_button(label: "Edit", icon: "fa-solid fa-pen")', '', '= chalky_icon_button(label: "Delete", icon: "fa-solid fa-trash")', '', '= chalky_icon_button(label: "Settings", icon: "fa-solid fa-cog")'
+
+      = component_example("With tooltip")
+      .flex.flex-wrap.gap-4.mt-4.py-4
+        = chalky_tooltip(text: "Edit this item") do
+          = chalky_icon_button(label: "Edit", icon: "fa-solid fa-pen")
+        = chalky_tooltip(text: "Delete permanently") do
+          = chalky_icon_button(label: "Delete", icon: "fa-solid fa-trash")
+        = chalky_tooltip(text: "Open settings") do
+          = chalky_icon_button(label: "Settings", icon: "fa-solid fa-cog")
+
+      = code_snippet '= chalky_tooltip(text: "Edit this item") do', '  = chalky_icon_button(label: "Edit", icon: "fa-solid fa-pen")'
+
+    /! ==================== BACK BUTTON ====================
+    = chalky_card do
+      = chalky_heading(title: "Back Button", subtitle: "Navigation button to go back")
+
+      = component_example("Default back button")
+      .mt-4
+        = chalky_back(fallback_url: "/")
+
+      = code_snippet '= chalky_back(fallback_url: "/")'
+
+      = component_example("Different fallback URL")
+      .mt-4
+        = chalky_back(fallback_url: "/feedback")
+
+      = code_snippet '= chalky_back(fallback_url: "/feedback")'
+
+      .mt-6.p-4.bg-gray-50.rounded-lg
+        p.text-sm.text-gray-600
+          | The back button uses JavaScript to navigate to the previous page in browser history.
+          | If there's no history (direct link), it falls back to the
+          code.bg-gray-200.px-1.rounded  fallback_url
+          | .

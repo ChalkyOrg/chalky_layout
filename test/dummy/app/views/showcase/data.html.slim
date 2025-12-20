@@ -1,0 +1,142 @@
+= chalky_page do |page|
+  - page.with_header(title: "Data Components", subtitle: "Grid, Pagination")
+
+  - page.with_body do
+    /! ==================== GRID ====================
+    = chalky_card do
+      = chalky_heading(title: "Grid", subtitle: "Data table with multiple column types")
+
+      = component_example("Basic grid")
+      .mt-4
+        = chalky_grid(rows: @users) do |grid|
+          - grid.text(label: "Name", method: :name, priority: :primary)
+          - grid.text(label: "Email", method: :email, priority: :secondary)
+          - grid.badge(label: "Role", method: :role, color: :blue)
+          - grid.boolean(label: "Active", method: :active)
+
+      = code_snippet '= chalky_grid(rows: @users) do |grid|', '  - grid.text(label: "Name", method: :name, priority: :primary)', '  - grid.text(label: "Email", method: :email, priority: :secondary)', '  - grid.badge(label: "Role", method: :role, color: :blue)', '  - grid.boolean(label: "Active", method: :active)'
+
+    = chalky_card do
+      = chalky_heading(title: "Grid with many columns", subtitle: "Horizontal scroll on overflow")
+
+      = component_example("Many columns")
+      .mt-4
+        = chalky_grid(rows: @users) do |grid|
+          - grid.text(label: "Name", method: :name, priority: :primary)
+          - grid.text(label: "Email", method: :email, priority: :secondary)
+          - grid.badge(label: "Role", method: :role, color: :blue)
+          - grid.boolean(label: "Active", method: :active)
+          - grid.datetime(label: "Created", method: :created_at)
+          - grid.text(label: "Phone", method: :phone)
+          - grid.text(label: "Address", method: :address)
+          - grid.text(label: "City", method: :city)
+          - grid.text(label: "Country", method: :country)
+          - grid.datetime(label: "Updated", method: :updated_at)
+
+      = code_snippet '= chalky_grid(rows: @users) do |grid|', '  - grid.text(label: "Name", method: :name, priority: :primary)', '  - grid.text(label: "Email", method: :email, priority: :secondary)', '  - grid.badge(label: "Role", method: :role, color: :blue)', '  - grid.boolean(label: "Active", method: :active)', '  - grid.datetime(label: "Created", method: :created_at)', '  - grid.text(label: "Phone", method: :phone)', '  - grid.text(label: "Address", method: :address)', '  - grid.text(label: "City", method: :city)', '  - grid.text(label: "Country", method: :country)', '  - grid.datetime(label: "Updated", method: :updated_at)'
+
+    = chalky_card do
+      = chalky_heading(title: "Grid with actions", subtitle: "Dropdown actions per row")
+
+      = component_example("Row actions")
+      .mt-4
+        = chalky_grid(rows: @users) do |grid|
+          - grid.action(name: "View", path: :user_path, icon: "fa-solid fa-eye")
+          - grid.action(name: "Edit", path: :edit_user_path, icon: "fa-solid fa-pen")
+          - grid.action(name: "Delete", path: :delete_user_path, icon: "fa-solid fa-trash", data: { method: :delete, confirm: "Are you sure?" })
+          - grid.text(label: "Name", method: :name, priority: :primary)
+          - grid.text(label: "Email", method: :email, priority: :secondary)
+          - grid.badge(label: "Role", method: :role, color: :blue)
+          - grid.boolean(label: "Active", method: :active)
+
+      = code_snippet '= chalky_grid(rows: @users) do |grid|', '  - grid.action(name: "View", path: :user_path, icon: "fa-solid fa-eye")', '  - grid.action(name: "Edit", path: :edit_user_path, icon: "fa-solid fa-pen")', '  - grid.action(name: "Delete", path: :delete_user_path, icon: "fa-solid fa-trash",', '      data: { method: :delete, confirm: "Are you sure?" })', '  - grid.text(label: "Name", method: :name, priority: :primary)', '  - grid.text(label: "Email", method: :email, priority: :secondary)', '  - grid.badge(label: "Role", method: :role, color: :blue)', '  - grid.boolean(label: "Active", method: :active)'
+
+    = chalky_card do
+      = chalky_heading(title: "Grid with tooltips", subtitle: "Dynamic tooltips on cells")
+
+      = component_example("Cell tooltips")
+      .mt-4
+        = chalky_grid(rows: @users) do |grid|
+          - grid.text(label: "Name", method: :name, priority: :primary, tooltip: ->(row) { "Click to view #{row.name}'s profile" })
+          - grid.text(label: "Email", method: :email, priority: :secondary, tooltip: ->(row) { "Send email to #{row.email}" })
+          - grid.badge(label: "Role", method: :role, color: :blue, tooltip: { text: ->(row) { "User role: #{row.role}" }, position: :bottom })
+          - grid.boolean(label: "Active", method: :active, tooltip: { text: ->(row) { row.active ? "User is active" : "User is inactive" }, variant: :light })
+
+      = code_snippet '= chalky_grid(rows: @users) do |grid|', '  - grid.text(label: "Name", method: :name, priority: :primary,', '      tooltip: ->(row) { "Click to view #{row.name}\'s profile" })', '  - grid.text(label: "Email", method: :email, priority: :secondary,', '      tooltip: ->(row) { "Send email to #{row.email}" })', '  - grid.badge(label: "Role", method: :role, color: :blue,', '      tooltip: { text: ->(row) { "User role: #{row.role}" }, position: :bottom })', '  - grid.boolean(label: "Active", method: :active,', '      tooltip: { text: ->(row) { row.active ? "User is active" : "User is inactive" }, variant: :light })'
+
+    /! ==================== GRID COLUMN TYPES ====================
+    = chalky_card do
+      = chalky_heading(title: "Column types", subtitle: "Available column methods for grid")
+
+      .mt-4.overflow-x-auto
+        table.min-w-full.text-sm
+          thead.bg-gray-50
+            tr
+              th.px-4.py-2.text-left.font-medium.text-gray-700 Method
+              th.px-4.py-2.text-left.font-medium.text-gray-700 Description
+              th.px-4.py-2.text-left.font-medium.text-gray-700 Example
+          tbody.divide-y.divide-gray-200
+            tr
+              td.px-4.py-2.font-mono.text-blue-600 text
+              td.px-4.py-2.text-gray-600 Simple text display
+              td.px-4.py-2.font-mono.text-xs grid.text(label: "Name", method: :name)
+            tr
+              td.px-4.py-2.font-mono.text-blue-600 badge
+              td.px-4.py-2.text-gray-600 Colored badge
+              td.px-4.py-2.font-mono.text-xs grid.badge(label: "Role", method: :role, color: :blue)
+            tr
+              td.px-4.py-2.font-mono.text-blue-600 boolean
+              td.px-4.py-2.text-gray-600 Yes/No indicator
+              td.px-4.py-2.font-mono.text-xs grid.boolean(label: "Active", method: :active)
+            tr
+              td.px-4.py-2.font-mono.text-blue-600 date
+              td.px-4.py-2.text-gray-600 Date only
+              td.px-4.py-2.font-mono.text-xs grid.date(label: "Birth", method: :birth_date)
+            tr
+              td.px-4.py-2.font-mono.text-blue-600 datetime
+              td.px-4.py-2.text-gray-600 Date and time
+              td.px-4.py-2.font-mono.text-xs grid.datetime(label: "Created", method: :created_at)
+            tr
+              td.px-4.py-2.font-mono.text-blue-600 number
+              td.px-4.py-2.text-gray-600 Formatted number
+              td.px-4.py-2.font-mono.text-xs grid.number(label: "Amount", method: :total)
+            tr
+              td.px-4.py-2.font-mono.text-blue-600 link
+              td.px-4.py-2.text-gray-600 Clickable link
+              td.px-4.py-2.font-mono.text-xs grid.link(label: "URL", method: :url)
+            tr
+              td.px-4.py-2.font-mono.text-blue-600 action
+              td.px-4.py-2.text-gray-600 Row action button
+              td.px-4.py-2.font-mono.text-xs grid.action(name: "Edit", path: :edit_path)
+
+    /! ==================== PAGINATION ====================
+    = chalky_card do
+      = chalky_heading(title: "Pagination", subtitle: "Page navigation with Pagy")
+
+      = component_example("Pagination with grid")
+      .mt-4.space-y-4
+        .flex.items-center.justify-between.text-sm.text-gray-600
+          span
+            | Showing
+            strong.mx-1 = @pagy.from
+            | to
+            strong.mx-1 = @pagy.to
+            | of
+            strong.mx-1 = @pagy.count
+            | users
+          span
+            | Page
+            strong.mx-1 = @pagy.page
+            | of
+            strong.mx-1 = @pagy.last
+
+        = chalky_grid(rows: @paginated_users) do |grid|
+          - grid.text(label: "Name", method: :name, priority: :primary)
+          - grid.text(label: "Email", method: :email, priority: :secondary)
+          - grid.badge(label: "Role", method: :role, color: :blue)
+          - grid.boolean(label: "Active", method: :active)
+          - grid.text(label: "City", method: :city)
+
+        = chalky_pagination(pagy: @pagy)
+
+      = code_snippet '/! In controller:', 'include Pagy::Backend', '', 'def index', '  @pagy, @users = pagy(User.all, limit: 10)', 'end', '', '/! In view:', '= chalky_grid(rows: @users) do |grid|', '  - grid.text(label: "Name", method: :name, priority: :primary)', '  - grid.text(label: "Email", method: :email, priority: :secondary)', '  - grid.badge(label: "Role", method: :role, color: :blue)', '  - grid.boolean(label: "Active", method: :active)', '  - grid.text(label: "City", method: :city)', '', '= chalky_pagination(pagy: @pagy)'

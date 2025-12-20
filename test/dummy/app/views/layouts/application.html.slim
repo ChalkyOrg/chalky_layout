@@ -26,31 +26,25 @@ html.h-full
 
     = stylesheet_link_tag "chalky_layout/sidebar", media: "all"
     = stylesheet_link_tag "chalky_layout/tabs", media: "all"
+    = stylesheet_link_tag "chalky_layout/grid", media: "all"
     = javascript_importmap_tags
 
   body.h-full
-    = chalky_sidebar_layout(menu_title: "Menu") do |layout|
+    = chalky_sidebar_layout(menu_title: "Components") do |layout|
       - layout.with_header do
         a.flex.items-center.gap-2 href="/"
           .w-8.h-8.bg-blue-600.rounded-lg.flex.items-center.justify-center.flex-shrink-0
             span.text-white.font-bold C
           span.text-lg.font-semibold.text-gray-900 Chalky
 
-      - layout.with_section(title: "Boutique", description: "Gestion du magasin", icon_path: "M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z", icon_color: :blue) do |section|
-        - section.with_menu_item(path: "/admin", title: "Dashboard", icon_classes: "fa-solid fa-gauge")
-        - section.with_menu_item(path: "/admin/orders", title: "Commandes", icon_classes: "fa-solid fa-book")
-        - section.with_menu_item(path: "/admin/products", title: "Produits", icon_classes: "fa-solid fa-box")
+      - layout.with_section(title: "Components", description: "UI library showcase", icon_path: "M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10", icon_color: :blue) do |section|
+        - section.with_menu_item(path: "/", title: "Home", icon_classes: "fa-solid fa-home")
+        - section.with_menu_item(path: "/feedback", title: "Feedback", icon_classes: "fa-solid fa-bell")
+        - section.with_menu_item(path: "/navigation", title: "Navigation", icon_classes: "fa-solid fa-compass")
+        - section.with_menu_item(path: "/layout", title: "Layout", icon_classes: "fa-solid fa-table-cells")
+        - section.with_menu_item(path: "/buttons", title: "Buttons", icon_classes: "fa-solid fa-hand-pointer")
+        - section.with_menu_item(path: "/data", title: "Data", icon_classes: "fa-solid fa-table")
 
-      - layout.with_section(title: "Utilisateurs", description: "Gestion des comptes", icon_path: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z", icon_color: :green) do |section|
-        - section.with_menu_item(path: "/admin/users", title: "Liste utilisateurs", icon_classes: "fa-solid fa-users")
-        - section.with_menu_item(path: "/admin/roles", title: "Rôles", icon_classes: "fa-solid fa-user-shield")
-
-      - layout.with_section(title: "Paramètres", description: "Configuration système", icon_path: "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z", icon_color: :gray) do |section|
-        - section.with_menu_item(path: "/admin/settings", title: "Général", icon_classes: "fa-solid fa-sliders")
-        - section.with_menu_item(path: "/admin/integrations", title: "Intégrations", icon_classes: "fa-solid fa-plug")
-
-      - layout.with_footer(user_name: "Admin Demo", user_email: "admin@chalky.dev", role_label: "Administrateur", role_color: :blue, logout_path: "/logout", logout_method: :delete) do |footer|
-        - footer.with_menu_item(path: "/admin/profile", title: "Mon profil", icon_classes: "fa-solid fa-user")
-        - footer.with_menu_item(path: "/admin/settings", title: "Paramètres", icon_classes: "fa-solid fa-cog")
+      - layout.with_footer(user_name: "Developer", user_email: "dev@chalky.dev", role_label: "Showcase", role_color: :blue, logout_path: "/logout", logout_method: :delete)
 
       = yield

@@ -140,6 +140,8 @@ html.h-full
 |--------|---------|
 | `chalky_page` | Page wrapper with header/body slots |
 | `chalky_title_bar` | Standalone header bar |
+| `chalky_actions` | Standalone action buttons container |
+| `chalky_content` | Standalone content wrapper |
 | `chalky_card` | Card container |
 | `chalky_panel` | Collapsible section |
 | `chalky_heading` | Section title |
