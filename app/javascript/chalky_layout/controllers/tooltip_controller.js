@@ -1,20 +1,75 @@
 import { Controller } from "@hotwired/stimulus"
 
+const PORTAL_ID = "chalky-tooltip-portal"
+
 export default class extends Controller {
   static targets = ["trigger", "tooltip", "arrow"]
   static values = {
     delay: { type: Number, default: 0 },
-    position: { type: String, default: "top" }
+    position: { type: String, default: "auto" }
   }
 
   connect() {
     this.timeout = null
+    this.originalParent = null
+    this.originalNextSibling = null
+    this.tooltipElement = null // Store reference when teleported
+    this.arrowElement = null // Store arrow reference when teleported
     // Reset tooltip state on connect (fixes Turbo Drive cache issue)
     this.hideTooltip()
   }
 
   disconnect() {
     this.clearTimeout()
+    // Ensure tooltip is returned to original position on disconnect
+    this.returnTooltipToOriginalPosition()
+  }
+
+  getOrCreatePortal() {
+    let portal = document.getElementById(PORTAL_ID)
+    if (!portal) {
+      portal = document.createElement("div")
+      portal.id = PORTAL_ID
+      portal.style.position = "fixed"
+      portal.style.top = "0"
+      portal.style.left = "0"
+      portal.style.width = "0"
+      portal.style.height = "0"
+      portal.style.overflow = "visible"
+      portal.style.zIndex = "9999"
+      portal.style.pointerEvents = "none"
+      document.body.appendChild(portal)
+    }
+    return portal
+  }
+
+  teleportToPortal() {
+    const tooltip = this.tooltipTarget
+    // Store references so we can access them when outside the controller's DOM
+    this.tooltipElement = tooltip
+    if (this.hasArrowTarget) {
+      this.arrowElement = this.arrowTarget
+    }
+    // Save original position for later restoration
+    this.originalParent = tooltip.parentNode
+    this.originalNextSibling = tooltip.nextSibling
+
+    const portal = this.getOrCreatePortal()
+    portal.appendChild(tooltip)
+  }
+
+  returnTooltipToOriginalPosition() {
+    if (this.originalParent && this.tooltipElement) {
+      if (this.originalNextSibling) {
+        this.originalParent.insertBefore(this.tooltipElement, this.originalNextSibling)
+      } else {
+        this.originalParent.appendChild(this.tooltipElement)
+      }
+      this.originalParent = null
+      this.originalNextSibling = null
+      this.tooltipElement = null
+      this.arrowElement = null
+    }
   }
 
   show() {
@@ -36,27 +91,90 @@ export default class extends Controller {
     const tooltip = this.tooltipTarget
     const trigger = this.triggerTarget
 
-    // Position the tooltip using fixed positioning to escape overflow:hidden containers
+    // Teleport tooltip to portal (escapes backdrop-filter, overflow:hidden, etc.)
+    this.teleportToPortal()
+
+    // Position the tooltip using fixed positioning relative to viewport
     this.positionTooltip(tooltip, trigger)
 
-    tooltip.classList.remove("opacity-0", "invisible", "scale-95")
-    tooltip.classList.add("opacity-100", "visible", "scale-100")
+    // Only toggle opacity/visibility - no scale (scale conflicts with transform positioning)
+    tooltip.classList.remove("opacity-0", "invisible")
+    tooltip.classList.add("opacity-100", "visible")
   }
 
   positionTooltip(tooltip, trigger) {
     const triggerRect = trigger.getBoundingClientRect()
-    const position = this.positionValue
+    const gap = 8 // Space between trigger and tooltip
 
-    // Use fixed positioning
+    // Reset styles before measuring
     tooltip.style.position = "fixed"
+    tooltip.style.left = "0"
+    tooltip.style.top = "0"
+    tooltip.style.transform = ""
+    tooltip.style.visibility = "hidden"
+
+    // Force layout to get accurate tooltip dimensions
+    const tooltipRect = tooltip.getBoundingClientRect()
+
+    // Determine position: auto-calculate or use forced value
+    const position = this.positionValue === "auto"
+      ? this.calculateBestPosition(triggerRect, tooltipRect, gap)
+      : this.positionValue
+
+    // Reset for final positioning
     tooltip.style.left = ""
     tooltip.style.right = ""
     tooltip.style.top = ""
     tooltip.style.bottom = ""
     tooltip.style.transform = ""
+    tooltip.style.visibility = ""
 
-    const gap = 8 // Space between trigger and tooltip
+    // Apply position
+    this.applyPosition(tooltip, triggerRect, position, gap)
 
+    // Position the arrow
+    if (this.arrowElement) {
+      this.positionArrow(position)
+    }
+  }
+
+  calculateBestPosition(triggerRect, tooltipRect, gap) {
+    const viewport = {
+      width: window.innerWidth,
+      height: window.innerHeight
+    }
+
+    // Calculate available space in each direction
+    const spaceAbove = triggerRect.top - gap
+    const spaceBelow = viewport.height - triggerRect.bottom - gap
+    const spaceLeft = triggerRect.left - gap
+    const spaceRight = viewport.width - triggerRect.right - gap
+
+    // Check if tooltip fits in each direction
+    const fitsAbove = spaceAbove >= tooltipRect.height
+    const fitsBelow = spaceBelow >= tooltipRect.height
+    const fitsLeft = spaceLeft >= tooltipRect.width
+    const fitsRight = spaceRight >= tooltipRect.width
+
+    // Priority: top > bottom > right > left
+    // Pick the first position where tooltip fits, or the one with most space
+    if (fitsAbove) return "top"
+    if (fitsBelow) return "bottom"
+    if (fitsRight) return "right"
+    if (fitsLeft) return "left"
+
+    // Nothing fits perfectly, pick direction with most space
+    const spaces = [
+      { position: "top", space: spaceAbove },
+      { position: "bottom", space: spaceBelow },
+      { position: "right", space: spaceRight },
+      { position: "left", space: spaceLeft }
+    ]
+    spaces.sort((a, b) => b.space - a.space)
+    return spaces[0].position
+  }
+
+  applyPosition(tooltip, triggerRect, position, gap) {
     switch (position) {
       case "bottom":
         tooltip.style.top = `${triggerRect.bottom + gap}px`
@@ -79,15 +197,10 @@ export default class extends Controller {
         tooltip.style.transform = "translate(-50%, -100%)"
         break
     }
-
-    // Position the arrow
-    if (this.hasArrowTarget) {
-      this.positionArrow(position)
-    }
   }
 
   positionArrow(position) {
-    const arrow = this.arrowTarget
+    const arrow = this.arrowElement
     // Reset arrow styles
     arrow.style.top = ""
     arrow.style.bottom = ""
@@ -126,9 +239,13 @@ export default class extends Controller {
   }
 
   hideTooltip() {
-    const tooltip = this.tooltipTarget
-    tooltip.classList.remove("opacity-100", "visible", "scale-100")
-    tooltip.classList.add("opacity-0", "invisible", "scale-95")
+    // Use stored reference if tooltip is in portal, otherwise use Stimulus target
+    const tooltip = this.tooltipElement || this.tooltipTarget
+    tooltip.classList.remove("opacity-100", "visible")
+    tooltip.classList.add("opacity-0", "invisible")
+
+    // Return tooltip to original DOM position (so Stimulus can find it next time)
+    this.returnTooltipToOriginalPosition()
   }
 
   clearTimeout() {

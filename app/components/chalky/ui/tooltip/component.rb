@@ -8,12 +8,12 @@ module Chalky::Ui
 
       attr_reader :position, :variant, :delay
 
-      POSITIONS = %i[top bottom left right].freeze
+      POSITIONS = %i[auto top bottom left right].freeze
       VARIANTS = %i[dark light].freeze
 
-      def initialize(position: :top, variant: :dark, delay: 0)
+      def initialize(position: :auto, variant: :dark, delay: 0)
         super()
-        @position = POSITIONS.include?(position.to_sym) ? position.to_sym : :top
+        @position = POSITIONS.include?(position.to_sym) ? position.to_sym : :auto
         @variant = VARIANTS.include?(variant.to_sym) ? variant.to_sym : :dark
         @delay = delay
       end
@@ -23,7 +23,8 @@ module Chalky::Ui
       end
 
       def tooltip_wrapper_classes
-        "z-50 pointer-events-none transition-all duration-200"
+        # Only animate opacity - NOT transform (which is used for positioning)
+        "z-50 pointer-events-none transition-opacity duration-150"
       end
 
       def tooltip_classes
@@ -59,8 +60,8 @@ module Chalky::Ui
       def container_data
         {
           controller: "tooltip",
-          tooltip_delay_value: delay,
-          tooltip_position_value: position.to_s
+          "tooltip-delay-value": delay,
+          "tooltip-position-value": position.to_s
         }
       end
     end
