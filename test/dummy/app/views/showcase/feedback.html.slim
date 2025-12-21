@@ -71,49 +71,111 @@
 
     /! ==================== TOOLTIPS ====================
     = chalky_card do
-      = chalky_heading(title: "Tooltip", subtitle: "Hover hints and contextual information")
+      = chalky_heading(title: "Tooltip", subtitle: "Hover hints and contextual information with HTML support")
 
       = component_example("Position variants")
       .flex.flex-wrap.items-center.gap-8.mt-4.py-4
-        = chalky_tooltip(text: "Tooltip on top", position: :top) do
-          .px-4.py-2.bg-gray-100.rounded-lg.cursor-pointer.hover:bg-gray-200.transition
-            | Hover me (top)
-        = chalky_tooltip(text: "Tooltip on bottom", position: :bottom) do
-          .px-4.py-2.bg-gray-100.rounded-lg.cursor-pointer.hover:bg-gray-200.transition
-            | Hover me (bottom)
-        = chalky_tooltip(text: "Tooltip on left", position: :left) do
-          .px-4.py-2.bg-gray-100.rounded-lg.cursor-pointer.hover:bg-gray-200.transition
-            | Hover me (left)
-        = chalky_tooltip(text: "Tooltip on right", position: :right) do
-          .px-4.py-2.bg-gray-100.rounded-lg.cursor-pointer.hover:bg-gray-200.transition
-            | Hover me (right)
+        = chalky_tooltip(position: :top) do |tooltip|
+          - tooltip.with_trigger do
+            .px-4.py-2.bg-gray-100.rounded-lg.cursor-pointer.hover:bg-gray-200.transition
+              | Hover me (top)
+          - tooltip.with_tooltip_content do
+            | Tooltip on top
+        = chalky_tooltip(position: :bottom) do |tooltip|
+          - tooltip.with_trigger do
+            .px-4.py-2.bg-gray-100.rounded-lg.cursor-pointer.hover:bg-gray-200.transition
+              | Hover me (bottom)
+          - tooltip.with_tooltip_content do
+            | Tooltip on bottom
+        = chalky_tooltip(position: :left) do |tooltip|
+          - tooltip.with_trigger do
+            .px-4.py-2.bg-gray-100.rounded-lg.cursor-pointer.hover:bg-gray-200.transition
+              | Hover me (left)
+          - tooltip.with_tooltip_content do
+            | Tooltip on left
+        = chalky_tooltip(position: :right) do |tooltip|
+          - tooltip.with_trigger do
+            .px-4.py-2.bg-gray-100.rounded-lg.cursor-pointer.hover:bg-gray-200.transition
+              | Hover me (right)
+          - tooltip.with_tooltip_content do
+            | Tooltip on right
 
-      = code_snippet '= chalky_tooltip(text: "Tooltip on top", position: :top) do', '  .px-4.py-2.bg-gray-100.rounded-lg.cursor-pointer.hover:bg-gray-200.transition', '    | Hover me (top)', '', '= chalky_tooltip(text: "Tooltip on bottom", position: :bottom) do', '  .px-4.py-2.bg-gray-100.rounded-lg.cursor-pointer.hover:bg-gray-200.transition', '    | Hover me (bottom)', '', '= chalky_tooltip(text: "Tooltip on left", position: :left) do', '  .px-4.py-2.bg-gray-100.rounded-lg.cursor-pointer.hover:bg-gray-200.transition', '    | Hover me (left)', '', '= chalky_tooltip(text: "Tooltip on right", position: :right) do', '  .px-4.py-2.bg-gray-100.rounded-lg.cursor-pointer.hover:bg-gray-200.transition', '    | Hover me (right)'
+      = code_snippet '= chalky_tooltip(position: :top) do |tooltip|', '  - tooltip.with_trigger do', '    .px-4.py-2.bg-gray-100.rounded-lg.cursor-pointer', '      | Hover me (top)', '  - tooltip.with_tooltip_content do', '    | Tooltip on top'
 
       = component_example("Style variants")
       .flex.flex-wrap.items-center.gap-8.mt-4.py-4
-        = chalky_tooltip(text: "Dark variant (default)", variant: :dark) do
-          .px-4.py-2.bg-blue-100.text-blue-700.rounded-lg.cursor-pointer.hover:bg-blue-200.transition
-            | Dark tooltip
-        = chalky_tooltip(text: "Light variant with border", variant: :light) do
-          .px-4.py-2.bg-blue-100.text-blue-700.rounded-lg.cursor-pointer.hover:bg-blue-200.transition
-            | Light tooltip
-        = chalky_tooltip(text: "With 500ms delay", delay: 500) do
-          .px-4.py-2.bg-green-100.text-green-700.rounded-lg.cursor-pointer.hover:bg-green-200.transition
-            | Delayed tooltip
+        = chalky_tooltip(variant: :dark) do |tooltip|
+          - tooltip.with_trigger do
+            .px-4.py-2.bg-blue-100.text-blue-700.rounded-lg.cursor-pointer.hover:bg-blue-200.transition
+              | Dark tooltip
+          - tooltip.with_tooltip_content do
+            | Dark variant (default)
+        = chalky_tooltip(variant: :light) do |tooltip|
+          - tooltip.with_trigger do
+            .px-4.py-2.bg-blue-100.text-blue-700.rounded-lg.cursor-pointer.hover:bg-blue-200.transition
+              | Light tooltip
+          - tooltip.with_tooltip_content do
+            | Light variant with border
+        = chalky_tooltip(delay: 500) do |tooltip|
+          - tooltip.with_trigger do
+            .px-4.py-2.bg-green-100.text-green-700.rounded-lg.cursor-pointer.hover:bg-green-200.transition
+              | Delayed tooltip
+          - tooltip.with_tooltip_content do
+            | With 500ms delay
 
-      = code_snippet '= chalky_tooltip(text: "Dark variant (default)", variant: :dark) do', '  .px-4.py-2.bg-blue-100.text-blue-700.rounded-lg.cursor-pointer.hover:bg-blue-200.transition', '    | Dark tooltip', '', '= chalky_tooltip(text: "Light variant with border", variant: :light) do', '  .px-4.py-2.bg-blue-100.text-blue-700.rounded-lg.cursor-pointer.hover:bg-blue-200.transition', '    | Light tooltip', '', '= chalky_tooltip(text: "With 500ms delay", delay: 500) do', '  .px-4.py-2.bg-green-100.text-green-700.rounded-lg.cursor-pointer.hover:bg-green-200.transition', '    | Delayed tooltip'
+      = code_snippet '= chalky_tooltip(variant: :light) do |tooltip|', '  - tooltip.with_trigger do', '    .px-4.py-2.bg-blue-100.text-blue-700.rounded-lg', '      | Light tooltip', '  - tooltip.with_tooltip_content do', '    | Light variant with border'
 
       = component_example("On interactive elements")
       .flex.flex-wrap.items-center.gap-8.mt-4.py-4
-        = chalky_tooltip(text: "Edit this item") do
-          = chalky_icon_button(label: "Edit", icon: "fa-solid fa-pen")
-        = chalky_tooltip(text: "Delete permanently", position: :bottom) do
-          = chalky_icon_button(label: "Delete", icon: "fa-solid fa-trash")
-        = chalky_tooltip(text: "More information about this feature") do
-          i.fa-solid.fa-circle-info.text-gray-400.text-lg.cursor-help
+        = chalky_tooltip do |tooltip|
+          - tooltip.with_trigger do
+            = chalky_icon_button(label: "Edit", icon: "fa-solid fa-pen")
+          - tooltip.with_tooltip_content do
+            | Edit this item
+        = chalky_tooltip(position: :bottom) do |tooltip|
+          - tooltip.with_trigger do
+            = chalky_icon_button(label: "Delete", icon: "fa-solid fa-trash")
+          - tooltip.with_tooltip_content do
+            | Delete permanently
+        = chalky_tooltip do |tooltip|
+          - tooltip.with_trigger do
+            i.fa-solid.fa-circle-info.text-gray-400.text-lg.cursor-help
+          - tooltip.with_tooltip_content do
+            | More information about this feature
 
-      = code_snippet '= chalky_tooltip(text: "Edit this item") do', '  = chalky_icon_button(label: "Edit", icon: "fa-solid fa-pen")', '', '= chalky_tooltip(text: "Delete permanently", position: :bottom) do', '  = chalky_icon_button(label: "Delete", icon: "fa-solid fa-trash")', '', '= chalky_tooltip(text: "More information about this feature") do', '  i.fa-solid.fa-circle-info.text-gray-400.text-lg.cursor-help'
+      = code_snippet '= chalky_tooltip do |tooltip|', '  - tooltip.with_trigger do', '    = chalky_icon_button(label: "Edit", icon: "fa-solid fa-pen")', '  - tooltip.with_tooltip_content do', '    | Edit this item'
+
+      = component_example("Rich HTML content")
+      .flex.flex-wrap.items-center.gap-8.mt-4.py-4
+        = chalky_tooltip(position: :bottom, variant: :light) do |tooltip|
+          - tooltip.with_trigger do
+            .px-4.py-2.bg-purple-100.text-purple-700.rounded-lg.cursor-pointer.hover:bg-purple-200.transition
+              i.fa-solid.fa-image.mr-2
+              | Rich tooltip
+          - tooltip.with_tooltip_content do
+            .space-y-2
+              .font-bold.text-gray-900 Product Preview
+              .w-48.h-32.bg-gradient-to-br.from-purple-400.to-pink-400.rounded-lg
+              p.text-gray-600 This tooltip contains rich HTML content including images and styled text.
+        = chalky_tooltip(position: :right, variant: :light) do |tooltip|
+          - tooltip.with_trigger do
+            .px-4.py-2.bg-indigo-100.text-indigo-700.rounded-lg.cursor-pointer.hover:bg-indigo-200.transition
+              i.fa-solid.fa-list.mr-2
+              | List tooltip
+          - tooltip.with_tooltip_content do
+            .space-y-1
+              .font-bold.mb-2 Features included:
+              .flex.items-center.gap-2
+                i.fa-solid.fa-check.text-green-500
+                span HTML support
+              .flex.items-center.gap-2
+                i.fa-solid.fa-check.text-green-500
+                span Images
+              .flex.items-center.gap-2
+                i.fa-solid.fa-check.text-green-500
+                span Rich formatting
+
+      = code_snippet '= chalky_tooltip(position: :bottom, variant: :light) do |tooltip|', '  - tooltip.with_trigger do', '    .px-4.py-2.bg-purple-100.text-purple-700.rounded-lg', '      | Rich tooltip', '  - tooltip.with_tooltip_content do', '    .space-y-2', '      .font-bold Product Preview', '      .w-48.h-32.bg-gradient-to-br.from-purple-400.to-pink-400.rounded-lg', '      p This tooltip contains rich HTML content.'
 
     /! ==================== HINTS ====================
     = chalky_card do

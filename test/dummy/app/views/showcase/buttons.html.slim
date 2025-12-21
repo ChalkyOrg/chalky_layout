@@ -47,14 +47,23 @@
 
       = component_example("With tooltip")
       .flex.flex-wrap.gap-4.mt-4.py-4
-        = chalky_tooltip(text: "Edit this item") do
-          = chalky_icon_button(label: "Edit", icon: "fa-solid fa-pen")
-        = chalky_tooltip(text: "Delete permanently") do
-          = chalky_icon_button(label: "Delete", icon: "fa-solid fa-trash")
-        = chalky_tooltip(text: "Open settings") do
-          = chalky_icon_button(label: "Settings", icon: "fa-solid fa-cog")
+        = chalky_tooltip do |tooltip|
+          - tooltip.with_trigger do
+            = chalky_icon_button(label: "Edit", icon: "fa-solid fa-pen")
+          - tooltip.with_tooltip_content do
+            | Edit this item
+        = chalky_tooltip do |tooltip|
+          - tooltip.with_trigger do
+            = chalky_icon_button(label: "Delete", icon: "fa-solid fa-trash")
+          - tooltip.with_tooltip_content do
+            | Delete permanently
+        = chalky_tooltip do |tooltip|
+          - tooltip.with_trigger do
+            = chalky_icon_button(label: "Settings", icon: "fa-solid fa-cog")
+          - tooltip.with_tooltip_content do
+            | Open settings
 
-      = code_snippet '= chalky_tooltip(text: "Edit this item") do', '  = chalky_icon_button(label: "Edit", icon: "fa-solid fa-pen")'
+      = code_snippet '= chalky_tooltip do |tooltip|', '  - tooltip.with_trigger do', '    = chalky_icon_button(label: "Edit", icon: "fa-solid fa-pen")', '  - tooltip.with_tooltip_content do', '    | Edit this item'
 
     /! ==================== BACK BUTTON ====================
     = chalky_card do

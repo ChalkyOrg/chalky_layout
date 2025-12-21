@@ -58,17 +58,26 @@
       .mt-4
         = chalky_grid(rows: @users) do |grid|
           - grid.custom(label: "Name", priority: :primary) do |row|
-            = chalky_tooltip(text: "View #{row.name}'s profile") do
-              span.cursor-pointer = row.name
+            = chalky_tooltip do |tooltip|
+              - tooltip.with_trigger do
+                span.cursor-pointer = row.name
+              - tooltip.with_tooltip_content do
+                = "View #{row.name}'s profile"
           - grid.custom(label: "Email", priority: :secondary) do |row|
-            = chalky_tooltip(text: "Send email to #{row.email}", position: :bottom) do
-              span.cursor-pointer.text-blue-600 = row.email
+            = chalky_tooltip(position: :bottom) do |tooltip|
+              - tooltip.with_trigger do
+                span.cursor-pointer.text-blue-600 = row.email
+              - tooltip.with_tooltip_content do
+                = "Send email to #{row.email}"
           - grid.custom(label: "Role") do |row|
-            = chalky_tooltip(text: "User role: #{row.role}", variant: :light) do
-              = chalky_badge(label: row.role, color: :blue)
+            = chalky_tooltip(variant: :light) do |tooltip|
+              - tooltip.with_trigger do
+                = chalky_badge(label: row.role, color: :blue)
+              - tooltip.with_tooltip_content do
+                = "User role: #{row.role}"
           - grid.boolean(label: "Active", method: :active)
 
-      = code_snippet '= chalky_grid(rows: @users) do |grid|', '  - grid.custom(label: "Name", priority: :primary) do |row|', '    = chalky_tooltip(text: "View \#{row.name}\'s profile") do', '      span.cursor-pointer = row.name', '  - grid.custom(label: "Email", priority: :secondary) do |row|', '    = chalky_tooltip(text: "Send email to \#{row.email}", position: :bottom) do', '      span.cursor-pointer.text-blue-600 = row.email', '  - grid.custom(label: "Role") do |row|', '    = chalky_tooltip(text: "User role: \#{row.role}", variant: :light) do', '      = chalky_badge(label: row.role, color: :blue)', '  - grid.boolean(label: "Active", method: :active)'
+      = code_snippet '= chalky_grid(rows: @users) do |grid|', '  - grid.custom(label: "Name", priority: :primary) do |row|', '    = chalky_tooltip do |tooltip|', '      - tooltip.with_trigger do', '        span.cursor-pointer = row.name', '      - tooltip.with_tooltip_content do', '        = "View \#{row.name}\'s profile"'
 
     /! ==================== GRID COLUMN TYPES ====================
     = chalky_card do

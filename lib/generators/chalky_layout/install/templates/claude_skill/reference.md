@@ -363,20 +363,38 @@ KPI card for dashboards.
 
 ### `chalky_tooltip`
 
-Hover tooltip.
+Hover tooltip with HTML content support.
 
 ```slim
-= chalky_tooltip(text: "Help text", position: :top, variant: :dark, delay: 300) do
-  i.fa-solid.fa-circle-info
+/ Simple text tooltip
+= chalky_tooltip(position: :top) do |tooltip|
+  - tooltip.with_trigger do
+    i.fa-solid.fa-circle-info
+  - tooltip.with_tooltip_content do
+    | Help text
+
+/ Rich HTML tooltip
+= chalky_tooltip(position: :bottom, variant: :light) do |tooltip|
+  - tooltip.with_trigger do
+    = chalky_icon_button(label: "Info", icon: "fa-solid fa-info")
+  - tooltip.with_tooltip_content do
+    .space-y-2
+      .font-bold Title
+      p Rich HTML content with images, lists, etc.
 ```
 
 **Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `text` | String | **required** | Tooltip text |
 | `position` | Symbol | `:top` | `:top`, `:bottom`, `:left`, `:right` |
 | `variant` | Symbol | `:dark` | `:dark`, `:light` |
 | `delay` | Integer | `0` | Delay in ms |
+
+**Slots:**
+| Slot | Description |
+|------|-------------|
+| `with_trigger` | Element that triggers the tooltip on hover (required) |
+| `with_tooltip_content` | Tooltip content - can be text or rich HTML (required) |
 
 ### `chalky_hint`
 

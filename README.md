@@ -461,28 +461,42 @@ KPI card for dashboards with icon, value, and optional trend.
 
 ### `chalky_tooltip`
 
-Hover tooltip for contextual information.
+Hover tooltip with HTML content support. Uses slots for trigger and content.
 
 ```slim
-= chalky_tooltip(text: "More information here") do
-  i.fa-solid.fa-circle-info.text-gray-400.cursor-help
+/ Simple text tooltip
+= chalky_tooltip(position: :top) do |tooltip|
+  - tooltip.with_trigger do
+    i.fa-solid.fa-circle-info.text-gray-400.cursor-help
+  - tooltip.with_tooltip_content do
+    | More information here
 
-= chalky_tooltip(text: "Edit this item", position: :bottom) do
-  = chalky_icon_button(label: "Edit", icon: "fa-solid fa-pen")
-
-= chalky_tooltip(text: "Light variant", variant: :light, delay: 300) do
-  span.underline Hover me
+/ Rich HTML tooltip
+= chalky_tooltip(position: :bottom, variant: :light) do |tooltip|
+  - tooltip.with_trigger do
+    = chalky_icon_button(label: "Info", icon: "fa-solid fa-info")
+  - tooltip.with_tooltip_content do
+    .space-y-2
+      .font-bold Product Details
+      p.text-sm Includes images, lists, and styled content.
 ```
 
 ![Tooltips](docs/screenshots/tooltips.png)
 
+![Rich HTML Tooltip](docs/screenshots/tooltip-rich-html.png)
+
 **Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `text` | String | **required** | Tooltip text to display |
 | `position` | Symbol | `:top` | `:top`, `:bottom`, `:left`, `:right` |
 | `variant` | Symbol | `:dark` | `:dark` (black bg), `:light` (white bg with border) |
 | `delay` | Integer | `0` | Delay in milliseconds before showing |
+
+**Slots:**
+| Slot | Description |
+|------|-------------|
+| `with_trigger` | Element that triggers the tooltip on hover (required) |
+| `with_tooltip_content` | Tooltip content - can be text or rich HTML (required) |
 
 ### `chalky_hint`
 

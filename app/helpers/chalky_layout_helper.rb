@@ -239,14 +239,19 @@ module ChalkyLayoutHelper
     ), &block
   end
 
-  # Tooltip - hover tooltip with text
-  # @param text [String] tooltip text to display
+  # Tooltip - hover tooltip with HTML content support
   # @param position [Symbol] :top, :bottom, :left, :right
   # @param variant [Symbol] :dark, :light
   # @param delay [Integer] delay in ms before showing
-  def chalky_tooltip(text:, position: :top, variant: :dark, delay: 0, &block)
+  #
+  # Usage:
+  #   = chalky_tooltip(position: :top) do |tooltip|
+  #     - tooltip.with_trigger do
+  #       i.fa-solid.fa-info-circle
+  #     - tooltip.with_tooltip_content do
+  #       | Simple text or HTML content
+  def chalky_tooltip(position: :top, variant: :dark, delay: 0, &block)
     render Chalky::Ui::Tooltip::Component.new(
-      text: text,
       position: position,
       variant: variant,
       delay: delay

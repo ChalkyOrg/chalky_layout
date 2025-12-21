@@ -81,8 +81,11 @@ This skill applies to ALL frontend work including:
 = chalky_badge(label: "Active", color: :green)
 = chalky_stat(label: "Total", value: 1234, icon: "fa-solid fa-users")
 = chalky_alert(message: "Success!", variant: :success)
-= chalky_tooltip(text: "Help text") do
-  / Trigger element
+= chalky_tooltip do |tooltip|
+  - tooltip.with_trigger do
+    / Trigger element
+  - tooltip.with_tooltip_content do
+    | Help text or rich HTML
 = chalky_info_row(label: "Name", value: @user.name)
 ```
 

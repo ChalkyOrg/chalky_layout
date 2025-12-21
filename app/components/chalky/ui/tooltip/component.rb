@@ -3,17 +3,23 @@
 module Chalky::Ui
   module Tooltip
     class Component < ViewComponent::Base
-      attr_reader :text, :position, :variant, :delay
+      renders_one :trigger
+      renders_one :tooltip_content
+
+      attr_reader :position, :variant, :delay
 
       POSITIONS = %i[top bottom left right].freeze
       VARIANTS = %i[dark light].freeze
 
-      def initialize(text:, position: :top, variant: :dark, delay: 0)
+      def initialize(position: :top, variant: :dark, delay: 0)
         super()
-        @text = text
         @position = POSITIONS.include?(position.to_sym) ? position.to_sym : :top
         @variant = VARIANTS.include?(variant.to_sym) ? variant.to_sym : :dark
         @delay = delay
+      end
+
+      def render?
+        trigger? && tooltip_content?
       end
 
       def tooltip_wrapper_classes
@@ -22,7 +28,8 @@ module Chalky::Ui
 
       def tooltip_classes
         # Base classes for the tooltip body (text container)
-        base = "px-3 py-2 text-sm font-medium rounded-lg shadow-lg whitespace-nowrap"
+        # max-w-xs (~320px) allows rich content while keeping tooltips reasonable
+        base = "px-3 py-2 text-sm font-medium rounded-lg shadow-lg max-w-xs"
 
         variant_classes = case variant
                           when :light
