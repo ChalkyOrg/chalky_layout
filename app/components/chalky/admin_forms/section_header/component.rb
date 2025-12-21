@@ -6,12 +6,12 @@ module Chalky::AdminForms
       attr_reader :title, :description, :icon_path, :icon_color_class, :spacing_classes
 
       ICON_COLORS = {
-        blue: "bg-blue-100 text-blue-600",
-        green: "bg-green-100 text-green-600",
-        purple: "bg-purple-100 text-purple-600",
-        orange: "bg-orange-100 text-orange-600",
-        red: "bg-red-100 text-red-600",
-        gray: "bg-gray-100 text-gray-600"
+        blue: "bg-chalky-accent-blue-light text-chalky-accent-blue",
+        green: "bg-chalky-accent-green-light text-chalky-accent-green",
+        purple: "bg-chalky-accent-purple-light text-chalky-accent-purple",
+        orange: "bg-chalky-accent-orange-light text-chalky-accent-orange",
+        red: "bg-chalky-accent-red-light text-chalky-accent-red",
+        gray: "bg-chalky-accent-gray-light text-chalky-accent-gray"
       }.freeze
 
       def initialize(title:, description: nil, icon_path: nil, icon_color: :blue, spacing: "mb-6")

@@ -5,27 +5,27 @@ div data-controller="chalky-layout--sidebar chalky-layout--mobile-menu"
   / MOBILE: Bouton hamburger (visible uniquement sur mobile)
   / ========================================
   .lg:hidden.fixed.top-4.right-4.z-50
-    button.p-2.rounded-lg.bg-white.shadow-md.border.border-gray-200.text-gray-600.hover:bg-gray-50 type="button" data-action="chalky-layout--mobile-menu#toggle"
+    button.p-2.rounded-lg.bg-chalky-surface.shadow-md.border.border-chalky-border.text-chalky-text-secondary.hover:bg-chalky-surface-hover type="button" data-action="chalky-layout--mobile-menu#toggle"
       i.fa-solid.fa-bars.w-5.h-5
 
   / ========================================
   / MOBILE: Overlay (fond noir semi-transparent)
   / ========================================
-  div.hidden.fixed.inset-0.z-40.lg:hidden class="bg-black/50" data-chalky-layout--mobile-menu-target="overlay" data-action="click->chalky-layout--mobile-menu#close"
+  div.hidden.fixed.inset-0.z-40.lg:hidden.bg-chalky-overlay data-chalky-layout--mobile-menu-target="overlay" data-action="click->chalky-layout--mobile-menu#close"
 
   / ========================================
   / MOBILE: Sidebar slide-in depuis la droite
   / ========================================
-  .fixed.inset-y-0.right-0.w-80.bg-white.shadow-xl.z-50.transform.translate-x-full.transition-transform.duration-300.lg:hidden data-chalky-layout--mobile-menu-target="menu"
+  .fixed.inset-y-0.right-0.w-80.bg-chalky-surface.shadow-xl.z-50.transform.translate-x-full.transition-transform.duration-300.lg:hidden data-chalky-layout--mobile-menu-target="menu"
     / Header mobile avec titre et bouton fermer
-    .flex.items-center.justify-between.p-4.border-b.border-gray-200
-      span.text-lg.font-semibold.text-gray-900 = menu_title
-      button.p-2.rounded-lg.text-gray-600.hover:bg-gray-100 type="button" data-action="chalky-layout--mobile-menu#close"
+    .flex.items-center.justify-between.p-4.border-b.border-chalky-border
+      span.text-lg.font-semibold.text-chalky-text-primary = menu_title
+      button.p-2.rounded-lg.text-chalky-text-secondary.hover:bg-chalky-surface-hover type="button" data-action="chalky-layout--mobile-menu#close"
         i.fa-solid.fa-xmark
 
     / Contenu de la sidebar mobile
     .p-4.overflow-y-auto.h-full
-      nav.sidebar-container.flex.flex-col.h-full.bg-white
+      nav.sidebar-container.flex.flex-col.h-full.bg-chalky-surface
         - sections.each do |section|
           = section
         - if footer?
@@ -34,18 +34,18 @@ div data-controller="chalky-layout--sidebar chalky-layout--mobile-menu"
   / ========================================
   / DESKTOP: Sidebar fixe à gauche
   / ========================================
-  aside.chalky-sidebar.fixed.inset-y-0.z-50.flex-col.bg-white.shadow-lg.border-r.border-gray-200.hidden.lg:flex.lg:w-80.transition-all.duration-300.ease-in-out data-chalky-layout--sidebar-target="sidebar"
+  aside.chalky-sidebar.fixed.inset-y-0.z-50.flex-col.bg-chalky-surface.shadow-lg.border-r.border-chalky-border.hidden.lg:flex.lg:w-80.transition-all.duration-300.ease-in-out data-chalky-layout--sidebar-target="sidebar"
     / Header desktop avec logo et bouton toggle
-    .sidebar-header.flex.items-center.justify-between.p-4.border-b.border-gray-200
+    .sidebar-header.flex.items-center.justify-between.p-4.border-b.border-chalky-border
       - if header?
         .flex.items-center.gap-2 data-chalky-layout--sidebar-target="logo"
           = header
-      button.sidebar-toggle-btn.p-2.rounded-lg.text-gray-600.hover:bg-gray-100.transition-colors type="button" data-action="chalky-layout--sidebar#toggle"
+      button.sidebar-toggle-btn.p-2.rounded-lg.text-chalky-text-secondary.hover:bg-chalky-surface-hover.transition-colors type="button" data-action="chalky-layout--sidebar#toggle"
         i.fa-solid.fa-chevron-left data-chalky-layout--sidebar-target="toggleIcon"
 
     / Contenu de la sidebar desktop
     nav.sidebar-nav.flex-1.overflow-y-auto.p-4
-      .sidebar-container.flex.flex-col.h-full.bg-white
+      .sidebar-container.flex.flex-col.h-full.bg-chalky-surface
         - sections.each do |section|
           = section
         - if footer?
@@ -54,5 +54,5 @@ div data-controller="chalky-layout--sidebar chalky-layout--mobile-menu"
   / ========================================
   / MAIN CONTENT
   / ========================================
-  main.chalky-main.h-full.min-h-screen.bg-gray-100.lg:ml-80.transition-all.duration-300.ease-in-out data-chalky-layout--sidebar-target="content"
+  main.chalky-main.h-full.min-h-screen.bg-chalky-surface-secondary.lg:ml-80.transition-all.duration-300.ease-in-out data-chalky-layout--sidebar-target="content"
     = content

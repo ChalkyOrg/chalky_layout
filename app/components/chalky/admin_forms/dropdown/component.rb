@@ -10,26 +10,26 @@ module Chalky::AdminForms
 
       VARIANTS = {
         primary: {
-          button: "text-gray-600 bg-white/50 border border-gray-200/60 hover:bg-gray-50 hover:text-gray-700 " \
-                  "hover:border-gray-300 hover:shadow-sm focus:ring-2 focus:ring-blue-200 focus:border-blue-300 " \
+          button: "text-chalky-text-secondary bg-chalky-surface/50 border border-chalky-border/60 hover:bg-chalky-surface-hover hover:text-chalky-text-secondary " \
+                  "hover:border-chalky-border-strong hover:shadow-sm focus:ring-2 focus:ring-chalky-primary-light focus:border-chalky-primary " \
                   "transition-all duration-200 ease-in-out hover:scale-105 active:scale-95",
-          menu: "border-gray-200 bg-white shadow-lg",
-          item: "text-gray-700 hover:bg-gray-50"
+          menu: "border-chalky-border bg-chalky-surface shadow-lg",
+          item: "text-chalky-text-secondary hover:bg-chalky-surface-hover"
         },
         secondary: {
-          button: "text-contrast bg-white/30 border border-contour/40 hover:bg-light hover:border-contour " \
+          button: "text-contrast bg-chalky-surface/30 border border-contour/40 hover:bg-light hover:border-contour " \
                   "hover:shadow-sm focus:ring-2 focus:ring-contour/50 transition-all duration-200 " \
                   "ease-in-out hover:scale-105 active:scale-95",
-          menu: "border-contour bg-white shadow-sm",
+          menu: "border-contour bg-chalky-surface shadow-sm",
           item: "text-contrast hover:bg-light"
         },
         admin: {
-          button: "text-gray-600 bg-gray-50/60 border border-gray-200/50 hover:bg-gray-100 " \
-                  "hover:text-gray-700 hover:border-gray-300 hover:shadow-md focus:ring-2 " \
-                  "focus:ring-gray-300 focus:border-gray-400 transition-all duration-200 " \
+          button: "text-chalky-text-secondary bg-chalky-surface-secondary/60 border border-chalky-border/50 hover:bg-chalky-surface-hover " \
+                  "hover:text-chalky-text-secondary hover:border-chalky-border-strong hover:shadow-md focus:ring-2 " \
+                  "focus:ring-chalky-border-strong focus:border-chalky-border-strong transition-all duration-200 " \
                   "ease-in-out hover:scale-105 active:scale-95",
-          menu: "border-gray-200 bg-white shadow-lg ring-1 ring-black ring-opacity-5",
-          item: "text-gray-700 hover:bg-gray-100"
+          menu: "border-chalky-border bg-chalky-surface shadow-lg ring-1 ring-black ring-opacity-5",
+          item: "text-chalky-text-secondary hover:bg-chalky-surface-hover"
         }
       }.freeze
 
@@ -58,7 +58,7 @@ module Chalky::AdminForms
       end
 
       def menu_classes
-        base_classes = "dropdown-menu hidden absolute z-[9999] mt-2 max-w-72 divide-y divide-gray-200 rounded-md focus:outline-none"
+        base_classes = "dropdown-menu hidden absolute z-[9999] mt-2 max-w-72 divide-y divide-chalky-border rounded-md focus:outline-none"
         variant_classes = VARIANTS[variant][:menu]
         position_classes = POP_DIRECTIONS[pop_direction]
         [base_classes, variant_classes, position_classes].compact.join(" ")

@@ -13,20 +13,20 @@
           = menu_item
 
     / Section profil utilisateur avec avatar et infos
-    .sidebar-footer-profile.border-t.border-gray-200.pt-4.mt-4
+    .sidebar-footer-profile.border-t.border-chalky-border.pt-4.mt-4
       .flex.items-center.gap-x-3.mb-3
         / Avatar
         .relative.flex-shrink-0
           - if avatar_url.present?
             img.w-10.h-10.rounded-full.object-cover src=avatar_url alt=user_name
           - else
-            .w-10.h-10.rounded-full.bg-gray-200.flex.items-center.justify-center.text-gray-600.text-sm.font-medium
+            .w-10.h-10.rounded-full.bg-chalky-surface-active.flex.items-center.justify-center.text-chalky-text-secondary.text-sm.font-medium
               = avatar_initials
 
         / Informations utilisateur
         .sidebar-footer-user-info.flex-1.min-w-0
-          .text-sm.font-semibold.text-gray-900.truncate = user_name
-          .text-xs.text-gray-500.truncate = user_email
+          .text-sm.font-semibold.text-chalky-text-primary.truncate = user_name
+          .text-xs.text-chalky-text-tertiary.truncate = user_email
 
       / Badge de rôle
       - if show_role_badge?

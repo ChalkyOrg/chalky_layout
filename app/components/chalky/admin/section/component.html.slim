@@ -1,12 +1,12 @@
-details.bg-white.shadow.rounded-lg.border.border-gray-200.mb-6 id=dom_id open=open
-  summary.p-4.cursor-pointer.flex.items-center.justify-between.hover:bg-gray-50.transition-colors
+details.bg-chalky-surface.shadow.rounded-lg.border.border-chalky-border.mb-6 id=dom_id open=open
+  summary.p-4.cursor-pointer.flex.items-center.justify-between.hover:bg-chalky-surface-hover.transition-colors
     .flex.items-center.gap-3
       .w-9.h-9.rounded-lg.flex.items-center.justify-center class=icon_classes
         i class="#{icon} text-sm"
       div
-        h2.text-lg.font-semibold.text-gray-900.mb-0 = title
+        h2.text-lg.font-semibold.text-chalky-text-primary.mb-0 = title
         - if subtitle.present?
-          p.text-sm.text-gray-600 = subtitle
+          p.text-sm.text-chalky-text-secondary = subtitle
 
     .flex.items-center.gap-2
       - if dropdown?
@@ -23,7 +23,7 @@ details.bg-white.shadow.rounded-lg.border.border-gray-200.mb-6 id=dom_id open=op
                 - dropdown.with_item(href: item.href, icon: item.icon, method: item.http_method, turbo_frame: item.turbo_frame, variant: item.variant) do
                   = item.label
 
-      svg.w-5.h-5.text-gray-400.chevron-icon fill="none" stroke="currentColor" viewBox="0 0 24 24"
+      svg.w-5.h-5.text-chalky-text-muted.chevron-icon fill="none" stroke="currentColor" viewBox="0 0 24 24"
         path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"
 
   .p-6.pt-0

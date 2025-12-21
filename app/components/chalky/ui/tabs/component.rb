@@ -58,11 +58,11 @@ module Chalky::Ui
       end
 
       def active_tab_classes
-        "bg-light rounded-t-lg text-gray-900 border-t border-l border-r border-gray-200 -mb-px relative z-10"
+        "bg-chalky-surface-secondary rounded-t-lg text-chalky-text-primary border-t border-l border-r border-chalky-border -mb-px relative z-10"
       end
 
       def inactive_tab_classes
-        "text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-t-lg"
+        "text-chalky-text-secondary hover:text-chalky-text-primary hover:bg-chalky-surface-hover rounded-t-lg"
       end
 
       def tab_data(tab)

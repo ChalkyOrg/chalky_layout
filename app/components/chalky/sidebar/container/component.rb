@@ -13,7 +13,7 @@ module Chalky
         end
 
         def container_classes
-          base_classes = "sidebar-container flex flex-col h-full bg-white p-4"
+          base_classes = "sidebar-container flex flex-col h-full bg-chalky-surface p-4"
           [base_classes, css_classes].compact.join(" ")
         end
 

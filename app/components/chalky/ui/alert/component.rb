@@ -5,24 +5,24 @@ module Chalky::Ui
     class Component < ViewComponent::Base
       VARIANTS = {
         info: {
-          container: "bg-blue-50 border-blue-400 text-blue-800",
+          container: "bg-chalky-info-light border-chalky-info-border text-chalky-info-text",
           icon: "fa-solid fa-circle-info",
-          icon_color: "text-blue-400"
+          icon_color: "text-chalky-info-border"
         },
         success: {
-          container: "bg-green-50 border-green-400 text-green-800",
+          container: "bg-chalky-success-light border-chalky-success-border text-chalky-success-text",
           icon: "fa-solid fa-circle-check",
-          icon_color: "text-green-400"
+          icon_color: "text-chalky-success-border"
         },
         warning: {
-          container: "bg-yellow-50 border-yellow-400 text-yellow-800",
+          container: "bg-chalky-warning-light border-chalky-warning-border text-chalky-warning-text",
           icon: "fa-solid fa-triangle-exclamation",
-          icon_color: "text-yellow-400"
+          icon_color: "text-chalky-warning-border"
         },
         error: {
-          container: "bg-red-50 border-red-400 text-red-800",
+          container: "bg-chalky-danger-light border-chalky-danger-border text-chalky-danger-text",
           icon: "fa-solid fa-circle-xmark",
-          icon_color: "text-red-400"
+          icon_color: "text-chalky-danger-border"
         }
       }.freeze
 

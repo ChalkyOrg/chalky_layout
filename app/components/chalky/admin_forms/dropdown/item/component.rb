@@ -25,7 +25,7 @@ module Chalky::AdminForms
         def item_classes
           base_classes = case type
                          when :divider
-                           "w-full h-px px-4 border-b border-solid border-gray-200 border-x-0 border-t-0"
+                           "w-full h-px px-4 border-b border-solid border-chalky-border border-x-0 border-t-0"
                          when :text
                            "w-full text-left px-4 py-2 text-sm font-medium"
                          when :button
@@ -36,11 +36,11 @@ module Chalky::AdminForms
 
           variant_classes = case variant
                             when :danger
-                              type == :text ? "text-red-900" : "text-red-600 hover:bg-red-50"
+                              type == :text ? "text-chalky-danger-text" : "text-chalky-danger hover:bg-chalky-danger-light"
                             when :primary
-                              type == :text ? "text-blue-900" : "text-blue-600 hover:bg-blue-50"
+                              type == :text ? "text-chalky-primary-text" : "text-chalky-primary hover:bg-chalky-primary-light"
                             else # :admin or any other value
-                              type == :text ? "text-gray-900" : "text-gray-700 hover:bg-gray-100"
+                              type == :text ? "text-chalky-text-primary" : "text-chalky-text-secondary hover:bg-chalky-surface-hover"
                             end
           [base_classes, variant_classes, css_classes].compact.join(" ")
         end

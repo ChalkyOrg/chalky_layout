@@ -70,10 +70,10 @@
       = chalky_heading(title: "Sidebar Layout", subtitle: "Complete sidebar with sections, menu items and footer")
 
       = component_example("Structure overview")
-      .mt-4.p-4.bg-gray-50.rounded-lg
-        p.text-gray-600.text-sm
+      .mt-4.p-4.bg-chalky-surface-secondary.rounded-lg
+        p.text-chalky-text-secondary.text-sm
           | The sidebar layout wraps your entire page content. It includes:
-        ul.mt-2.space-y-1.text-sm.text-gray-600.list-disc.list-inside
+        ul.mt-2.space-y-1.text-sm.text-chalky-text-secondary.list-disc.list-inside
           li Header slot for logo/branding
           li Sections with icon and menu items
           li Footer with user profile and logout
@@ -81,9 +81,9 @@
       = code_snippet '= chalky_sidebar_layout(menu_title: "Menu") do |layout|', '  - layout.with_header do', '    a href="/"', '      span.font-bold Chalky', '', '  - layout.with_section(title: "Dashboard", icon_color: :blue) do |section|', '    - section.with_menu_item(path: "/", title: "Home", icon_classes: "fa-solid fa-home")', '', '  - layout.with_footer(user_name: "John Doe", logout_path: "/logout")', '', '  = yield'
 
       .mt-6
-        p.text-sm.text-gray-500
+        p.text-sm.text-chalky-text-tertiary
           | The sidebar you see on this page is a live example of
-          code.bg-gray-100.px-1.rounded  chalky_sidebar_layout
+          code.bg-chalky-surface-tertiary.text-chalky-text-primary.px-1.rounded  chalky_sidebar_layout
           | . Check the layout file for full implementation.
 
       = code_snippet '/! In layout file:', '= chalky_sidebar_head_script  /! Add in <head> to prevent FOUC', '', 'body', '  = chalky_sidebar_layout(...) do |layout|', '    ...', '    = yield'

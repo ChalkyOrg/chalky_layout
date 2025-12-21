@@ -164,6 +164,31 @@ html.h-full
 | `chalky_sidebar_layout` | Complete sidebar with mobile/desktop support (recommended) |
 | `chalky_sidebar_head_script` | Anti-FOUC script for sidebar (place in `<head>`) |
 
+## Theming with Design Tokens
+
+ChalkyLayout uses CSS custom properties for theming. Users can customize colors by overriding these tokens:
+
+```css
+:root {
+  /* Primary brand color */
+  --chalky-primary: #8b5cf6;
+
+  /* Semantic colors */
+  --chalky-success: #16a34a;
+  --chalky-danger: #dc2626;
+  --chalky-warning: #ca8a04;
+  --chalky-info: #0284c7;
+
+  /* Accent colors for badges/icons */
+  --chalky-accent-blue: #3b82f6;
+  --chalky-accent-green: #22c55e;
+  --chalky-accent-red: #ef4444;
+  --chalky-accent-purple: #a855f7;
+}
+```
+
+See `app/assets/stylesheets/chalky_layout/tokens.css` for all available tokens.
+
 ## Full Documentation
 
 See `reference.md` in this skill folder for complete parameter documentation.

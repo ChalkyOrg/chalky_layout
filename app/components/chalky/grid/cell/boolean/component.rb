@@ -13,9 +13,9 @@ module Chalky::Grid
 
         def icon_classes
           if data
-            "fas fa-check-circle text-green-500"
+            "fas fa-check-circle text-chalky-success"
           else
-            "fas fa-times-circle text-gray-300"
+            "fas fa-times-circle text-chalky-text-muted"
           end
         end
       end

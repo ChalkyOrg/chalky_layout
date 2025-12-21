@@ -7,13 +7,13 @@ module Chalky::Admin
       renders_many :dropdown_items, "DropdownItem"
 
       ICON_COLORS = {
-        blue: "bg-blue-100 text-blue-600",
-        indigo: "bg-indigo-100 text-indigo-600",
-        purple: "bg-purple-100 text-purple-600",
-        green: "bg-green-100 text-green-600",
-        orange: "bg-orange-100 text-orange-600",
-        red: "bg-red-100 text-red-600",
-        gray: "bg-gray-100 text-gray-600"
+        blue: "bg-chalky-accent-blue-light text-chalky-accent-blue",
+        indigo: "bg-chalky-accent-indigo-light text-chalky-accent-indigo",
+        purple: "bg-chalky-accent-purple-light text-chalky-accent-purple",
+        green: "bg-chalky-accent-green-light text-chalky-accent-green",
+        orange: "bg-chalky-accent-orange-light text-chalky-accent-orange",
+        red: "bg-chalky-accent-red-light text-chalky-accent-red",
+        gray: "bg-chalky-accent-gray-light text-chalky-accent-gray"
       }.freeze
 
       attr_reader :title, :subtitle, :icon, :icon_color, :dom_id, :open
@@ -59,11 +59,11 @@ module Chalky::Admin
         def link_classes
           base = "block px-4 py-2 text-sm whitespace-nowrap flex justify-start items-center gap-2"
           if disabled
-            "#{base} text-gray-400 cursor-not-allowed"
+            "#{base} text-chalky-text-muted cursor-not-allowed"
           elsif variant == :danger
-            "#{base} text-red-600 hover:bg-red-50"
+            "#{base} text-chalky-danger hover:bg-chalky-danger-light"
           else
-            "#{base} text-gray-700 hover:bg-gray-100"
+            "#{base} text-chalky-text-secondary hover:bg-chalky-surface-hover"
           end
         end
 

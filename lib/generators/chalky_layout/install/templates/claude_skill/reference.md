@@ -530,3 +530,73 @@ Menu items are added via the `with_menu_item` method on sections and footers wit
 | `icon_classes` | String | `nil` | Font Awesome classes |
 | `icon_path` | String | `nil` | SVG path (alternative) |
 | `active` | Boolean/nil | `nil` | Override active state |
+
+---
+
+## Design Tokens (Theming)
+
+ChalkyLayout uses CSS custom properties for theming. Override these tokens in your CSS to customize the color palette.
+
+### Required CSS Imports
+
+```css
+/* In your application.css */
+@import "chalky_layout/tokens.css";
+@import "chalky_layout/utilities.css";
+```
+
+### Available Tokens
+
+**Primary Color:**
+| Token | Default | Description |
+|-------|---------|-------------|
+| `--chalky-primary` | `#3b82f6` | Main brand/action color |
+| `--chalky-primary-hover` | `#2563eb` | Hover state |
+| `--chalky-primary-light` | `#eff6ff` | Light background |
+| `--chalky-primary-text` | `#1d4ed8` | Text on light background |
+
+**Semantic Colors:**
+| Token | Default | Description |
+|-------|---------|-------------|
+| `--chalky-success` | `#16a34a` | Positive actions |
+| `--chalky-danger` | `#dc2626` | Destructive actions |
+| `--chalky-warning` | `#ca8a04` | Caution states |
+| `--chalky-info` | `#0284c7` | Informational |
+
+**Surfaces:**
+| Token | Default | Description |
+|-------|---------|-------------|
+| `--chalky-surface` | `#ffffff` | Card backgrounds |
+| `--chalky-surface-secondary` | `#f9fafb` | Secondary backgrounds |
+| `--chalky-surface-hover` | `#f3f4f6` | Hover states |
+
+**Text:**
+| Token | Default | Description |
+|-------|---------|-------------|
+| `--chalky-text-primary` | `#111827` | Main text |
+| `--chalky-text-secondary` | `#4b5563` | Secondary text |
+| `--chalky-text-tertiary` | `#6b7280` | Muted text |
+
+**Accent Colors (for badges/icons):**
+| Token | Default |
+|-------|---------|
+| `--chalky-accent-blue` | `#3b82f6` |
+| `--chalky-accent-green` | `#22c55e` |
+| `--chalky-accent-red` | `#ef4444` |
+| `--chalky-accent-yellow` | `#eab308` |
+| `--chalky-accent-orange` | `#f97316` |
+| `--chalky-accent-purple` | `#a855f7` |
+| `--chalky-accent-gray` | `#6b7280` |
+| `--chalky-accent-indigo` | `#6366f1` |
+
+### Customization Example
+
+```css
+:root {
+  /* Change primary to purple */
+  --chalky-primary: #8b5cf6;
+  --chalky-primary-hover: #7c3aed;
+  --chalky-primary-light: #f5f3ff;
+  --chalky-primary-text: #6d28d9;
+}
+```

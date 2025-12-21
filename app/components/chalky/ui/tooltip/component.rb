@@ -33,9 +33,9 @@ module Chalky::Ui
 
         variant_classes = case variant
                           when :light
-                            "bg-white text-gray-900 border border-gray-200"
+                            "bg-chalky-surface text-chalky-text-primary border border-chalky-border"
                           else
-                            "bg-gray-900 text-white"
+                            "bg-chalky-tooltip-bg text-chalky-tooltip-text"
                           end
 
         "#{base} #{variant_classes}"
@@ -48,9 +48,9 @@ module Chalky::Ui
 
         variant_classes = case variant
                           when :light
-                            "bg-white border border-gray-200"
+                            "bg-chalky-surface border border-chalky-border"
                           else
-                            "bg-gray-900"
+                            "bg-chalky-tooltip-bg"
                           end
 
         "#{base} #{variant_classes}"

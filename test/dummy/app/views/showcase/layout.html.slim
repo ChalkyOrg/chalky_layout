@@ -7,33 +7,33 @@
       = chalky_heading(title: "Page", subtitle: "Main page wrapper with header and body")
 
       = component_example("Page structure")
-      .mt-4.p-4.bg-gray-50.rounded-lg.border.border-dashed.border-gray-300
-        .bg-white.rounded-lg.shadow-sm.overflow-hidden
-          .bg-gray-100.px-4.py-3.border-b.border-gray-200
+      .mt-4.p-4.bg-chalky-surface-tertiary.rounded-lg.border.border-dashed.border-chalky-border
+        .bg-chalky-surface.rounded-lg.shadow-sm.overflow-hidden.border.border-chalky-border
+          .bg-chalky-surface-secondary.px-4.py-3.border-b.border-chalky-border
             .flex.items-center.justify-between
               div
-                .font-semibold.text-gray-900 Page Title
-                .text-sm.text-gray-500 Subtitle
+                .font-semibold.text-chalky-text-primary Page Title
+                .text-sm.text-chalky-text-tertiary Subtitle
               .flex.gap-2
-                .px-3.py-1.bg-blue-500.text-white.text-xs.rounded Action
+                .px-3.py-1.bg-chalky-primary.text-chalky-text-inverted.text-xs.rounded Action
           .p-4
-            .text-sm.text-gray-500 Page body content goes here...
+            .text-sm.text-chalky-text-tertiary Page body content goes here...
 
       = code_snippet '= chalky_page do |page|', '  - page.with_header(title: "Page Title", subtitle: "Subtitle") do |header|', '    - header.with_actions do', '      = chalky_button(label: "Action", variant: :primary)', '', '  - page.with_body do', '    | Page content goes here...'
 
       = component_example("Page header with navigation tabs")
-      .mt-4.p-4.bg-gray-50.rounded-lg.border.border-dashed.border-gray-300
-        .bg-white.rounded-lg.shadow-sm.overflow-hidden
-          .bg-gray-100.px-4.py-3.border-b.border-gray-200
+      .mt-4.p-4.bg-chalky-surface-tertiary.rounded-lg.border.border-dashed.border-chalky-border
+        .bg-chalky-surface.rounded-lg.shadow-sm.overflow-hidden.border.border-chalky-border
+          .bg-chalky-surface-secondary.px-4.py-3.border-b.border-chalky-border
             .flex.items-center.justify-between
-              .font-semibold.text-gray-900 Dashboard
+              .font-semibold.text-chalky-text-primary Dashboard
             .mt-2
               .flex.gap-4.text-sm
-                span.text-blue-600.border-b-2.border-blue-600.pb-2 Overview
-                span.text-gray-500.pb-2 Analytics
-                span.text-gray-500.pb-2 Settings
+                span.text-chalky-primary.border-b-2.border-chalky-primary.pb-2 Overview
+                span.text-chalky-text-tertiary.pb-2 Analytics
+                span.text-chalky-text-tertiary.pb-2 Settings
           .p-4
-            .text-sm.text-gray-500 Content...
+            .text-sm.text-chalky-text-tertiary Content...
 
       = code_snippet '= chalky_page do |page|', '  - page.with_header(title: "Dashboard") do |header|', '    - header.with_navigation do', '      = chalky_tabs(tabs: tabs)', '', '  - page.with_body do', '    | Content...'
 
@@ -44,9 +44,9 @@
       = component_example("Basic card")
       .mt-4
         = chalky_card do
-          p.text-gray-600 This is content inside a card. Cards provide a clean container with consistent padding and subtle shadow.
+          p.text-chalky-text-secondary This is content inside a card. Cards provide a clean container with consistent padding and subtle shadow.
 
-      = code_snippet '= chalky_card do', '  p.text-gray-600 This is content inside a card. Cards provide a clean container with consistent padding and subtle shadow.'
+      = code_snippet '= chalky_card do', '  p.text-chalky-text-secondary This is content inside a card. Cards provide a clean container with consistent padding and subtle shadow.'
 
     /! ==================== HEADING ====================
     = chalky_card do
@@ -66,17 +66,17 @@
       = component_example("Panel variants")
       .space-y-4.mt-4
         = chalky_panel(title: "Open by default", icon: "fa-solid fa-cog", icon_color: :blue) do
-          p.text-gray-600 This panel is open by default. Click the header to collapse it.
+          p.text-chalky-text-secondary This panel is open by default. Click the header to collapse it.
           .mt-2
             = chalky_badge(label: "Content inside", color: :blue)
 
         = chalky_panel(title: "Closed by default", icon: "fa-solid fa-star", icon_color: :purple, open: false) do
-          p.text-gray-600 This panel starts closed. Click to expand.
+          p.text-chalky-text-secondary This panel starts closed. Click to expand.
 
         = chalky_panel(title: "Different icon color", icon: "fa-solid fa-heart", icon_color: :red) do
-          p.text-gray-600 Panels can have different icon colors.
+          p.text-chalky-text-secondary Panels can have different icon colors.
 
-      = code_snippet '= chalky_panel(title: "Open by default", icon: "fa-solid fa-cog", icon_color: :blue) do', '  p.text-gray-600 This panel is open by default. Click the header to collapse it.', '  .mt-2', '    = chalky_badge(label: "Content inside", color: :blue)', '', '= chalky_panel(title: "Closed by default", icon: "fa-solid fa-star", icon_color: :purple, open: false) do', '  p.text-gray-600 This panel starts closed. Click to expand.', '', '= chalky_panel(title: "Different icon color", icon: "fa-solid fa-heart", icon_color: :red) do', '  p.text-gray-600 Panels can have different icon colors.'
+      = code_snippet '= chalky_panel(title: "Open by default", icon: "fa-solid fa-cog", icon_color: :blue) do', '  p.text-chalky-text-secondary This panel is open by default. Click the header to collapse it.', '  .mt-2', '    = chalky_badge(label: "Content inside", color: :blue)', '', '= chalky_panel(title: "Closed by default", icon: "fa-solid fa-star", icon_color: :purple, open: false) do', '  p.text-chalky-text-secondary This panel starts closed. Click to expand.', '', '= chalky_panel(title: "Different icon color", icon: "fa-solid fa-heart", icon_color: :red) do', '  p.text-chalky-text-secondary Panels can have different icon colors.'
 
     /! ==================== INFO ROW ====================
     = chalky_card do

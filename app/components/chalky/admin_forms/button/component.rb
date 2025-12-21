@@ -6,10 +6,10 @@ module Chalky::AdminForms
       attr_reader :variant, :size, :icon_path, :css_classes, :html_options
 
       VARIANTS = {
-        primary: "bg-blue-600 hover:bg-blue-700 focus:ring-blue-200 text-white",
-        secondary: "bg-gray-100 hover:bg-gray-200 focus:ring-gray-200 text-gray-700",
-        success: "bg-green-600 hover:bg-green-700 focus:ring-green-200 text-white",
-        danger: "bg-red-600 hover:bg-red-700 focus:ring-red-200 text-white"
+        primary: "bg-chalky-primary hover:bg-chalky-primary-hover focus:ring-chalky-primary-light text-chalky-text-inverted",
+        secondary: "bg-chalky-surface-tertiary hover:bg-chalky-surface-active focus:ring-chalky-surface-active text-chalky-text-secondary",
+        success: "bg-chalky-success hover:bg-chalky-success-hover focus:ring-chalky-success-light text-chalky-text-inverted",
+        danger: "bg-chalky-danger hover:bg-chalky-danger-hover focus:ring-chalky-danger-light text-chalky-text-inverted"
       }.freeze
 
       SIZES = {

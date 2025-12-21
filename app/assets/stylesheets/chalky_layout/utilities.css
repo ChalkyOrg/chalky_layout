@@ -1,0 +1,172 @@
+/*
+ * ChalkyLayout Utility Classes
+ *
+ * These classes use CSS custom properties for dynamic theming.
+ * They complement Tailwind classes and enable runtime theme switching.
+ */
+
+/* ===========================
+   BACKGROUND COLORS
+   =========================== */
+.bg-chalky-surface { background-color: var(--chalky-surface); }
+.bg-chalky-surface-secondary { background-color: var(--chalky-surface-secondary); }
+.bg-chalky-surface-tertiary { background-color: var(--chalky-surface-tertiary); }
+.bg-chalky-surface-hover { background-color: var(--chalky-surface-hover); }
+.bg-chalky-surface-active { background-color: var(--chalky-surface-active); }
+
+.bg-chalky-primary { background-color: var(--chalky-primary); }
+.bg-chalky-primary-hover { background-color: var(--chalky-primary-hover); }
+.bg-chalky-primary-light { background-color: var(--chalky-primary-light); }
+
+.bg-chalky-success { background-color: var(--chalky-success); }
+.bg-chalky-success-hover { background-color: var(--chalky-success-hover); }
+.bg-chalky-success-light { background-color: var(--chalky-success-light); }
+
+.bg-chalky-danger { background-color: var(--chalky-danger); }
+.bg-chalky-danger-hover { background-color: var(--chalky-danger-hover); }
+.bg-chalky-danger-light { background-color: var(--chalky-danger-light); }
+
+.bg-chalky-warning { background-color: var(--chalky-warning); }
+.bg-chalky-warning-hover { background-color: var(--chalky-warning-hover); }
+.bg-chalky-warning-light { background-color: var(--chalky-warning-light); }
+
+.bg-chalky-info { background-color: var(--chalky-info); }
+.bg-chalky-info-hover { background-color: var(--chalky-info-hover); }
+.bg-chalky-info-light { background-color: var(--chalky-info-light); }
+
+.bg-chalky-overlay { background-color: var(--chalky-overlay); }
+.bg-chalky-tooltip-bg { background-color: var(--chalky-tooltip-bg); }
+
+/* Accents */
+.bg-chalky-accent-blue { background-color: var(--chalky-accent-blue); }
+.bg-chalky-accent-blue-light { background-color: var(--chalky-accent-blue-light); }
+.bg-chalky-accent-green { background-color: var(--chalky-accent-green); }
+.bg-chalky-accent-green-light { background-color: var(--chalky-accent-green-light); }
+.bg-chalky-accent-red { background-color: var(--chalky-accent-red); }
+.bg-chalky-accent-red-light { background-color: var(--chalky-accent-red-light); }
+.bg-chalky-accent-yellow { background-color: var(--chalky-accent-yellow); }
+.bg-chalky-accent-yellow-light { background-color: var(--chalky-accent-yellow-light); }
+.bg-chalky-accent-orange { background-color: var(--chalky-accent-orange); }
+.bg-chalky-accent-orange-light { background-color: var(--chalky-accent-orange-light); }
+.bg-chalky-accent-purple { background-color: var(--chalky-accent-purple); }
+.bg-chalky-accent-purple-light { background-color: var(--chalky-accent-purple-light); }
+.bg-chalky-accent-gray { background-color: var(--chalky-accent-gray); }
+.bg-chalky-accent-gray-light { background-color: var(--chalky-accent-gray-light); }
+.bg-chalky-accent-indigo { background-color: var(--chalky-accent-indigo); }
+.bg-chalky-accent-indigo-light { background-color: var(--chalky-accent-indigo-light); }
+
+/* ===========================
+   TEXT COLORS
+   =========================== */
+.text-chalky-text-primary { color: var(--chalky-text-primary); }
+.text-chalky-text-secondary { color: var(--chalky-text-secondary); }
+.text-chalky-text-tertiary { color: var(--chalky-text-tertiary); }
+.text-chalky-text-muted { color: var(--chalky-text-muted); }
+.text-chalky-text-inverted { color: var(--chalky-text-inverted); }
+
+.text-chalky-primary { color: var(--chalky-primary); }
+.text-chalky-primary-text { color: var(--chalky-primary-text); }
+
+.text-chalky-success { color: var(--chalky-success); }
+.text-chalky-success-text { color: var(--chalky-success-text); }
+
+.text-chalky-danger { color: var(--chalky-danger); }
+.text-chalky-danger-text { color: var(--chalky-danger-text); }
+
+.text-chalky-warning { color: var(--chalky-warning); }
+.text-chalky-warning-text { color: var(--chalky-warning-text); }
+
+.text-chalky-info { color: var(--chalky-info); }
+.text-chalky-info-text { color: var(--chalky-info-text); }
+
+.text-chalky-tooltip-text { color: var(--chalky-tooltip-text); }
+
+/* Accents */
+.text-chalky-accent-blue { color: var(--chalky-accent-blue); }
+.text-chalky-accent-blue-text { color: var(--chalky-accent-blue-text); }
+.text-chalky-accent-green { color: var(--chalky-accent-green); }
+.text-chalky-accent-green-text { color: var(--chalky-accent-green-text); }
+.text-chalky-accent-red { color: var(--chalky-accent-red); }
+.text-chalky-accent-red-text { color: var(--chalky-accent-red-text); }
+.text-chalky-accent-yellow { color: var(--chalky-accent-yellow); }
+.text-chalky-accent-yellow-text { color: var(--chalky-accent-yellow-text); }
+.text-chalky-accent-orange { color: var(--chalky-accent-orange); }
+.text-chalky-accent-orange-text { color: var(--chalky-accent-orange-text); }
+.text-chalky-accent-purple { color: var(--chalky-accent-purple); }
+.text-chalky-accent-purple-text { color: var(--chalky-accent-purple-text); }
+.text-chalky-accent-gray { color: var(--chalky-accent-gray); }
+.text-chalky-accent-gray-text { color: var(--chalky-accent-gray-text); }
+.text-chalky-accent-indigo { color: var(--chalky-accent-indigo); }
+.text-chalky-accent-indigo-text { color: var(--chalky-accent-indigo-text); }
+
+/* ===========================
+   BORDER COLORS
+   =========================== */
+.border-chalky-border { border-color: var(--chalky-border); }
+.border-chalky-border-light { border-color: var(--chalky-border-light); }
+.border-chalky-border-strong { border-color: var(--chalky-border-strong); }
+
+.border-chalky-primary { border-color: var(--chalky-primary); }
+.border-chalky-success-border { border-color: var(--chalky-success-border); }
+.border-chalky-danger-border { border-color: var(--chalky-danger-border); }
+.border-chalky-warning-border { border-color: var(--chalky-warning-border); }
+.border-chalky-info-border { border-color: var(--chalky-info-border); }
+
+/* ===========================
+   DIVIDE COLORS
+   =========================== */
+.divide-chalky-border > :not([hidden]) ~ :not([hidden]) {
+  border-color: var(--chalky-border);
+}
+
+/* ===========================
+   RING COLORS
+   =========================== */
+.ring-chalky-primary { --tw-ring-color: var(--chalky-primary); }
+.focus\:ring-chalky-primary-light:focus { --tw-ring-color: var(--chalky-primary-light); }
+.focus\:ring-chalky-success-light:focus { --tw-ring-color: var(--chalky-success-light); }
+.focus\:ring-chalky-danger-light:focus { --tw-ring-color: var(--chalky-danger-light); }
+.focus\:ring-chalky-surface-active:focus { --tw-ring-color: var(--chalky-surface-active); }
+.focus\:ring-chalky-border-strong:focus { --tw-ring-color: var(--chalky-border-strong); }
+
+/* ===========================
+   HOVER STATES
+   =========================== */
+@media (hover: hover) {
+  .hover\:bg-chalky-surface-hover:hover { background-color: var(--chalky-surface-hover); }
+  .hover\:bg-chalky-primary-hover:hover { background-color: var(--chalky-primary-hover); }
+  .hover\:bg-chalky-success-hover:hover { background-color: var(--chalky-success-hover); }
+  .hover\:bg-chalky-danger-hover:hover { background-color: var(--chalky-danger-hover); }
+  .hover\:bg-chalky-danger-light:hover { background-color: var(--chalky-danger-light); }
+  .hover\:bg-chalky-primary-light:hover { background-color: var(--chalky-primary-light); }
+  .hover\:bg-chalky-surface-active:hover { background-color: var(--chalky-surface-active); }
+
+  .hover\:text-chalky-primary:hover { color: var(--chalky-primary); }
+  .hover\:text-chalky-primary-text:hover { color: var(--chalky-primary-text); }
+  .hover\:text-chalky-text-primary:hover { color: var(--chalky-text-primary); }
+  .hover\:text-chalky-text-secondary:hover { color: var(--chalky-text-secondary); }
+  .hover\:text-chalky-danger:hover { color: var(--chalky-danger); }
+
+  .hover\:border-chalky-border-strong:hover { border-color: var(--chalky-border-strong); }
+  .hover\:border-chalky-text-muted:hover { border-color: var(--chalky-text-muted); }
+
+  .group:hover .group-hover\:text-chalky-text-secondary { color: var(--chalky-text-secondary); }
+  .group:hover .group-hover\:text-chalky-danger { color: var(--chalky-danger); }
+}
+
+/* ===========================
+   FOCUS STATES
+   =========================== */
+.focus\:border-chalky-primary:focus { border-color: var(--chalky-primary); }
+.focus\:border-chalky-border-strong:focus { border-color: var(--chalky-border-strong); }
+
+/* ===========================
+   OPACITY VARIANTS
+   =========================== */
+.bg-chalky-surface\/30 { background-color: color-mix(in srgb, var(--chalky-surface) 30%, transparent); }
+.bg-chalky-surface\/50 { background-color: color-mix(in srgb, var(--chalky-surface) 50%, transparent); }
+.bg-chalky-surface-secondary\/60 { background-color: color-mix(in srgb, var(--chalky-surface-secondary) 60%, transparent); }
+.bg-chalky-surface-secondary\/80 { background-color: color-mix(in srgb, var(--chalky-surface-secondary) 80%, transparent); }
+
+.border-chalky-border\/50 { border-color: color-mix(in srgb, var(--chalky-border) 50%, transparent); }
+.border-chalky-border\/60 { border-color: color-mix(in srgb, var(--chalky-border) 60%, transparent); }

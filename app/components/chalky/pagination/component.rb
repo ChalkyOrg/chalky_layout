@@ -71,23 +71,23 @@ module Chalky
       def nav_button_classes(enabled:)
         base = "relative inline-flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors"
         if enabled
-          "#{base} text-gray-700 bg-white border border-gray-300 hover:bg-gray-50"
+          "#{base} text-chalky-text-secondary bg-chalky-surface border border-chalky-border-strong hover:bg-chalky-surface-hover"
         else
-          "#{base} text-gray-300 bg-gray-100 border border-gray-200 cursor-not-allowed"
+          "#{base} text-chalky-text-muted bg-chalky-surface-tertiary border border-chalky-border cursor-not-allowed"
         end
       end
 
       def page_button_classes(current:)
         base = "relative inline-flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors"
         if current
-          "#{base} text-white bg-blue-600 border border-blue-600"
+          "#{base} text-chalky-text-inverted bg-chalky-primary border border-chalky-primary"
         else
-          "#{base} text-gray-700 bg-white border border-gray-300 hover:bg-gray-50"
+          "#{base} text-chalky-text-secondary bg-chalky-surface border border-chalky-border-strong hover:bg-chalky-surface-hover"
         end
       end
 
       def gap_classes
-        "relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500"
+        "relative inline-flex items-center px-4 py-2 text-sm font-medium text-chalky-text-tertiary"
       end
     end
   end

@@ -1,0 +1,141 @@
+/*
+ * ChalkyLayout Design Tokens
+ *
+ * These CSS custom properties define the color palette for all components.
+ * Override these values in your application to customize the theme.
+ *
+ * Example usage in your app:
+ *   :root {
+ *     --chalky-primary: #8b5cf6;  // Change primary to purple
+ *   }
+ */
+
+:root {
+  /* ===========================
+     SURFACES
+     Background colors for cards, panels, sidebars, etc.
+     =========================== */
+  --chalky-surface: #ffffff;
+  --chalky-surface-secondary: #f9fafb;
+  --chalky-surface-tertiary: #f3f4f6;
+  --chalky-surface-hover: #f3f4f6;
+  --chalky-surface-active: #e5e7eb;
+
+  /* ===========================
+     TEXT
+     Typography colors
+     =========================== */
+  --chalky-text-primary: #111827;
+  --chalky-text-secondary: #4b5563;
+  --chalky-text-tertiary: #6b7280;
+  --chalky-text-muted: #9ca3af;
+  --chalky-text-inverted: #ffffff;
+
+  /* ===========================
+     BORDERS
+     Border and divider colors
+     =========================== */
+  --chalky-border: #e5e7eb;
+  --chalky-border-light: #f3f4f6;
+  --chalky-border-strong: #d1d5db;
+
+  /* ===========================
+     PRIMARY
+     Main brand/action color
+     =========================== */
+  --chalky-primary: #3b82f6;
+  --chalky-primary-hover: #2563eb;
+  --chalky-primary-light: #eff6ff;
+  --chalky-primary-text: #1d4ed8;
+
+  /* ===========================
+     SEMANTIC - SUCCESS
+     Positive actions, confirmations
+     =========================== */
+  --chalky-success: #16a34a;
+  --chalky-success-hover: #15803d;
+  --chalky-success-light: #f0fdf4;
+  --chalky-success-text: #166534;
+  --chalky-success-border: #4ade80;
+
+  /* ===========================
+     SEMANTIC - DANGER
+     Destructive actions, errors
+     =========================== */
+  --chalky-danger: #dc2626;
+  --chalky-danger-hover: #b91c1c;
+  --chalky-danger-light: #fef2f2;
+  --chalky-danger-text: #991b1b;
+  --chalky-danger-border: #f87171;
+
+  /* ===========================
+     SEMANTIC - WARNING
+     Caution, attention needed
+     =========================== */
+  --chalky-warning: #ca8a04;
+  --chalky-warning-hover: #a16207;
+  --chalky-warning-light: #fefce8;
+  --chalky-warning-text: #854d0e;
+  --chalky-warning-border: #facc15;
+
+  /* ===========================
+     SEMANTIC - INFO
+     Informational messages
+     =========================== */
+  --chalky-info: #0284c7;
+  --chalky-info-hover: #0369a1;
+  --chalky-info-light: #f0f9ff;
+  --chalky-info-text: #075985;
+  --chalky-info-border: #38bdf8;
+
+  /* ===========================
+     ACCENTS
+     Colors for badges, icons, tags
+     =========================== */
+  --chalky-accent-blue: #3b82f6;
+  --chalky-accent-blue-light: #dbeafe;
+  --chalky-accent-blue-text: #1d4ed8;
+
+  --chalky-accent-green: #22c55e;
+  --chalky-accent-green-light: #dcfce7;
+  --chalky-accent-green-text: #166534;
+
+  --chalky-accent-red: #ef4444;
+  --chalky-accent-red-light: #fee2e2;
+  --chalky-accent-red-text: #991b1b;
+
+  --chalky-accent-yellow: #eab308;
+  --chalky-accent-yellow-light: #fef9c3;
+  --chalky-accent-yellow-text: #854d0e;
+
+  --chalky-accent-orange: #f97316;
+  --chalky-accent-orange-light: #ffedd5;
+  --chalky-accent-orange-text: #9a3412;
+
+  --chalky-accent-purple: #a855f7;
+  --chalky-accent-purple-light: #f3e8ff;
+  --chalky-accent-purple-text: #7e22ce;
+
+  --chalky-accent-gray: #6b7280;
+  --chalky-accent-gray-light: #f3f4f6;
+  --chalky-accent-gray-text: #374151;
+
+  --chalky-accent-indigo: #6366f1;
+  --chalky-accent-indigo-light: #e0e7ff;
+  --chalky-accent-indigo-text: #4338ca;
+
+  /* ===========================
+     OVERLAY & TOOLTIP
+     Modal overlays, tooltips
+     =========================== */
+  --chalky-overlay: rgba(0, 0, 0, 0.5);
+  --chalky-tooltip-bg: #1f2937;
+  --chalky-tooltip-text: #ffffff;
+
+  /* ===========================
+     FOCUS RING
+     Accessibility focus states
+     =========================== */
+  --chalky-focus-ring: #3b82f6;
+  --chalky-focus-ring-offset: #ffffff;
+}

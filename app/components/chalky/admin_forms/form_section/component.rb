@@ -13,7 +13,7 @@ module Chalky::AdminForms
       end
 
       def section_classes
-        base_classes = "bg-white rounded-lg md:rounded-xl shadow-sm border border-gray-200 p-3 md:p-6"
+        base_classes = "bg-chalky-surface rounded-lg md:rounded-xl shadow-sm border border-chalky-border p-3 md:p-6"
         [base_classes, spacing_classes, css_classes].compact.join(" ")
       end
 

@@ -77,53 +77,53 @@
       .flex.flex-wrap.items-center.gap-8.mt-4.py-4
         = chalky_tooltip(position: :top) do |tooltip|
           - tooltip.with_trigger do
-            .px-4.py-2.bg-gray-100.rounded-lg.cursor-pointer.hover:bg-gray-200.transition
+            .px-4.py-2.bg-chalky-surface-secondary.text-chalky-text-primary.rounded-lg.cursor-pointer.hover:bg-chalky-surface-hover.transition
               | Hover me (top)
           - tooltip.with_tooltip_content do
             | Tooltip on top
         = chalky_tooltip(position: :bottom) do |tooltip|
           - tooltip.with_trigger do
-            .px-4.py-2.bg-gray-100.rounded-lg.cursor-pointer.hover:bg-gray-200.transition
+            .px-4.py-2.bg-chalky-surface-secondary.text-chalky-text-primary.rounded-lg.cursor-pointer.hover:bg-chalky-surface-hover.transition
               | Hover me (bottom)
           - tooltip.with_tooltip_content do
             | Tooltip on bottom
         = chalky_tooltip(position: :left) do |tooltip|
           - tooltip.with_trigger do
-            .px-4.py-2.bg-gray-100.rounded-lg.cursor-pointer.hover:bg-gray-200.transition
+            .px-4.py-2.bg-chalky-surface-secondary.text-chalky-text-primary.rounded-lg.cursor-pointer.hover:bg-chalky-surface-hover.transition
               | Hover me (left)
           - tooltip.with_tooltip_content do
             | Tooltip on left
         = chalky_tooltip(position: :right) do |tooltip|
           - tooltip.with_trigger do
-            .px-4.py-2.bg-gray-100.rounded-lg.cursor-pointer.hover:bg-gray-200.transition
+            .px-4.py-2.bg-chalky-surface-secondary.text-chalky-text-primary.rounded-lg.cursor-pointer.hover:bg-chalky-surface-hover.transition
               | Hover me (right)
           - tooltip.with_tooltip_content do
             | Tooltip on right
 
-      = code_snippet '= chalky_tooltip(position: :top) do |tooltip|', '  - tooltip.with_trigger do', '    .px-4.py-2.bg-gray-100.rounded-lg.cursor-pointer', '      | Hover me (top)', '  - tooltip.with_tooltip_content do', '    | Tooltip on top'
+      = code_snippet '= chalky_tooltip(position: :top) do |tooltip|', '  - tooltip.with_trigger do', '    .px-4.py-2.bg-chalky-surface-secondary.rounded-lg.cursor-pointer', '      | Hover me (top)', '  - tooltip.with_tooltip_content do', '    | Tooltip on top'
 
       = component_example("Style variants")
       .flex.flex-wrap.items-center.gap-8.mt-4.py-4
         = chalky_tooltip(variant: :dark) do |tooltip|
           - tooltip.with_trigger do
-            .px-4.py-2.bg-blue-100.text-blue-700.rounded-lg.cursor-pointer.hover:bg-blue-200.transition
+            .px-4.py-2.bg-chalky-accent-blue-light.text-chalky-accent-blue-text.rounded-lg.cursor-pointer.hover:bg-chalky-primary-light.transition
               | Dark tooltip
           - tooltip.with_tooltip_content do
             | Dark variant (default)
         = chalky_tooltip(variant: :light) do |tooltip|
           - tooltip.with_trigger do
-            .px-4.py-2.bg-blue-100.text-blue-700.rounded-lg.cursor-pointer.hover:bg-blue-200.transition
+            .px-4.py-2.bg-chalky-accent-blue-light.text-chalky-accent-blue-text.rounded-lg.cursor-pointer.hover:bg-chalky-primary-light.transition
               | Light tooltip
           - tooltip.with_tooltip_content do
             | Light variant with border
         = chalky_tooltip(delay: 500) do |tooltip|
           - tooltip.with_trigger do
-            .px-4.py-2.bg-green-100.text-green-700.rounded-lg.cursor-pointer.hover:bg-green-200.transition
+            .px-4.py-2.bg-chalky-accent-green-light.text-chalky-accent-green-text.rounded-lg.cursor-pointer.hover:bg-chalky-success-light.transition
               | Delayed tooltip
           - tooltip.with_tooltip_content do
             | With 500ms delay
 
-      = code_snippet '= chalky_tooltip(variant: :light) do |tooltip|', '  - tooltip.with_trigger do', '    .px-4.py-2.bg-blue-100.text-blue-700.rounded-lg', '      | Light tooltip', '  - tooltip.with_tooltip_content do', '    | Light variant with border'
+      = code_snippet '= chalky_tooltip(variant: :light) do |tooltip|', '  - tooltip.with_trigger do', '    .px-4.py-2.bg-chalky-accent-blue-light.text-chalky-accent-blue-text.rounded-lg', '      | Light tooltip', '  - tooltip.with_tooltip_content do', '    | Light variant with border'
 
       = component_example("On interactive elements")
       .flex.flex-wrap.items-center.gap-8.mt-4.py-4
@@ -139,7 +139,7 @@
             | Delete permanently
         = chalky_tooltip do |tooltip|
           - tooltip.with_trigger do
-            i.fa-solid.fa-circle-info.text-gray-400.text-lg.cursor-help
+            i.fa-solid.fa-circle-info.text-chalky-text-muted.text-lg.cursor-help
           - tooltip.with_tooltip_content do
             | More information about this feature
 
@@ -149,33 +149,33 @@
       .flex.flex-wrap.items-center.gap-8.mt-4.py-4
         = chalky_tooltip(position: :bottom, variant: :light) do |tooltip|
           - tooltip.with_trigger do
-            .px-4.py-2.bg-purple-100.text-purple-700.rounded-lg.cursor-pointer.hover:bg-purple-200.transition
+            .px-4.py-2.bg-chalky-accent-purple-light.text-chalky-accent-purple-text.rounded-lg.cursor-pointer.hover:bg-chalky-primary-light.transition
               i.fa-solid.fa-image.mr-2
               | Rich tooltip
           - tooltip.with_tooltip_content do
             .space-y-2
-              .font-bold.text-gray-900 Product Preview
+              .font-bold.text-chalky-text-primary Product Preview
               .w-48.h-32.bg-gradient-to-br.from-purple-400.to-pink-400.rounded-lg
-              p.text-gray-600 This tooltip contains rich HTML content including images and styled text.
+              p.text-chalky-text-secondary This tooltip contains rich HTML content including images and styled text.
         = chalky_tooltip(position: :right, variant: :light) do |tooltip|
           - tooltip.with_trigger do
-            .px-4.py-2.bg-indigo-100.text-indigo-700.rounded-lg.cursor-pointer.hover:bg-indigo-200.transition
+            .px-4.py-2.bg-chalky-accent-indigo-light.text-chalky-accent-indigo-text.rounded-lg.cursor-pointer.hover:bg-chalky-primary-light.transition
               i.fa-solid.fa-list.mr-2
               | List tooltip
           - tooltip.with_tooltip_content do
             .space-y-1
-              .font-bold.mb-2 Features included:
+              .font-bold.text-chalky-text-primary.mb-2 Features included:
               .flex.items-center.gap-2
-                i.fa-solid.fa-check.text-green-500
-                span HTML support
+                i.fa-solid.fa-check.text-chalky-success
+                span.text-chalky-text-secondary HTML support
               .flex.items-center.gap-2
-                i.fa-solid.fa-check.text-green-500
-                span Images
+                i.fa-solid.fa-check.text-chalky-success
+                span.text-chalky-text-secondary Images
               .flex.items-center.gap-2
-                i.fa-solid.fa-check.text-green-500
-                span Rich formatting
+                i.fa-solid.fa-check.text-chalky-success
+                span.text-chalky-text-secondary Rich formatting
 
-      = code_snippet '= chalky_tooltip(position: :bottom, variant: :light) do |tooltip|', '  - tooltip.with_trigger do', '    .px-4.py-2.bg-purple-100.text-purple-700.rounded-lg', '      | Rich tooltip', '  - tooltip.with_tooltip_content do', '    .space-y-2', '      .font-bold Product Preview', '      .w-48.h-32.bg-gradient-to-br.from-purple-400.to-pink-400.rounded-lg', '      p This tooltip contains rich HTML content.'
+      = code_snippet '= chalky_tooltip(position: :bottom, variant: :light) do |tooltip|', '  - tooltip.with_trigger do', '    .px-4.py-2.bg-chalky-accent-purple-light.text-chalky-accent-purple-text.rounded-lg', '      | Rich tooltip', '  - tooltip.with_tooltip_content do', '    .space-y-2', '      .font-bold Product Preview', '      .w-48.h-32.bg-gradient-to-br.from-purple-400.to-pink-400.rounded-lg', '      p This tooltip contains rich HTML content.'
 
     /! ==================== HINTS ====================
     = chalky_card do
@@ -184,13 +184,13 @@
       = component_example("Form field hints")
       .space-y-6.mt-4
         div
-          label.block.text-sm.font-medium.text-gray-700 Email
-          input.mt-1.block.w-full.rounded-md.border-gray-300.shadow-sm.border.px-3.py-2[type="email" placeholder="you@example.com"]
+          label.block.text-sm.font-medium.text-chalky-text-primary Email
+          input.mt-1.block.w-full.rounded-md.border-chalky-border.bg-chalky-surface.text-chalky-text-primary.shadow-sm.border.px-3.py-2[type="email" placeholder="you@example.com"]
           = chalky_hint(text: "We'll never share your email with anyone else.")
 
         div
-          label.block.text-sm.font-medium.text-gray-700 Password
-          input.mt-1.block.w-full.rounded-md.border-gray-300.shadow-sm.border.px-3.py-2[type="password"]
+          label.block.text-sm.font-medium.text-chalky-text-primary Password
+          input.mt-1.block.w-full.rounded-md.border-chalky-border.bg-chalky-surface.text-chalky-text-primary.shadow-sm.border.px-3.py-2[type="password"]
           = chalky_hint(text: "Minimum 8 characters with at least one number.")
 
-      = code_snippet 'div', '  label.block.text-sm.font-medium.text-gray-700 Email', '  input.mt-1.block.w-full.rounded-md.border-gray-300.shadow-sm.border.px-3.py-2[type="email" placeholder="you@example.com"]', '  = chalky_hint(text: "We\'ll never share your email with anyone else.")', '', 'div', '  label.block.text-sm.font-medium.text-gray-700 Password', '  input.mt-1.block.w-full.rounded-md.border-gray-300.shadow-sm.border.px-3.py-2[type="password"]', '  = chalky_hint(text: "Minimum 8 characters with at least one number.")'
+      = code_snippet 'div', '  label.block.text-sm.font-medium.text-chalky-text-primary Email', '  input.mt-1.block.w-full.rounded-md.border-chalky-border.bg-chalky-surface.text-chalky-text-primary.shadow-sm.border.px-3.py-2[type="email" placeholder="you@example.com"]', '  = chalky_hint(text: "We\'ll never share your email with anyone else.")', '', 'div', '  label.block.text-sm.font-medium.text-chalky-text-primary Password', '  input.mt-1.block.w-full.rounded-md.border-chalky-border.bg-chalky-surface.text-chalky-text-primary.shadow-sm.border.px-3.py-2[type="password"]', '  = chalky_hint(text: "Minimum 8 characters with at least one number.")'

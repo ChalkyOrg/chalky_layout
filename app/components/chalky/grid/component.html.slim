@@ -8,7 +8,7 @@
     / Optional responsive controls (only if responsive is enabled and has toggleable columns)
     - if responsive? && columns.any? { |col| col.respond_to?(:priority) && col.priority != :primary }
       .mb-4.flex.justify-between.items-center
-        h3.text-lg.font-medium.text-gray-900.hidden.md:block
+        h3.text-lg.font-medium.text-chalky-text-primary.hidden.md:block
         = render Chalky::Grid::ColumnToggle::Component.new(columns: columns)
 
     / Desktop Table Layout (>= 1024px)
@@ -73,22 +73,22 @@
           - rows.each.with_index(1) do |row, index|
             - primary_column = columns.find { |c| c.priority == :primary } || columns.first
             - secondary_columns = columns.reject { |c| c == primary_column }
-            .card.bg-white.rounded-lg.border.border-gray-200.shadow-sm.overflow-hidden id="#{row.respond_to?(:id) ? "mobile_#{dom_id(row)}" : "card-#{index}"}" data=row_data_attributes_for(row)
+            .card.bg-chalky-surface.rounded-lg.border.border-chalky-border.shadow-sm.overflow-hidden id="#{row.respond_to?(:id) ? "mobile_#{dom_id(row)}" : "card-#{index}"}" data=row_data_attributes_for(row)
               / Card Header - Primary value + Actions
-              .px-4.py-3.border-b.border-gray-100
+              .px-4.py-3.border-b.border-chalky-border-light
                 .flex.items-start.justify-between.gap-3
                   .flex-1.min-w-0
                     / Primary column as card title
                     - if details_path && row.public_send(details_path_id_method)
                       = link_to public_send(details_path, row.public_send(details_path_id_method)), class: "block", data: { test_id: "mobile-row-#{row.id}" }.merge(details_path_attributes) do
-                        .text-base.font-semibold.text-gray-900.truncate.hover:text-blue-600
+                        .text-base.font-semibold.text-chalky-text-primary.truncate.hover:text-chalky-primary
                           = render primary_column.component.call(row)
                     - else
-                      .text-base.font-semibold.text-gray-900.truncate
+                      .text-base.font-semibold.text-chalky-text-primary.truncate
                         = render primary_column.component.call(row)
                     / First secondary column as subtitle
                     - if secondary_columns.any?
-                      .text-sm.text-gray-500.mt-0.5.truncate
+                      .text-sm.text-chalky-text-tertiary.mt-0.5.truncate
                         = render secondary_columns.first.component.call(row)
 
                   / Actions dropdown
@@ -100,8 +100,8 @@
                     - if actions.any?
                       = render Chalky::AdminForms::Dropdown::Component.new(variant: :admin, pop_direction: :left) do |dropdown|
                         - dropdown.with_trigger do
-                          .w-8.h-8.flex.items-center.justify-center.rounded-full.hover:bg-gray-100.cursor-pointer
-                            i.fas.fa-ellipsis-v.text-gray-400
+                          .w-8.h-8.flex.items-center.justify-center.rounded-full.hover:bg-chalky-surface-hover.cursor-pointer
+                            i.fas.fa-ellipsis-v.text-chalky-text-muted
                         - actions.each do |action|
                           - if action.unless_option
                             - display_action = action.unless_option.is_a?(Proc) ? !action.unless_option.call(row) : !row.send(action.unless_option)
@@ -119,19 +119,19 @@
                   .space-y-2
                     - remaining_columns.each do |column|
                       .flex.items-center.justify-between.gap-4
-                        .text-sm.text-gray-500.flex-shrink-0
+                        .text-sm.text-chalky-text-tertiary.flex-shrink-0
                           = column.label
-                        .text-sm.text-gray-900.text-right.truncate
+                        .text-sm.text-chalky-text-primary.text-right.truncate
                           = render column.component.call(row)
 
     / Empty state when no rows
     - if should_show_empty_state?
-      .empty-state.py-8.text-center.text-gray-500
+      .empty-state.py-8.text-center.text-chalky-text-tertiary
         .text-lg.font-medium No data
         .text-sm.mt-1 No items to display
 
     - if row_count_key
-      #row-count.flex.py-3.px-4.text-sm.text-gray-700.font-medium
+      #row-count.flex.py-3.px-4.text-sm.text-chalky-text-secondary.font-medium
         = t(row_count_key, count: rows.size)
 
     / Automatic pagination when pagy is provided

@@ -15,16 +15,16 @@ module Chalky::Ui
 
       def container_classes
         base = "flex items-center justify-between"
-        separator ? "#{base} pt-3 mt-3 border-t border-gray-200" : base
+        separator ? "#{base} pt-3 mt-3 border-t border-chalky-border" : base
       end
 
       def label_classes
-        base = "text-sm text-gray-500"
+        base = "text-sm text-chalky-text-tertiary"
         bold_value ? "#{base} font-medium" : base
       end
 
       def value_classes
-        base = "text-sm text-gray-900"
+        base = "text-sm text-chalky-text-primary"
         bold_value ? "#{base} font-semibold" : base
       end
 

@@ -4,47 +4,47 @@
   - page.with_body do
     = chalky_card do
       = chalky_heading(title: "Welcome", subtitle: "Explore the component library")
-      p.mt-4.text-gray-600
+      p.mt-4.text-chalky-text-secondary
         | ChalkyLayout is a ViewComponent-based UI library for Rails applications.
         | Browse the components using the sidebar navigation.
 
     .grid.grid-cols-1.md:grid-cols-2.lg:grid-cols-3.gap-6.mt-6
-      = link_to feedback_path, class: "block p-6 bg-white rounded-xl shadow-sm border border-gray-200 hover:border-blue-300 hover:shadow-md transition group" do
+      = link_to feedback_path, class: "block p-6 bg-chalky-surface rounded-xl shadow-sm border border-chalky-border hover:border-chalky-primary-light hover:shadow-md transition group" do
         .flex.items-center.gap-4
-          .w-12.h-12.bg-blue-100.rounded-lg.flex.items-center.justify-center.group-hover:bg-blue-200.transition
-            i.fa-solid.fa-bell.text-blue-600.text-xl
+          .w-12.h-12.bg-chalky-accent-blue-light.rounded-lg.flex.items-center.justify-center.transition
+            i.fa-solid.fa-bell.text-chalky-accent-blue.text-xl
           div
-            h3.font-semibold.text-gray-900 Feedback
-            p.text-sm.text-gray-500 Alert, Badge, Stat, Tooltip, Hint
+            h3.font-semibold.text-chalky-text-primary Feedback
+            p.text-sm.text-chalky-text-tertiary Alert, Badge, Stat, Tooltip, Hint
 
-      = link_to navigation_path, class: "block p-6 bg-white rounded-xl shadow-sm border border-gray-200 hover:border-green-300 hover:shadow-md transition group" do
+      = link_to navigation_path, class: "block p-6 bg-chalky-surface rounded-xl shadow-sm border border-chalky-border hover:border-chalky-primary-light hover:shadow-md transition group" do
         .flex.items-center.gap-4
-          .w-12.h-12.bg-green-100.rounded-lg.flex.items-center.justify-center.group-hover:bg-green-200.transition
-            i.fa-solid.fa-compass.text-green-600.text-xl
+          .w-12.h-12.bg-chalky-accent-green-light.rounded-lg.flex.items-center.justify-center.transition
+            i.fa-solid.fa-compass.text-chalky-accent-green.text-xl
           div
-            h3.font-semibold.text-gray-900 Navigation
-            p.text-sm.text-gray-500 Tabs, Sidebar, Dropdown
+            h3.font-semibold.text-chalky-text-primary Navigation
+            p.text-sm.text-chalky-text-tertiary Tabs, Sidebar, Dropdown
 
-      = link_to layout_path, class: "block p-6 bg-white rounded-xl shadow-sm border border-gray-200 hover:border-purple-300 hover:shadow-md transition group" do
+      = link_to layout_path, class: "block p-6 bg-chalky-surface rounded-xl shadow-sm border border-chalky-border hover:border-chalky-primary-light hover:shadow-md transition group" do
         .flex.items-center.gap-4
-          .w-12.h-12.bg-purple-100.rounded-lg.flex.items-center.justify-center.group-hover:bg-purple-200.transition
-            i.fa-solid.fa-table-cells.text-purple-600.text-xl
+          .w-12.h-12.bg-chalky-accent-purple-light.rounded-lg.flex.items-center.justify-center.transition
+            i.fa-solid.fa-table-cells.text-chalky-accent-purple.text-xl
           div
-            h3.font-semibold.text-gray-900 Layout
-            p.text-sm.text-gray-500 Page, Panel, Card, Heading, Info Row
+            h3.font-semibold.text-chalky-text-primary Layout
+            p.text-sm.text-chalky-text-tertiary Page, Panel, Card, Heading, Info Row
 
-      = link_to buttons_path, class: "block p-6 bg-white rounded-xl shadow-sm border border-gray-200 hover:border-orange-300 hover:shadow-md transition group" do
+      = link_to buttons_path, class: "block p-6 bg-chalky-surface rounded-xl shadow-sm border border-chalky-border hover:border-chalky-primary-light hover:shadow-md transition group" do
         .flex.items-center.gap-4
-          .w-12.h-12.bg-orange-100.rounded-lg.flex.items-center.justify-center.group-hover:bg-orange-200.transition
-            i.fa-solid.fa-hand-pointer.text-orange-600.text-xl
+          .w-12.h-12.bg-chalky-accent-orange-light.rounded-lg.flex.items-center.justify-center.transition
+            i.fa-solid.fa-hand-pointer.text-chalky-accent-orange.text-xl
           div
-            h3.font-semibold.text-gray-900 Buttons
-            p.text-sm.text-gray-500 Button, Icon Button, Back
+            h3.font-semibold.text-chalky-text-primary Buttons
+            p.text-sm.text-chalky-text-tertiary Button, Icon Button, Back
 
-      = link_to data_path, class: "block p-6 bg-white rounded-xl shadow-sm border border-gray-200 hover:border-red-300 hover:shadow-md transition group" do
+      = link_to data_path, class: "block p-6 bg-chalky-surface rounded-xl shadow-sm border border-chalky-border hover:border-chalky-primary-light hover:shadow-md transition group" do
         .flex.items-center.gap-4
-          .w-12.h-12.bg-red-100.rounded-lg.flex.items-center.justify-center.group-hover:bg-red-200.transition
-            i.fa-solid.fa-table.text-red-600.text-xl
+          .w-12.h-12.bg-chalky-accent-red-light.rounded-lg.flex.items-center.justify-center.transition
+            i.fa-solid.fa-table.text-chalky-accent-red.text-xl
           div
-            h3.font-semibold.text-gray-900 Data
-            p.text-sm.text-gray-500 Grid, Pagination
+            h3.font-semibold.text-chalky-text-primary Data
+            p.text-sm.text-chalky-text-tertiary Grid, Pagination

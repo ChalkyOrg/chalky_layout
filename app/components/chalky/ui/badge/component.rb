@@ -4,13 +4,13 @@ module Chalky::Ui
   module Badge
     class Component < ViewComponent::Base
       COLORS = {
-        gray: "bg-gray-100 text-gray-700",
-        green: "bg-green-100 text-green-700",
-        red: "bg-red-100 text-red-700",
-        blue: "bg-blue-100 text-blue-700",
-        yellow: "bg-yellow-100 text-yellow-700",
-        orange: "bg-orange-100 text-orange-700",
-        purple: "bg-purple-100 text-purple-700"
+        gray: "bg-chalky-accent-gray-light text-chalky-accent-gray-text",
+        green: "bg-chalky-accent-green-light text-chalky-accent-green-text",
+        red: "bg-chalky-accent-red-light text-chalky-accent-red-text",
+        blue: "bg-chalky-accent-blue-light text-chalky-accent-blue-text",
+        yellow: "bg-chalky-accent-yellow-light text-chalky-accent-yellow-text",
+        orange: "bg-chalky-accent-orange-light text-chalky-accent-orange-text",
+        purple: "bg-chalky-accent-purple-light text-chalky-accent-purple-text"
       }.freeze
 
       SIZES = {

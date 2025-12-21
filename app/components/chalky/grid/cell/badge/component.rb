@@ -22,19 +22,19 @@ module Chalky::Grid
           base_classes = "inline-flex items-center rounded-full px-2 py-1 text-xs font-medium whitespace-nowrap"
           color_classes = case color.to_sym
                           when :green
-                            "bg-green-100 text-green-800"
+                            "bg-chalky-accent-green-light text-chalky-accent-green-text"
                           when :red
-                            "bg-red-100 text-red-800"
+                            "bg-chalky-accent-red-light text-chalky-accent-red-text"
                           when :blue
-                            "bg-blue-100 text-blue-800"
+                            "bg-chalky-accent-blue-light text-chalky-accent-blue-text"
                           when :yellow
-                            "bg-yellow-100 text-yellow-800"
+                            "bg-chalky-accent-yellow-light text-chalky-accent-yellow-text"
                           when :purple
-                            "bg-purple-100 text-purple-800"
+                            "bg-chalky-accent-purple-light text-chalky-accent-purple-text"
                           when :orange
-                            "bg-orange-100 text-orange-800"
+                            "bg-chalky-accent-orange-light text-chalky-accent-orange-text"
                           else
-                            "bg-gray-100 text-gray-800"
+                            "bg-chalky-accent-gray-light text-chalky-accent-gray-text"
                           end
           "#{base_classes} #{color_classes}"
         end

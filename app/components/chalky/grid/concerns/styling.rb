@@ -9,12 +9,12 @@ module Chalky::Grid
 
       # Classes for table headers (th)
       def th_classes(_column = nil)
-        "h-10 py-2 px-4 text-left text-xs font-semibold text-gray-600 whitespace-nowrap"
+        "h-10 py-2 px-4 text-left text-xs font-semibold text-chalky-text-secondary whitespace-nowrap"
       end
 
       # Classes for table cells (td)
       def td_classes(_column = nil, _row_index = nil, _total_rows = nil)
-        "py-2 px-4 text-sm text-gray-700 whitespace-nowrap"
+        "py-2 px-4 text-sm text-chalky-text-secondary whitespace-nowrap"
       end
 
       # Classes for rows according to variant
@@ -43,7 +43,7 @@ module Chalky::Grid
 
       # Specific classes for text cells
       def text_cell_classes
-        "font-normal text-sm text-gray-700 whitespace-nowrap truncate max-w-xs"
+        "font-normal text-sm text-chalky-text-secondary whitespace-nowrap truncate max-w-xs"
       end
     end
   end

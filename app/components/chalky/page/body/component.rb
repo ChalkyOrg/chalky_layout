@@ -15,7 +15,7 @@ module Chalky::Page
       end
 
       def content_classes
-        base_classes = "bg-light"
+        base_classes = "bg-chalky-surface-secondary"
         [base_classes, spacing_classes, css_classes].compact.join(" ")
       end
 

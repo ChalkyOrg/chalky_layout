@@ -10,13 +10,13 @@ module Chalky
         renders_many :menu_items, Chalky::Sidebar::MenuItem::Component
 
         ROLE_COLORS = {
-          blue: "bg-blue-100 text-blue-600",
-          green: "bg-green-100 text-green-600",
-          purple: "bg-purple-100 text-purple-600",
-          orange: "bg-orange-100 text-orange-600",
-          red: "bg-red-100 text-red-600",
-          gray: "bg-gray-100 text-gray-600",
-          indigo: "bg-indigo-100 text-indigo-600"
+          blue: "bg-chalky-accent-blue-light text-chalky-accent-blue-text",
+          green: "bg-chalky-accent-green-light text-chalky-accent-green-text",
+          purple: "bg-chalky-accent-purple-light text-chalky-accent-purple-text",
+          orange: "bg-chalky-accent-orange-light text-chalky-accent-orange-text",
+          red: "bg-chalky-accent-red-light text-chalky-accent-red-text",
+          gray: "bg-chalky-accent-gray-light text-chalky-accent-gray-text",
+          indigo: "bg-chalky-accent-indigo-light text-chalky-accent-indigo-text"
         }.freeze
 
         def initialize(
@@ -54,20 +54,20 @@ module Chalky
 
         def settings_menu_classes
           "sidebar-menu-item group flex items-center gap-x-3 rounded-lg p-2.5 text-sm font-medium " \
-            "text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all duration-150"
+            "text-chalky-text-secondary hover:bg-chalky-surface-hover hover:text-chalky-text-primary transition-all duration-150"
         end
 
         def logout_menu_classes
           "sidebar-menu-item sidebar-footer-logout group flex items-center gap-x-3 rounded-lg p-2.5 text-sm font-medium " \
-            "text-gray-700 hover:bg-red-50 hover:text-red-700 transition-all duration-150"
+            "text-chalky-text-secondary hover:bg-chalky-danger-light hover:text-chalky-danger transition-all duration-150"
         end
 
         def icon_container_classes
-          "sidebar-menu-icon flex-shrink-0 w-5 h-5 flex items-center justify-center text-gray-400 group-hover:text-gray-600"
+          "sidebar-menu-icon flex-shrink-0 w-5 h-5 flex items-center justify-center text-chalky-text-muted group-hover:text-chalky-text-secondary"
         end
 
         def logout_icon_container_classes
-          "sidebar-menu-icon flex-shrink-0 w-5 h-5 flex items-center justify-center text-gray-400 group-hover:text-red-600"
+          "sidebar-menu-icon flex-shrink-0 w-5 h-5 flex items-center justify-center text-chalky-text-muted group-hover:text-chalky-danger"
         end
 
         def avatar_initials

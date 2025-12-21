@@ -24,9 +24,12 @@ html.h-full
         }
       }
 
+    = stylesheet_link_tag "chalky_layout/tokens", media: "all"
+    = stylesheet_link_tag "chalky_layout/utilities", media: "all"
     = stylesheet_link_tag "chalky_layout/sidebar", media: "all"
     = stylesheet_link_tag "chalky_layout/tabs", media: "all"
     = stylesheet_link_tag "chalky_layout/grid", media: "all"
+    = stylesheet_link_tag "tailwind", media: "all"
     = javascript_importmap_tags
 
   body.h-full
@@ -48,3 +51,6 @@ html.h-full
       - layout.with_footer(user_name: "Developer", user_email: "dev@chalky.dev", role_label: "Showcase", role_color: :blue, logout_path: "/logout", logout_method: :delete)
 
       = yield
+
+    / Theme Editor (only in development)
+    = render "shared/theme_editor"

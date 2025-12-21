@@ -9,9 +9,9 @@
             = render Chalky::Buttons::Back::Component.new(fallback_url: backlink_fallback_url)
         - if show_title?
           .min-w-0
-            h1.text-lg.md:text-xl.font-semibold.text-gray-900.truncate = title
+            h1.text-lg.md:text-xl.font-semibold.text-chalky-text-primary.truncate = title
             - if show_subtitle?
-              p.text-sm.text-gray-600.mt-0.5.md:mt-1 = subtitle
+              p.text-sm.text-chalky-text-secondary.mt-0.5.md:mt-1 = subtitle
 
       / Actions section - scrollable on mobile
       - if actions?
@@ -20,5 +20,5 @@
 
     / Navigation tabs (if present)
     - if navigation?
-      .border-t.border-gray-200.pt-4.border-b.-mb-px
+      .border-t.border-chalky-border.pt-4.border-b.-mb-px
         = navigation

@@ -1,25 +1,25 @@
-.bg-white.overflow-hidden.shadow.rounded-lg
+.bg-chalky-surface.overflow-hidden.shadow.rounded-lg
   .p-5
     .flex.items-center
       - if icon.present?
         .flex-shrink-0
           div class=icon_container_classes
-            i class="#{icon} text-white"
+            i class="#{icon} text-chalky-text-inverted"
         .ml-4.flex-1
           dl
-            dt.text-sm.font-medium.text-gray-500.truncate = label
+            dt.text-sm.font-medium.text-chalky-text-tertiary.truncate = label
             dd.flex.items-baseline
-              .text-2xl.font-semibold.text-gray-900 = value
+              .text-2xl.font-semibold.text-chalky-text-primary = value
               - if trend.present?
                 span.ml-2.text-sm.font-medium class=trend_classes
                   i class="#{trend_icon} mr-0.5"
                   = subtitle
               - elsif subtitle.present?
-                span.ml-2.text-sm.text-gray-500 = subtitle
+                span.ml-2.text-sm.text-chalky-text-tertiary = subtitle
       - else
         dl.w-full
-          dt.text-sm.font-medium.text-gray-500.truncate = label
+          dt.text-sm.font-medium.text-chalky-text-tertiary.truncate = label
           dd.mt-1.flex.items-baseline
-            .text-2xl.font-semibold.text-gray-900 = value
+            .text-2xl.font-semibold.text-chalky-text-primary = value
             - if subtitle.present?
-              span.ml-2.text-sm.text-gray-500 = subtitle
+              span.ml-2.text-sm.text-chalky-text-tertiary = subtitle

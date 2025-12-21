@@ -792,9 +792,84 @@ module.exports = {
 }
 ```
 
-### Color Tokens (Optional)
+### CSS Styles (Required)
 
-Add the required color tokens to your Tailwind theme if you want to customize the default colors
+Import the ChalkyLayout styles in your CSS file:
+
+```css
+/* In your application.css or main CSS file */
+@import "chalky_layout/tokens.css";
+@import "chalky_layout/utilities.css";
+```
+
+Or add stylesheet link tags in your layout:
+
+```slim
+= stylesheet_link_tag "chalky_layout/tokens", "data-turbo-track": "reload"
+= stylesheet_link_tag "chalky_layout/utilities", "data-turbo-track": "reload"
+```
+
+### Design Tokens (Optional Customization)
+
+ChalkyLayout uses CSS custom properties (design tokens) for theming. Override these in your CSS to customize colors:
+
+```css
+:root {
+  /* Primary brand color */
+  --chalky-primary: #8b5cf6;
+  --chalky-primary-hover: #7c3aed;
+  --chalky-primary-light: #f5f3ff;
+  --chalky-primary-text: #6d28d9;
+
+  /* Success (green) */
+  --chalky-success: #16a34a;
+  --chalky-success-light: #f0fdf4;
+  --chalky-success-text: #166534;
+
+  /* Danger (red) */
+  --chalky-danger: #dc2626;
+  --chalky-danger-light: #fef2f2;
+  --chalky-danger-text: #991b1b;
+
+  /* Warning (yellow) */
+  --chalky-warning: #ca8a04;
+  --chalky-warning-light: #fefce8;
+  --chalky-warning-text: #854d0e;
+
+  /* Info (blue) */
+  --chalky-info: #0284c7;
+  --chalky-info-light: #f0f9ff;
+  --chalky-info-text: #075985;
+
+  /* Surfaces (backgrounds) */
+  --chalky-surface: #ffffff;
+  --chalky-surface-secondary: #f9fafb;
+  --chalky-surface-hover: #f3f4f6;
+
+  /* Text colors */
+  --chalky-text-primary: #111827;
+  --chalky-text-secondary: #4b5563;
+  --chalky-text-tertiary: #6b7280;
+  --chalky-text-muted: #9ca3af;
+
+  /* Borders */
+  --chalky-border: #e5e7eb;
+  --chalky-border-light: #f3f4f6;
+  --chalky-border-strong: #d1d5db;
+
+  /* Accent colors for badges, icons */
+  --chalky-accent-blue: #3b82f6;
+  --chalky-accent-green: #22c55e;
+  --chalky-accent-red: #ef4444;
+  --chalky-accent-yellow: #eab308;
+  --chalky-accent-orange: #f97316;
+  --chalky-accent-purple: #a855f7;
+  --chalky-accent-gray: #6b7280;
+  --chalky-accent-indigo: #6366f1;
+}
+```
+
+See `app/assets/stylesheets/chalky_layout/tokens.css` for the complete list of available tokens
 
 ### Font Awesome
 

@@ -1,0 +1,361 @@
+/ Theme Editor Panel - Smart theme generation with WCAG compliance
+/ Supports both Light and Dark mode presets
+div data-controller="theme-editor" data-theme-editor-open-value="false" data-theme-editor-mode-value="simple" class="z-[10000]"
+  / Toggle Button (fixed in bottom-right corner)
+  button.fixed.bottom-4.right-4.w-12.h-12.rounded-full.bg-gray-900.text-white.shadow-lg.flex.items-center.justify-center.hover:bg-gray-800.transition-colors.focus:outline-none.focus:ring-2.focus:ring-offset-2.focus:ring-gray-500 type="button" data-action="click->theme-editor#toggle" data-theme-editor-target="toggle" title="Theme Editor"
+    i.fa-solid.fa-palette.text-lg
+
+  / Panel (slides in from right) - Dark theme for dev tool consistency
+  .fixed.bottom-0.right-0.w-96.max-h-screen.bg-gray-900.shadow-2xl.transform.translate-x-full.transition-transform.duration-300.ease-in-out.flex.flex-col.border-l.border-gray-700.rounded-tl-xl data-theme-editor-target="panel" style="height: calc(100vh - 80px); margin-bottom: 80px;"
+    / Header
+    .flex.items-center.justify-between.p-4.border-b.border-gray-700.flex-shrink-0
+      .flex.items-center.gap-2
+        i.fa-solid.fa-palette.text-blue-400
+        h2.text-lg.font-semibold.text-gray-100 Theme Editor
+      button.p-1.rounded.hover:bg-gray-800.text-gray-400 type="button" data-action="click->theme-editor#toggle"
+        i.fa-solid.fa-xmark
+
+    / Mode Tabs
+    .flex.p-2.bg-gray-800.mx-4.mt-4.rounded-lg.gap-1
+      button.flex-1.py-2.px-3.text-sm.font-medium.rounded-md.transition-colors.bg-gray-700.text-gray-100.shadow-sm type="button" data-action="click->theme-editor#switchMode" data-mode="simple" data-theme-editor-target="modeTab"
+        | Simple
+      button.flex-1.py-2.px-3.text-sm.font-medium.rounded-md.transition-colors.text-gray-400 type="button" data-action="click->theme-editor#switchMode" data-mode="advanced" data-theme-editor-target="modeTab"
+        | Advanced
+
+    / Scrollable Content
+    .flex-1.overflow-y-auto.p-4.space-y-4
+      / === SIMPLE MODE ===
+      div data-theme-editor-target="simpleMode"
+        / =====================
+        / LIGHT MODE PRESETS
+        / =====================
+        .mb-6
+          .flex.items-center.gap-2.mb-3
+            i.fa-solid.fa-sun.text-amber-500
+            .text-xs.font-medium.text-gray-500.uppercase.tracking-wider Light Mode
+          .grid.grid-cols-4.gap-2
+            / Blue Light
+            button.group.relative.w-full.aspect-square.rounded-lg.overflow-hidden.border-2.border-gray-200.hover:border-gray-400.transition-all.shadow-sm type="button" data-action="click->theme-editor#applyPreset" data-preset="blue-light" data-theme-editor-target="presetButton" title="Ocean Blue"
+              .absolute.inset-0.flex
+                div class="w-1/2 h-full" style="background: #3b82f6"
+                div class="w-1/2 h-full" style="background: #06b6d4"
+              .absolute.inset-0.flex.items-center.justify-center.bg-black.bg-opacity-0.group-hover:bg-opacity-20.transition-all
+                i.fa-solid.fa-check.text-white.opacity-0.group-hover:opacity-100
+
+            / Green Light
+            button.group.relative.w-full.aspect-square.rounded-lg.overflow-hidden.border-2.border-gray-200.hover:border-gray-400.transition-all.shadow-sm type="button" data-action="click->theme-editor#applyPreset" data-preset="green-light" data-theme-editor-target="presetButton" title="Forest Green"
+              .absolute.inset-0.flex
+                div class="w-1/2 h-full" style="background: #10b981"
+                div class="w-1/2 h-full" style="background: #84cc16"
+              .absolute.inset-0.flex.items-center.justify-center.bg-black.bg-opacity-0.group-hover:bg-opacity-20.transition-all
+                i.fa-solid.fa-check.text-white.opacity-0.group-hover:opacity-100
+
+            / Purple Light
+            button.group.relative.w-full.aspect-square.rounded-lg.overflow-hidden.border-2.border-gray-200.hover:border-gray-400.transition-all.shadow-sm type="button" data-action="click->theme-editor#applyPreset" data-preset="purple-light" data-theme-editor-target="presetButton" title="Royal Purple"
+              .absolute.inset-0.flex
+                div class="w-1/2 h-full" style="background: #8b5cf6"
+                div class="w-1/2 h-full" style="background: #ec4899"
+              .absolute.inset-0.flex.items-center.justify-center.bg-black.bg-opacity-0.group-hover:bg-opacity-20.transition-all
+                i.fa-solid.fa-check.text-white.opacity-0.group-hover:opacity-100
+
+            / Orange Light
+            button.group.relative.w-full.aspect-square.rounded-lg.overflow-hidden.border-2.border-gray-200.hover:border-gray-400.transition-all.shadow-sm type="button" data-action="click->theme-editor#applyPreset" data-preset="orange-light" data-theme-editor-target="presetButton" title="Sunset Orange"
+              .absolute.inset-0.flex
+                div class="w-1/2 h-full" style="background: #f97316"
+                div class="w-1/2 h-full" style="background: #eab308"
+              .absolute.inset-0.flex.items-center.justify-center.bg-black.bg-opacity-0.group-hover:bg-opacity-20.transition-all
+                i.fa-solid.fa-check.text-white.opacity-0.group-hover:opacity-100
+
+            / Red Light
+            button.group.relative.w-full.aspect-square.rounded-lg.overflow-hidden.border-2.border-gray-200.hover:border-gray-400.transition-all.shadow-sm type="button" data-action="click->theme-editor#applyPreset" data-preset="red-light" data-theme-editor-target="presetButton" title="Ruby Red"
+              .absolute.inset-0.flex
+                div class="w-1/2 h-full" style="background: #ef4444"
+                div class="w-1/2 h-full" style="background: #f97316"
+              .absolute.inset-0.flex.items-center.justify-center.bg-black.bg-opacity-0.group-hover:bg-opacity-20.transition-all
+                i.fa-solid.fa-check.text-white.opacity-0.group-hover:opacity-100
+
+            / Teal Light
+            button.group.relative.w-full.aspect-square.rounded-lg.overflow-hidden.border-2.border-gray-200.hover:border-gray-400.transition-all.shadow-sm type="button" data-action="click->theme-editor#applyPreset" data-preset="teal-light" data-theme-editor-target="presetButton" title="Teal Dream"
+              .absolute.inset-0.flex
+                div class="w-1/2 h-full" style="background: #14b8a6"
+                div class="w-1/2 h-full" style="background: #6366f1"
+              .absolute.inset-0.flex.items-center.justify-center.bg-black.bg-opacity-0.group-hover:bg-opacity-20.transition-all
+                i.fa-solid.fa-check.text-white.opacity-0.group-hover:opacity-100
+
+            / Indigo Light
+            button.group.relative.w-full.aspect-square.rounded-lg.overflow-hidden.border-2.border-gray-200.hover:border-gray-400.transition-all.shadow-sm type="button" data-action="click->theme-editor#applyPreset" data-preset="indigo-light" data-theme-editor-target="presetButton" title="Deep Indigo"
+              .absolute.inset-0.flex
+                div class="w-1/2 h-full" style="background: #6366f1"
+                div class="w-1/2 h-full" style="background: #a855f7"
+              .absolute.inset-0.flex.items-center.justify-center.bg-black.bg-opacity-0.group-hover:bg-opacity-20.transition-all
+                i.fa-solid.fa-check.text-white.opacity-0.group-hover:opacity-100
+
+            / Rose Light
+            button.group.relative.w-full.aspect-square.rounded-lg.overflow-hidden.border-2.border-gray-200.hover:border-gray-400.transition-all.shadow-sm type="button" data-action="click->theme-editor#applyPreset" data-preset="rose-light" data-theme-editor-target="presetButton" title="Rose Garden"
+              .absolute.inset-0.flex
+                div class="w-1/2 h-full" style="background: #f43f5e"
+                div class="w-1/2 h-full" style="background: #d946ef"
+              .absolute.inset-0.flex.items-center.justify-center.bg-black.bg-opacity-0.group-hover:bg-opacity-20.transition-all
+                i.fa-solid.fa-check.text-white.opacity-0.group-hover:opacity-100
+
+        / =====================
+        / DARK MODE PRESETS
+        / =====================
+        .mb-6
+          .flex.items-center.gap-2.mb-3
+            i.fa-solid.fa-moon.text-indigo-400
+            .text-xs.font-medium.text-gray-500.uppercase.tracking-wider Dark Mode
+          .grid.grid-cols-4.gap-2
+            / Blue Dark
+            button.group.relative.w-full.aspect-square.rounded-lg.overflow-hidden.border-2.border-gray-700.hover:border-gray-500.transition-all.shadow-sm type="button" data-action="click->theme-editor#applyPreset" data-preset="blue-dark" data-theme-editor-target="presetButton" title="Ocean Blue Dark"
+              .absolute.inset-0.flex style="background: #1e293b"
+                div class="w-1/2 h-full flex items-center justify-center"
+                  .w-4.h-4.rounded-full style="background: #60a5fa"
+                div class="w-1/2 h-full flex items-center justify-center"
+                  .w-4.h-4.rounded-full style="background: #22d3ee"
+              .absolute.inset-0.flex.items-center.justify-center.bg-white.bg-opacity-0.group-hover:bg-opacity-10.transition-all
+                i.fa-solid.fa-check.text-white.opacity-0.group-hover:opacity-100
+
+            / Green Dark
+            button.group.relative.w-full.aspect-square.rounded-lg.overflow-hidden.border-2.border-gray-700.hover:border-gray-500.transition-all.shadow-sm type="button" data-action="click->theme-editor#applyPreset" data-preset="green-dark" data-theme-editor-target="presetButton" title="Forest Green Dark"
+              .absolute.inset-0.flex style="background: #1e293b"
+                div class="w-1/2 h-full flex items-center justify-center"
+                  .w-4.h-4.rounded-full style="background: #34d399"
+                div class="w-1/2 h-full flex items-center justify-center"
+                  .w-4.h-4.rounded-full style="background: #a3e635"
+              .absolute.inset-0.flex.items-center.justify-center.bg-white.bg-opacity-0.group-hover:bg-opacity-10.transition-all
+                i.fa-solid.fa-check.text-white.opacity-0.group-hover:opacity-100
+
+            / Purple Dark
+            button.group.relative.w-full.aspect-square.rounded-lg.overflow-hidden.border-2.border-gray-700.hover:border-gray-500.transition-all.shadow-sm type="button" data-action="click->theme-editor#applyPreset" data-preset="purple-dark" data-theme-editor-target="presetButton" title="Royal Purple Dark"
+              .absolute.inset-0.flex style="background: #1e293b"
+                div class="w-1/2 h-full flex items-center justify-center"
+                  .w-4.h-4.rounded-full style="background: #a78bfa"
+                div class="w-1/2 h-full flex items-center justify-center"
+                  .w-4.h-4.rounded-full style="background: #f472b6"
+              .absolute.inset-0.flex.items-center.justify-center.bg-white.bg-opacity-0.group-hover:bg-opacity-10.transition-all
+                i.fa-solid.fa-check.text-white.opacity-0.group-hover:opacity-100
+
+            / Orange Dark
+            button.group.relative.w-full.aspect-square.rounded-lg.overflow-hidden.border-2.border-gray-700.hover:border-gray-500.transition-all.shadow-sm type="button" data-action="click->theme-editor#applyPreset" data-preset="orange-dark" data-theme-editor-target="presetButton" title="Sunset Orange Dark"
+              .absolute.inset-0.flex style="background: #1e293b"
+                div class="w-1/2 h-full flex items-center justify-center"
+                  .w-4.h-4.rounded-full style="background: #fb923c"
+                div class="w-1/2 h-full flex items-center justify-center"
+                  .w-4.h-4.rounded-full style="background: #fbbf24"
+              .absolute.inset-0.flex.items-center.justify-center.bg-white.bg-opacity-0.group-hover:bg-opacity-10.transition-all
+                i.fa-solid.fa-check.text-white.opacity-0.group-hover:opacity-100
+
+            / Red Dark
+            button.group.relative.w-full.aspect-square.rounded-lg.overflow-hidden.border-2.border-gray-700.hover:border-gray-500.transition-all.shadow-sm type="button" data-action="click->theme-editor#applyPreset" data-preset="red-dark" data-theme-editor-target="presetButton" title="Ruby Red Dark"
+              .absolute.inset-0.flex style="background: #1e293b"
+                div class="w-1/2 h-full flex items-center justify-center"
+                  .w-4.h-4.rounded-full style="background: #f87171"
+                div class="w-1/2 h-full flex items-center justify-center"
+                  .w-4.h-4.rounded-full style="background: #fb923c"
+              .absolute.inset-0.flex.items-center.justify-center.bg-white.bg-opacity-0.group-hover:bg-opacity-10.transition-all
+                i.fa-solid.fa-check.text-white.opacity-0.group-hover:opacity-100
+
+            / Teal Dark
+            button.group.relative.w-full.aspect-square.rounded-lg.overflow-hidden.border-2.border-gray-700.hover:border-gray-500.transition-all.shadow-sm type="button" data-action="click->theme-editor#applyPreset" data-preset="teal-dark" data-theme-editor-target="presetButton" title="Teal Dream Dark"
+              .absolute.inset-0.flex style="background: #1e293b"
+                div class="w-1/2 h-full flex items-center justify-center"
+                  .w-4.h-4.rounded-full style="background: #2dd4bf"
+                div class="w-1/2 h-full flex items-center justify-center"
+                  .w-4.h-4.rounded-full style="background: #818cf8"
+              .absolute.inset-0.flex.items-center.justify-center.bg-white.bg-opacity-0.group-hover:bg-opacity-10.transition-all
+                i.fa-solid.fa-check.text-white.opacity-0.group-hover:opacity-100
+
+            / Indigo Dark
+            button.group.relative.w-full.aspect-square.rounded-lg.overflow-hidden.border-2.border-gray-700.hover:border-gray-500.transition-all.shadow-sm type="button" data-action="click->theme-editor#applyPreset" data-preset="indigo-dark" data-theme-editor-target="presetButton" title="Deep Indigo Dark"
+              .absolute.inset-0.flex style="background: #1e293b"
+                div class="w-1/2 h-full flex items-center justify-center"
+                  .w-4.h-4.rounded-full style="background: #818cf8"
+                div class="w-1/2 h-full flex items-center justify-center"
+                  .w-4.h-4.rounded-full style="background: #c084fc"
+              .absolute.inset-0.flex.items-center.justify-center.bg-white.bg-opacity-0.group-hover:bg-opacity-10.transition-all
+                i.fa-solid.fa-check.text-white.opacity-0.group-hover:opacity-100
+
+            / Rose Dark
+            button.group.relative.w-full.aspect-square.rounded-lg.overflow-hidden.border-2.border-gray-700.hover:border-gray-500.transition-all.shadow-sm type="button" data-action="click->theme-editor#applyPreset" data-preset="rose-dark" data-theme-editor-target="presetButton" title="Rose Garden Dark"
+              .absolute.inset-0.flex style="background: #1e293b"
+                div class="w-1/2 h-full flex items-center justify-center"
+                  .w-4.h-4.rounded-full style="background: #fb7185"
+                div class="w-1/2 h-full flex items-center justify-center"
+                  .w-4.h-4.rounded-full style="background: #e879f9"
+              .absolute.inset-0.flex.items-center.justify-center.bg-white.bg-opacity-0.group-hover:bg-opacity-10.transition-all
+                i.fa-solid.fa-check.text-white.opacity-0.group-hover:opacity-100
+
+        / Custom Colors (for fine-tuning after selecting a preset)
+        .space-y-4
+          .text-xs.font-medium.text-gray-400.uppercase.tracking-wider Fine-tune Colors
+
+          / Primary Color
+          .bg-gray-800.rounded-lg.p-4
+            .flex.items-center.justify-between.mb-2
+              .flex.items-center.gap-2
+                .w-4.h-4.rounded-full.bg-blue-500
+                span.text-sm.font-medium.text-gray-200 Primary Color
+              input.w-12.h-10.rounded-lg.border-2.border-gray-600.cursor-pointer.hover:border-gray-500.transition-colors type="color" value="#3b82f6" data-theme-editor-target="primaryPicker" data-action="input->theme-editor#updatePrimaryColor"
+            p.text-xs.text-gray-400 Main brand color - buttons, links, accents
+
+          / Accent Color
+          .bg-gray-800.rounded-lg.p-4
+            .flex.items-center.justify-between.mb-2
+              .flex.items-center.gap-2
+                .w-4.h-4.rounded-full.bg-cyan-500
+                span.text-sm.font-medium.text-gray-200 Accent Color
+              input.w-12.h-10.rounded-lg.border-2.border-gray-600.cursor-pointer.hover:border-gray-500.transition-colors type="color" value="#06b6d4" data-theme-editor-target="accentPicker" data-action="input->theme-editor#updateAccentColor"
+            p.text-xs.text-gray-400 Secondary highlights and decorative elements
+
+        / Info box
+        .mt-6.bg-blue-900.rounded-lg.p-4.border.border-blue-800
+          .flex.gap-3
+            i.fa-solid.fa-wand-magic-sparkles.text-blue-400.mt-0.5
+            div
+              p.text-sm.font-medium.text-blue-200 Smart Color Generation
+              p.text-xs.text-blue-300.mt-1 All other colors are automatically derived from your primary and accent colors with WCAG AA contrast compliance.
+
+      / === ADVANCED MODE ===
+      .hidden data-theme-editor-target="advancedMode"
+        / === SURFACES ===
+        div data-section=""
+          button.w-full.flex.items-center.justify-between.py-2.text-left type="button" data-action="click->theme-editor#toggleSection"
+            span.font-medium.text-gray-100 Surfaces
+            i.fa-solid.fa-chevron-down.text-gray-500.transition-transform.-rotate-180 data-section-icon=""
+          div data-section-content=""
+            .space-y-3.mt-2
+              .flex.items-center.justify-between
+                label.text-sm.text-gray-400 Surface
+                input.w-12.h-8.rounded.border.border-gray-600.cursor-pointer type="color" value="#ffffff" data-token="--chalky-surface" data-theme-editor-target="colorInput" data-action="input->theme-editor#updateColor"
+              .flex.items-center.justify-between
+                label.text-sm.text-gray-400 Secondary
+                input.w-12.h-8.rounded.border.border-gray-600.cursor-pointer type="color" value="#f9fafb" data-token="--chalky-surface-secondary" data-theme-editor-target="colorInput" data-action="input->theme-editor#updateColor"
+              .flex.items-center.justify-between
+                label.text-sm.text-gray-400 Tertiary
+                input.w-12.h-8.rounded.border.border-gray-600.cursor-pointer type="color" value="#f3f4f6" data-token="--chalky-surface-tertiary" data-theme-editor-target="colorInput" data-action="input->theme-editor#updateColor"
+              .flex.items-center.justify-between
+                label.text-sm.text-gray-400 Hover
+                input.w-12.h-8.rounded.border.border-gray-600.cursor-pointer type="color" value="#f3f4f6" data-token="--chalky-surface-hover" data-theme-editor-target="colorInput" data-action="input->theme-editor#updateColor"
+
+        / === TEXT ===
+        div data-section=""
+          button.w-full.flex.items-center.justify-between.py-2.text-left type="button" data-action="click->theme-editor#toggleSection"
+            span.font-medium.text-gray-100 Text
+            i.fa-solid.fa-chevron-down.text-gray-500.transition-transform.-rotate-180 data-section-icon=""
+          div data-section-content=""
+            .space-y-3.mt-2
+              .flex.items-center.justify-between
+                label.text-sm.text-gray-400 Primary
+                input.w-12.h-8.rounded.border.border-gray-600.cursor-pointer type="color" value="#111827" data-token="--chalky-text-primary" data-theme-editor-target="colorInput" data-action="input->theme-editor#updateColor"
+              .flex.items-center.justify-between
+                label.text-sm.text-gray-400 Secondary
+                input.w-12.h-8.rounded.border.border-gray-600.cursor-pointer type="color" value="#4b5563" data-token="--chalky-text-secondary" data-theme-editor-target="colorInput" data-action="input->theme-editor#updateColor"
+              .flex.items-center.justify-between
+                label.text-sm.text-gray-400 Tertiary
+                input.w-12.h-8.rounded.border.border-gray-600.cursor-pointer type="color" value="#6b7280" data-token="--chalky-text-tertiary" data-theme-editor-target="colorInput" data-action="input->theme-editor#updateColor"
+              .flex.items-center.justify-between
+                label.text-sm.text-gray-400 Muted
+                input.w-12.h-8.rounded.border.border-gray-600.cursor-pointer type="color" value="#9ca3af" data-token="--chalky-text-muted" data-theme-editor-target="colorInput" data-action="input->theme-editor#updateColor"
+
+        / === BORDERS ===
+        div data-section=""
+          button.w-full.flex.items-center.justify-between.py-2.text-left type="button" data-action="click->theme-editor#toggleSection"
+            span.font-medium.text-gray-100 Borders
+            i.fa-solid.fa-chevron-down.text-gray-500.transition-transform.rotate-0 data-section-icon=""
+          div.hidden data-section-content=""
+            .space-y-3.mt-2
+              .flex.items-center.justify-between
+                label.text-sm.text-gray-400 Border
+                input.w-12.h-8.rounded.border.border-gray-600.cursor-pointer type="color" value="#e5e7eb" data-token="--chalky-border" data-theme-editor-target="colorInput" data-action="input->theme-editor#updateColor"
+              .flex.items-center.justify-between
+                label.text-sm.text-gray-400 Light
+                input.w-12.h-8.rounded.border.border-gray-600.cursor-pointer type="color" value="#f3f4f6" data-token="--chalky-border-light" data-theme-editor-target="colorInput" data-action="input->theme-editor#updateColor"
+              .flex.items-center.justify-between
+                label.text-sm.text-gray-400 Strong
+                input.w-12.h-8.rounded.border.border-gray-600.cursor-pointer type="color" value="#d1d5db" data-token="--chalky-border-strong" data-theme-editor-target="colorInput" data-action="input->theme-editor#updateColor"
+
+        / === PRIMARY ===
+        div data-section=""
+          button.w-full.flex.items-center.justify-between.py-2.text-left type="button" data-action="click->theme-editor#toggleSection"
+            span.font-medium.text-gray-100 Primary
+            i.fa-solid.fa-chevron-down.text-gray-500.transition-transform.-rotate-180 data-section-icon=""
+          div data-section-content=""
+            .space-y-3.mt-2
+              .flex.items-center.justify-between
+                label.text-sm.text-gray-400 Primary
+                input.w-12.h-8.rounded.border.border-gray-600.cursor-pointer type="color" value="#3b82f6" data-token="--chalky-primary" data-theme-editor-target="colorInput" data-action="input->theme-editor#updateColor"
+              .flex.items-center.justify-between
+                label.text-sm.text-gray-400 Hover
+                input.w-12.h-8.rounded.border.border-gray-600.cursor-pointer type="color" value="#2563eb" data-token="--chalky-primary-hover" data-theme-editor-target="colorInput" data-action="input->theme-editor#updateColor"
+              .flex.items-center.justify-between
+                label.text-sm.text-gray-400 Light
+                input.w-12.h-8.rounded.border.border-gray-600.cursor-pointer type="color" value="#eff6ff" data-token="--chalky-primary-light" data-theme-editor-target="colorInput" data-action="input->theme-editor#updateColor"
+              .flex.items-center.justify-between
+                label.text-sm.text-gray-400 Text
+                input.w-12.h-8.rounded.border.border-gray-600.cursor-pointer type="color" value="#1d4ed8" data-token="--chalky-primary-text" data-theme-editor-target="colorInput" data-action="input->theme-editor#updateColor"
+
+        / === SEMANTIC ===
+        div data-section=""
+          button.w-full.flex.items-center.justify-between.py-2.text-left type="button" data-action="click->theme-editor#toggleSection"
+            span.font-medium.text-gray-100 Semantic
+            i.fa-solid.fa-chevron-down.text-gray-500.transition-transform.rotate-0 data-section-icon=""
+          div.hidden data-section-content=""
+            .space-y-3.mt-2
+              / Success
+              .text-xs.font-medium.text-gray-400.uppercase.tracking-wider.mt-2 Success
+              .flex.items-center.justify-between
+                label.text-sm.text-gray-400 Main
+                input.w-12.h-8.rounded.border.border-gray-600.cursor-pointer type="color" value="#16a34a" data-token="--chalky-success" data-theme-editor-target="colorInput" data-action="input->theme-editor#updateColor"
+              .flex.items-center.justify-between
+                label.text-sm.text-gray-400 Light
+                input.w-12.h-8.rounded.border.border-gray-600.cursor-pointer type="color" value="#f0fdf4" data-token="--chalky-success-light" data-theme-editor-target="colorInput" data-action="input->theme-editor#updateColor"
+              / Danger
+              .text-xs.font-medium.text-gray-400.uppercase.tracking-wider.mt-4 Danger
+              .flex.items-center.justify-between
+                label.text-sm.text-gray-400 Main
+                input.w-12.h-8.rounded.border.border-gray-600.cursor-pointer type="color" value="#dc2626" data-token="--chalky-danger" data-theme-editor-target="colorInput" data-action="input->theme-editor#updateColor"
+              .flex.items-center.justify-between
+                label.text-sm.text-gray-400 Light
+                input.w-12.h-8.rounded.border.border-gray-600.cursor-pointer type="color" value="#fef2f2" data-token="--chalky-danger-light" data-theme-editor-target="colorInput" data-action="input->theme-editor#updateColor"
+              / Warning
+              .text-xs.font-medium.text-gray-400.uppercase.tracking-wider.mt-4 Warning
+              .flex.items-center.justify-between
+                label.text-sm.text-gray-400 Main
+                input.w-12.h-8.rounded.border.border-gray-600.cursor-pointer type="color" value="#ca8a04" data-token="--chalky-warning" data-theme-editor-target="colorInput" data-action="input->theme-editor#updateColor"
+              .flex.items-center.justify-between
+                label.text-sm.text-gray-400 Light
+                input.w-12.h-8.rounded.border.border-gray-600.cursor-pointer type="color" value="#fefce8" data-token="--chalky-warning-light" data-theme-editor-target="colorInput" data-action="input->theme-editor#updateColor"
+              / Info
+              .text-xs.font-medium.text-gray-400.uppercase.tracking-wider.mt-4 Info
+              .flex.items-center.justify-between
+                label.text-sm.text-gray-400 Main
+                input.w-12.h-8.rounded.border.border-gray-600.cursor-pointer type="color" value="#0284c7" data-token="--chalky-info" data-theme-editor-target="colorInput" data-action="input->theme-editor#updateColor"
+              .flex.items-center.justify-between
+                label.text-sm.text-gray-400 Light
+                input.w-12.h-8.rounded.border.border-gray-600.cursor-pointer type="color" value="#f0f9ff" data-token="--chalky-info-light" data-theme-editor-target="colorInput" data-action="input->theme-editor#updateColor"
+
+        / === ACCENTS ===
+        div data-section=""
+          button.w-full.flex.items-center.justify-between.py-2.text-left type="button" data-action="click->theme-editor#toggleSection"
+            span.font-medium.text-gray-100 Accents
+            i.fa-solid.fa-chevron-down.text-gray-500.transition-transform.rotate-0 data-section-icon=""
+          div.hidden data-section-content=""
+            .space-y-3.mt-2
+              - %w[blue green red yellow orange purple gray indigo].each do |color|
+                .flex.items-center.justify-between
+                  label.text-sm.text-gray-400.capitalize = color
+                  input.w-12.h-8.rounded.border.border-gray-600.cursor-pointer type="color" data-token="--chalky-accent-#{color}" data-theme-editor-target="colorInput" data-action="input->theme-editor#updateColor"
+
+    / Footer Actions
+    .flex-shrink-0.p-4.border-t.border-gray-700.bg-gray-800.space-y-2
+      .flex.gap-2
+        button.flex-1.px-3.py-2.text-sm.font-medium.text-gray-200.bg-gray-700.border.border-gray-600.rounded-lg.hover:bg-gray-600.transition-colors type="button" data-action="click->theme-editor#reset"
+          i.fa-solid.fa-rotate-left.mr-1
+          | Reset
+        button.flex-1.px-3.py-2.text-sm.font-medium.text-gray-200.bg-gray-700.border.border-gray-600.rounded-lg.hover:bg-gray-600.transition-colors type="button" data-action="click->theme-editor#copyCSS"
+          i.fa-solid.fa-copy.mr-1
+          | CSS
+        button.flex-1.px-3.py-2.text-sm.font-medium.text-gray-200.bg-gray-700.border.border-gray-600.rounded-lg.hover:bg-gray-600.transition-colors type="button" data-action="click->theme-editor#copyJSON"
+          i.fa-solid.fa-code.mr-1
+          | JSON

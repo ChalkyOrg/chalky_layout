@@ -26,9 +26,9 @@ module Chalky
                          "font-medium transition-all duration-150"
 
           state_classes = if active?
-                            "bg-blue-50 text-blue-700 shadow-sm"
+                            "bg-chalky-primary-light text-chalky-primary-text shadow-sm"
                           else
-                            "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+                            "text-chalky-text-secondary hover:bg-chalky-surface-hover hover:text-chalky-text-primary"
                           end
 
           [base_classes, state_classes].join(" ")
@@ -38,9 +38,9 @@ module Chalky
           base_classes = "sidebar-menu-icon flex-shrink-0 w-5 h-5 flex items-center justify-center"
 
           if active?
-            "#{base_classes} text-blue-600"
+            "#{base_classes} text-chalky-primary"
           else
-            "#{base_classes} text-gray-400 group-hover:text-gray-600"
+            "#{base_classes} text-chalky-text-muted group-hover:text-chalky-text-secondary"
           end
         end
 

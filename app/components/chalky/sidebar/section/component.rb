@@ -11,13 +11,13 @@ module Chalky
         attr_reader :title, :description, :icon_path, :icon_color_class, :css_classes, :spacing_classes
 
         ICON_COLORS = {
-          blue: "bg-blue-100 text-blue-600",
-          green: "bg-green-100 text-green-600",
-          purple: "bg-purple-100 text-purple-600",
-          orange: "bg-orange-100 text-orange-600",
-          red: "bg-red-100 text-red-600",
-          gray: "bg-gray-100 text-gray-600",
-          indigo: "bg-indigo-100 text-indigo-600"
+          blue: "bg-chalky-accent-blue-light text-chalky-accent-blue",
+          green: "bg-chalky-accent-green-light text-chalky-accent-green",
+          purple: "bg-chalky-accent-purple-light text-chalky-accent-purple",
+          orange: "bg-chalky-accent-orange-light text-chalky-accent-orange",
+          red: "bg-chalky-accent-red-light text-chalky-accent-red",
+          gray: "bg-chalky-accent-gray-light text-chalky-accent-gray",
+          indigo: "bg-chalky-accent-indigo-light text-chalky-accent-indigo"
         }.freeze
 
         def initialize(title: nil, icon_path: nil, description: nil, icon_color: :blue, css_classes: "", spacing: "mb-6")
@@ -31,7 +31,7 @@ module Chalky
         end
 
         def section_classes
-          base_classes = "sidebar-section bg-white rounded-xl shadow-sm border border-gray-200 p-4 transition-shadow hover:shadow-md"
+          base_classes = "sidebar-section bg-chalky-surface rounded-xl shadow-sm border border-chalky-border p-4 transition-shadow hover:shadow-md"
           [base_classes, spacing_classes, css_classes].compact.join(" ")
         end
 

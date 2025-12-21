@@ -18,8 +18,8 @@ module Chalky::Page
       end
 
       def bar_classes
-        base_classes = "bg-white sticky top-0 z-40"
-        border_classes = navigation? ? "" : "border-b border-gray-200"
+        base_classes = "bg-chalky-surface sticky top-0 z-40"
+        border_classes = navigation? ? "" : "border-b border-chalky-border"
         [base_classes, border_classes, spacing_classes].compact.join(" ")
       end
 

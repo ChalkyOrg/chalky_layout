@@ -4,13 +4,13 @@ module Chalky::Ui
   module Stat
     class Component < ViewComponent::Base
       ICON_COLORS = {
-        gray: "bg-gray-500",
-        green: "bg-green-500",
-        red: "bg-red-500",
-        blue: "bg-blue-500",
-        yellow: "bg-yellow-500",
-        orange: "bg-orange-500",
-        purple: "bg-purple-500"
+        gray: "bg-chalky-accent-gray",
+        green: "bg-chalky-accent-green",
+        red: "bg-chalky-accent-red",
+        blue: "bg-chalky-accent-blue",
+        yellow: "bg-chalky-accent-yellow",
+        orange: "bg-chalky-accent-orange",
+        purple: "bg-chalky-accent-purple"
       }.freeze
 
       attr_reader :label, :value, :icon, :icon_color, :subtitle, :trend
@@ -35,11 +35,11 @@ module Chalky::Ui
       def trend_classes
         case trend
         when :up
-          "text-green-600"
+          "text-chalky-success"
         when :down
-          "text-red-600"
+          "text-chalky-danger"
         else
-          "text-gray-500"
+          "text-chalky-text-tertiary"
         end
       end
 

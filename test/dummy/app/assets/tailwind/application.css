@@ -4,13 +4,212 @@
 @source "../../../../vendor/bundle/ruby/*/gems/chalky_layout-*/app/components/**/*.{rb,slim}";
 @source "../../../components/**/*.{rb,slim}";
 
-/* ChalkyLayout color tokens */
+/*
+ * ChalkyLayout Design Tokens
+ * These define the CSS custom properties that can be overridden by the host app.
+ */
+@layer base {
+  :root {
+    /* === SURFACES === */
+    --chalky-surface: #ffffff;
+    --chalky-surface-secondary: #f9fafb;
+    --chalky-surface-tertiary: #f3f4f6;
+    --chalky-surface-hover: #f3f4f6;
+    --chalky-surface-active: #e5e7eb;
+
+    /* === TEXT === */
+    --chalky-text-primary: #111827;
+    --chalky-text-secondary: #4b5563;
+    --chalky-text-tertiary: #6b7280;
+    --chalky-text-muted: #9ca3af;
+    --chalky-text-inverted: #ffffff;
+
+    /* === BORDERS === */
+    --chalky-border: #e5e7eb;
+    --chalky-border-light: #f3f4f6;
+    --chalky-border-strong: #d1d5db;
+
+    /* === PRIMARY === */
+    --chalky-primary: #3b82f6;
+    --chalky-primary-hover: #2563eb;
+    --chalky-primary-light: #eff6ff;
+    --chalky-primary-text: #1d4ed8;
+
+    /* === SEMANTIC - SUCCESS === */
+    --chalky-success: #16a34a;
+    --chalky-success-hover: #15803d;
+    --chalky-success-light: #f0fdf4;
+    --chalky-success-text: #166534;
+    --chalky-success-border: #4ade80;
+
+    /* === SEMANTIC - DANGER === */
+    --chalky-danger: #dc2626;
+    --chalky-danger-hover: #b91c1c;
+    --chalky-danger-light: #fef2f2;
+    --chalky-danger-text: #991b1b;
+    --chalky-danger-border: #f87171;
+
+    /* === SEMANTIC - WARNING === */
+    --chalky-warning: #ca8a04;
+    --chalky-warning-hover: #a16207;
+    --chalky-warning-light: #fefce8;
+    --chalky-warning-text: #854d0e;
+    --chalky-warning-border: #facc15;
+
+    /* === SEMANTIC - INFO === */
+    --chalky-info: #0284c7;
+    --chalky-info-hover: #0369a1;
+    --chalky-info-light: #f0f9ff;
+    --chalky-info-text: #075985;
+    --chalky-info-border: #38bdf8;
+
+    /* === ACCENTS === */
+    --chalky-accent-blue: #3b82f6;
+    --chalky-accent-blue-light: #dbeafe;
+    --chalky-accent-blue-text: #1d4ed8;
+
+    --chalky-accent-green: #22c55e;
+    --chalky-accent-green-light: #dcfce7;
+    --chalky-accent-green-text: #166534;
+
+    --chalky-accent-red: #ef4444;
+    --chalky-accent-red-light: #fee2e2;
+    --chalky-accent-red-text: #991b1b;
+
+    --chalky-accent-yellow: #eab308;
+    --chalky-accent-yellow-light: #fef9c3;
+    --chalky-accent-yellow-text: #854d0e;
+
+    --chalky-accent-orange: #f97316;
+    --chalky-accent-orange-light: #ffedd5;
+    --chalky-accent-orange-text: #9a3412;
+
+    --chalky-accent-purple: #a855f7;
+    --chalky-accent-purple-light: #f3e8ff;
+    --chalky-accent-purple-text: #7e22ce;
+
+    --chalky-accent-gray: #6b7280;
+    --chalky-accent-gray-light: #f3f4f6;
+    --chalky-accent-gray-text: #374151;
+
+    --chalky-accent-indigo: #6366f1;
+    --chalky-accent-indigo-light: #e0e7ff;
+    --chalky-accent-indigo-text: #4338ca;
+
+    /* === OVERLAY & TOOLTIP === */
+    --chalky-overlay: rgba(0, 0, 0, 0.5);
+    --chalky-tooltip-bg: #1f2937;
+    --chalky-tooltip-text: #ffffff;
+
+    /* === FOCUS RING === */
+    --chalky-focus-ring: #3b82f6;
+    --chalky-focus-ring-offset: #ffffff;
+  }
+}
+
+/*
+ * Tailwind Theme Integration
+ * Maps CSS custom properties to Tailwind utility classes.
+ * Example: bg-chalky-surface, text-chalky-primary, border-chalky-border
+ */
 @theme {
-  --color-primary: #3b82f6;
-  --color-secondary: #6b7280;
-  --color-light: #f9fafb;
-  --color-content: #374151;
-  --color-contrast: #111827;
-  --color-midgray: #6b7280;
-  --color-contour: #e5e7eb;
+  /* Legacy tokens (keep for backward compatibility) */
+  --color-primary: var(--chalky-primary);
+  --color-secondary: var(--chalky-text-secondary);
+  --color-light: var(--chalky-surface-secondary);
+  --color-content: var(--chalky-text-secondary);
+  --color-contrast: var(--chalky-text-primary);
+  --color-midgray: var(--chalky-text-tertiary);
+  --color-contour: var(--chalky-border);
+
+  /* === CHALKY SURFACES === */
+  --color-chalky-surface: var(--chalky-surface);
+  --color-chalky-surface-secondary: var(--chalky-surface-secondary);
+  --color-chalky-surface-tertiary: var(--chalky-surface-tertiary);
+  --color-chalky-surface-hover: var(--chalky-surface-hover);
+  --color-chalky-surface-active: var(--chalky-surface-active);
+
+  /* === CHALKY TEXT === */
+  --color-chalky-text-primary: var(--chalky-text-primary);
+  --color-chalky-text-secondary: var(--chalky-text-secondary);
+  --color-chalky-text-tertiary: var(--chalky-text-tertiary);
+  --color-chalky-text-muted: var(--chalky-text-muted);
+  --color-chalky-text-inverted: var(--chalky-text-inverted);
+
+  /* === CHALKY BORDERS === */
+  --color-chalky-border: var(--chalky-border);
+  --color-chalky-border-light: var(--chalky-border-light);
+  --color-chalky-border-strong: var(--chalky-border-strong);
+
+  /* === CHALKY PRIMARY === */
+  --color-chalky-primary: var(--chalky-primary);
+  --color-chalky-primary-hover: var(--chalky-primary-hover);
+  --color-chalky-primary-light: var(--chalky-primary-light);
+  --color-chalky-primary-text: var(--chalky-primary-text);
+
+  /* === CHALKY SUCCESS === */
+  --color-chalky-success: var(--chalky-success);
+  --color-chalky-success-hover: var(--chalky-success-hover);
+  --color-chalky-success-light: var(--chalky-success-light);
+  --color-chalky-success-text: var(--chalky-success-text);
+  --color-chalky-success-border: var(--chalky-success-border);
+
+  /* === CHALKY DANGER === */
+  --color-chalky-danger: var(--chalky-danger);
+  --color-chalky-danger-hover: var(--chalky-danger-hover);
+  --color-chalky-danger-light: var(--chalky-danger-light);
+  --color-chalky-danger-text: var(--chalky-danger-text);
+  --color-chalky-danger-border: var(--chalky-danger-border);
+
+  /* === CHALKY WARNING === */
+  --color-chalky-warning: var(--chalky-warning);
+  --color-chalky-warning-hover: var(--chalky-warning-hover);
+  --color-chalky-warning-light: var(--chalky-warning-light);
+  --color-chalky-warning-text: var(--chalky-warning-text);
+  --color-chalky-warning-border: var(--chalky-warning-border);
+
+  /* === CHALKY INFO === */
+  --color-chalky-info: var(--chalky-info);
+  --color-chalky-info-hover: var(--chalky-info-hover);
+  --color-chalky-info-light: var(--chalky-info-light);
+  --color-chalky-info-text: var(--chalky-info-text);
+  --color-chalky-info-border: var(--chalky-info-border);
+
+  /* === CHALKY ACCENTS === */
+  --color-chalky-accent-blue: var(--chalky-accent-blue);
+  --color-chalky-accent-blue-light: var(--chalky-accent-blue-light);
+  --color-chalky-accent-blue-text: var(--chalky-accent-blue-text);
+
+  --color-chalky-accent-green: var(--chalky-accent-green);
+  --color-chalky-accent-green-light: var(--chalky-accent-green-light);
+  --color-chalky-accent-green-text: var(--chalky-accent-green-text);
+
+  --color-chalky-accent-red: var(--chalky-accent-red);
+  --color-chalky-accent-red-light: var(--chalky-accent-red-light);
+  --color-chalky-accent-red-text: var(--chalky-accent-red-text);
+
+  --color-chalky-accent-yellow: var(--chalky-accent-yellow);
+  --color-chalky-accent-yellow-light: var(--chalky-accent-yellow-light);
+  --color-chalky-accent-yellow-text: var(--chalky-accent-yellow-text);
+
+  --color-chalky-accent-orange: var(--chalky-accent-orange);
+  --color-chalky-accent-orange-light: var(--chalky-accent-orange-light);
+  --color-chalky-accent-orange-text: var(--chalky-accent-orange-text);
+
+  --color-chalky-accent-purple: var(--chalky-accent-purple);
+  --color-chalky-accent-purple-light: var(--chalky-accent-purple-light);
+  --color-chalky-accent-purple-text: var(--chalky-accent-purple-text);
+
+  --color-chalky-accent-gray: var(--chalky-accent-gray);
+  --color-chalky-accent-gray-light: var(--chalky-accent-gray-light);
+  --color-chalky-accent-gray-text: var(--chalky-accent-gray-text);
+
+  --color-chalky-accent-indigo: var(--chalky-accent-indigo);
+  --color-chalky-accent-indigo-light: var(--chalky-accent-indigo-light);
+  --color-chalky-accent-indigo-text: var(--chalky-accent-indigo-text);
+
+  /* === CHALKY OVERLAY & TOOLTIP === */
+  --color-chalky-overlay: var(--chalky-overlay);
+  --color-chalky-tooltip-bg: var(--chalky-tooltip-bg);
+  --color-chalky-tooltip-text: var(--chalky-tooltip-text);
 }

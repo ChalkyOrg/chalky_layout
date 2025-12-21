@@ -20,7 +20,7 @@ module Chalky::Ui
       def hint_classes
         [
           SIZES.fetch(size, SIZES[:xs]),
-          "text-gray-500 mt-1"
+          "text-chalky-text-tertiary mt-1"
         ].join(" ")
       end
 
