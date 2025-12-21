@@ -104,27 +104,21 @@ module ChalkyLayout
         skill_file = skill_dir.join("SKILL.md")
         reference_file = skill_dir.join("reference.md")
 
+        FileUtils.mkdir_p(skill_dir)
+
         if File.exist?(skill_file)
-          say "Claude Code skill already installed at .claude/skills/chalky-layout/", :green
-          say "Updating reference.md only (SKILL.md preserved)...", :cyan
-
-          # Only update reference.md, preserve user's SKILL.md customizations
-          FileUtils.mkdir_p(skill_dir)
-          template "claude_skill/reference.md", reference_file, force: true
-
-          say "Reference documentation updated.", :green
+          say "Updating Claude Code skill at .claude/skills/chalky-layout/", :green
         else
           say "Installing Claude Code skill...", :green
-
-          FileUtils.mkdir_p(skill_dir)
-          template "claude_skill/SKILL.md", skill_file
-          template "claude_skill/reference.md", reference_file
-
-          say "Claude Code skill installed at .claude/skills/chalky-layout/", :green
-          say ""
-          say "Claude Code will now automatically use chalky_layout helpers", :cyan
-          say "for any frontend work (views, templates, components, etc.)", :cyan
         end
+
+        template "claude_skill/SKILL.md", skill_file, force: true
+        template "claude_skill/reference.md", reference_file, force: true
+
+        say "Claude Code skill installed/updated.", :green
+        say ""
+        say "Claude Code will now automatically use chalky_layout helpers", :cyan
+        say "for any frontend work (views, templates, components, etc.)", :cyan
       end
 
       def show_post_install_message
