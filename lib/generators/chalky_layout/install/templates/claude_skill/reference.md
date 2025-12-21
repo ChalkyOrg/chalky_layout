@@ -150,19 +150,48 @@ Button with icon for header actions. Must be wrapped in a link.
 
 ### `chalky_button`
 
-Form submit button.
+Form submit button with multiple variants.
 
 ```slim
-= chalky_button(label: "Save", variant: :primary)
+/ Primary (default)
+= chalky_button(label: "Save")
+
+/ Secondary
+= chalky_button(label: "Cancel", variant: :secondary)
+
+/ Success
+= chalky_button(label: "Confirm", variant: :success)
+
+/ Danger
 = chalky_button(label: "Delete", variant: :danger)
+
+/ With icon
+= chalky_button(variant: :primary, icon_path: "M5 13l4 4L19 7") do
+  | Save Changes
+
+/ Different sizes
+= chalky_button(label: "Small", size: :sm)
+= chalky_button(label: "Large", size: :lg)
 ```
 
 **Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `label` | String | `nil` | Button label |
-| `variant` | Symbol | `:primary` | `:primary`, `:danger` |
-| `type` | Symbol | `:submit` | Button type |
+| `label` | String | `nil` | Button label (or use block) |
+| `variant` | Symbol | `:primary` | `:primary`, `:secondary`, `:success`, `:danger` |
+| `size` | Symbol | `:md` | `:sm`, `:md`, `:lg` |
+| `icon_path` | String | `nil` | SVG path for button icon |
+| `css_classes` | String | `""` | Additional CSS classes |
+| `type` | String | `"button"` | HTML button type |
+| `data` | Hash | `{}` | Data attributes |
+
+**Variant Styles:**
+| Variant | Description |
+|---------|-------------|
+| `:primary` | Blue background - main actions |
+| `:secondary` | Gray background - cancel/secondary |
+| `:success` | Green background - confirmation |
+| `:danger` | Red background - destructive |
 
 ### `chalky_back`
 
@@ -194,7 +223,7 @@ Responsive data table with multiple column types.
   - grid.boolean(label: "Active", method: :active?)
   - grid.date(label: "Created", method: :created_at)
   - grid.datetime(label: "Updated", method: :updated_at)
-  - grid.link(label: "Website", method: :url, path: ->(row) { row.url })
+  - grid.link(label: "Website", method: :url, path: :website_path)
   - grid.image(label: "Photo", method: :avatar, size: :small)
   - grid.icon(method: :featured?, icon: "fa-solid fa-star")
   - grid.custom(label: "Custom") do |row|
@@ -208,24 +237,54 @@ Responsive data table with multiple column types.
 |-----------|------|---------|-------------|
 | `rows` | Array | **required** | Data to display |
 | `details_path` | Symbol | `nil` | Path helper for row links |
-| `variant` | Symbol | `:default` | Grid variant |
+| `variant` | Symbol | `:admin` | Grid style (`:default`, `:simple`, `:admin`) |
 | `responsive` | Boolean | `true` | Enable responsive mode |
 | `horizontal_scroll` | Boolean | `false` | Enable horizontal scroll |
 | `pagy` | Pagy | `nil` | Pagy object for automatic pagination |
+| `details_path_id_method` | Symbol | `:id` | Method to get row ID for links |
+| `row_count_key` | Symbol | `nil` | Method for row count display |
+| `details_path_attributes` | Hash | `{}` | Extra attributes for row links |
+| `css_classes` | String | `""` | Additional CSS classes for table |
+| `bulk_selection` | Boolean | `false` | Enable checkbox selection |
+| `row_data_attributes` | Proc | `nil` | Proc returning data attrs per row |
+| `row_classes_proc` | Proc | `nil` | Proc returning CSS classes per row |
+| `index_badge_proc` | Proc | `nil` | Proc returning badge classes per row |
 
-**Column Types:**
+**Column Types - Basic:**
 | Type | Description | Extra Parameters |
 |------|-------------|------------------|
-| `text` | Plain text | - |
-| `badge` | Colored badge | `color:` |
-| `number` | Formatted number | `unit:` |
-| `date` | Date format | - |
-| `datetime` | Date and time | - |
-| `boolean` | Yes/No indicator | - |
-| `link` | Clickable link | `path:` |
-| `image` | Image thumbnail | `size:` (`:small`, `:medium`, `:large`) |
-| `icon` | Conditional icon | `icon:` |
-| `custom` | Custom block | Block required |
+| `text` | Plain text display | `priority:` |
+| `badge` | Colored status badge | `color:` |
+| `number` | Formatted number with optional unit | `unit:` |
+| `boolean` | Yes/No indicator (check/cross icons) | - |
+| `icon` | Conditional icon display | `icon:` (Font Awesome class) |
+| `image` | Image thumbnail (ActiveStorage) | `size:` (`:small`, `:medium`, `:large`) |
+| `custom` | Custom block for full control | Block required |
+
+**Column Types - Date/Time:**
+| Type | Description | Extra Parameters |
+|------|-------------|------------------|
+| `date` | Date format (I18n localized) | `formatted_as:` (`:default`, `:short`, `:long`) |
+| `datetime` | Date and time | `formatted_as:` (`:with_time`, `:relative`, `:default`) |
+
+**Column Types - Interactive:**
+| Type | Description | Extra Parameters |
+|------|-------------|------------------|
+| `link` | Clickable link to another page | `path:` (route helper symbol) |
+| `select` | Select/dropdown column | `data_type:` (`:enumerize` for Enumerize gem) |
+| `formula` | Calculated/formula column | - |
+| `modal_data` | Link opening a modal | `path:` (route helper symbol) |
+| `project_files` | File attachments display | - |
+| `price_range` | Price range display | - |
+| `status_icon` | Status indicator icon | - |
+| `stock_management` | Stock +/- buttons | - |
+
+**Column Types - Associations:**
+| Type | Description | Extra Parameters |
+|------|-------------|------------------|
+| `references` | Display referenced records | `formatted_as:` |
+| `users` | Display user avatars/names | - |
+| `lookups` | Lookup field display | - |
 
 **Column Priority:**
 - `:primary` - Always visible, card title on mobile
@@ -234,6 +293,17 @@ Responsive data table with multiple column types.
 
 **Badge/Icon Colors:** `:green`, `:red`, `:blue`, `:yellow`, `:purple`, `:orange`, `:gray`
 
+**Nested Attribute Access:**
+```slim
+- grid.text(label: "Customer", method: "user.full_name")
+- grid.text(label: "City", method: "address.city")
+```
+
+**Using Procs for Dynamic Values:**
+```slim
+- grid.text(label: "Total", method: ->(order) { number_to_currency(order.total) })
+```
+
 **Action Parameters:**
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -241,7 +311,24 @@ Responsive data table with multiple column types.
 | `path` | Symbol | Route helper (e.g., `:edit_user_path`) |
 | `icon` | String | Font Awesome class |
 | `data` | Hash | Data attributes |
+| `options[:id_method]` | Symbol | Method to get row ID (default: `:id`) |
+| `options[:id_param_key]` | Symbol | Param key for ID (default: `:id`) |
+| `options[:unless]` | Symbol/Proc | Condition to hide action |
 | `options[:variant]` | Symbol | `:admin` or `:danger` |
+
+**Advanced Grid Examples:**
+
+Custom row styling:
+```slim
+= chalky_grid(rows: @orders, row_classes_proc: ->(row) { row.urgent? ? "bg-red-50" : "" }) do |grid|
+  - grid.text(label: "Order", method: :number)
+```
+
+Custom row data attributes:
+```slim
+= chalky_grid(rows: @items, row_data_attributes: ->(row) { { id: row.id, category: row.category } }) do |grid|
+  - grid.text(label: "Name", method: :name)
+```
 
 ### `chalky_pagination`
 
@@ -533,21 +620,57 @@ Menu items are added via the `with_menu_item` method on sections and footers wit
 
 ---
 
-## Design Tokens (Theming)
+## Theming & Tailwind Setup
 
-ChalkyLayout uses CSS custom properties for theming. Override these tokens in your CSS to customize the color palette.
+ChalkyLayout uses CSS custom properties (design tokens) for theming. Works with both Tailwind v3 and v4.
 
-### Required CSS Imports
+### Tailwind v3 Setup
 
 ```css
-/* In your application.css */
+/* application.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import "chalky_layout/tokens.css";
 @import "chalky_layout/utilities.css";
+
+/* Your theme overrides (optional) */
+:root {
+  --chalky-primary: #8b5cf6;
+}
 ```
 
-### Available Tokens
+Add to `tailwind.config.js`:
+```javascript
+module.exports = {
+  content: [
+    // ... your paths
+    `${process.env.GEM_HOME}/gems/chalky_layout-*/app/**/*.{slim,rb}`
+  ]
+}
+```
 
-**Primary Color:**
+### Tailwind v4 Setup
+
+```css
+/* application.css */
+@import "tailwindcss";
+
+@source "../../../vendor/bundle/ruby/*/gems/chalky_layout-*/app/**/*.{slim,rb}";
+
+@import "chalky_layout/tokens.css";
+@import "chalky_layout/utilities.css";
+
+/* Your theme overrides (optional) */
+:root {
+  --chalky-primary: #8b5cf6;
+}
+```
+
+### Available Design Tokens
+
+**Primary (Brand Color):**
 | Token | Default | Description |
 |-------|---------|-------------|
 | `--chalky-primary` | `#3b82f6` | Main brand/action color |
@@ -559,15 +682,20 @@ ChalkyLayout uses CSS custom properties for theming. Override these tokens in yo
 | Token | Default | Description |
 |-------|---------|-------------|
 | `--chalky-success` | `#16a34a` | Positive actions |
+| `--chalky-success-light` | `#f0fdf4` | Success background |
 | `--chalky-danger` | `#dc2626` | Destructive actions |
+| `--chalky-danger-light` | `#fef2f2` | Danger background |
 | `--chalky-warning` | `#ca8a04` | Caution states |
+| `--chalky-warning-light` | `#fefce8` | Warning background |
 | `--chalky-info` | `#0284c7` | Informational |
+| `--chalky-info-light` | `#f0f9ff` | Info background |
 
 **Surfaces:**
 | Token | Default | Description |
 |-------|---------|-------------|
 | `--chalky-surface` | `#ffffff` | Card backgrounds |
 | `--chalky-surface-secondary` | `#f9fafb` | Secondary backgrounds |
+| `--chalky-surface-tertiary` | `#f3f4f6` | Tertiary backgrounds |
 | `--chalky-surface-hover` | `#f3f4f6` | Hover states |
 
 **Text:**
@@ -576,27 +704,46 @@ ChalkyLayout uses CSS custom properties for theming. Override these tokens in yo
 | `--chalky-text-primary` | `#111827` | Main text |
 | `--chalky-text-secondary` | `#4b5563` | Secondary text |
 | `--chalky-text-tertiary` | `#6b7280` | Muted text |
+| `--chalky-text-inverted` | `#ffffff` | Text on dark backgrounds |
 
-**Accent Colors (for badges/icons):**
-| Token | Default |
-|-------|---------|
-| `--chalky-accent-blue` | `#3b82f6` |
-| `--chalky-accent-green` | `#22c55e` |
-| `--chalky-accent-red` | `#ef4444` |
-| `--chalky-accent-yellow` | `#eab308` |
-| `--chalky-accent-orange` | `#f97316` |
-| `--chalky-accent-purple` | `#a855f7` |
-| `--chalky-accent-gray` | `#6b7280` |
-| `--chalky-accent-indigo` | `#6366f1` |
+**Borders:**
+| Token | Default | Description |
+|-------|---------|-------------|
+| `--chalky-border` | `#e5e7eb` | Default border |
+| `--chalky-border-light` | `#f3f4f6` | Light border |
+| `--chalky-border-strong` | `#d1d5db` | Strong border |
 
-### Customization Example
+**Accent Colors (badges/icons):**
+| Token | Light variant | Text variant |
+|-------|---------------|--------------|
+| `--chalky-accent-blue` | `--chalky-accent-blue-light` | `--chalky-accent-blue-text` |
+| `--chalky-accent-green` | `--chalky-accent-green-light` | `--chalky-accent-green-text` |
+| `--chalky-accent-red` | `--chalky-accent-red-light` | `--chalky-accent-red-text` |
+| `--chalky-accent-yellow` | `--chalky-accent-yellow-light` | `--chalky-accent-yellow-text` |
+| `--chalky-accent-orange` | `--chalky-accent-orange-light` | `--chalky-accent-orange-text` |
+| `--chalky-accent-purple` | `--chalky-accent-purple-light` | `--chalky-accent-purple-text` |
+| `--chalky-accent-gray` | `--chalky-accent-gray-light` | `--chalky-accent-gray-text` |
+| `--chalky-accent-indigo` | `--chalky-accent-indigo-light` | `--chalky-accent-indigo-text` |
+
+### Complete Theme Example
 
 ```css
+/* app/assets/stylesheets/theme.css */
 :root {
-  /* Change primary to purple */
+  /* Primary - Purple theme */
   --chalky-primary: #8b5cf6;
   --chalky-primary-hover: #7c3aed;
   --chalky-primary-light: #f5f3ff;
   --chalky-primary-text: #6d28d9;
+  --chalky-focus-ring: #8b5cf6;
+
+  /* Customize other tokens as needed */
 }
+```
+
+Import order:
+```css
+@import "chalky_layout/tokens.css";
+@import "chalky_layout/utilities.css";
+@import "theme.css";  /* Your overrides LAST */
 ```

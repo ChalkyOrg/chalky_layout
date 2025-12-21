@@ -46,21 +46,68 @@ This skill applies to ALL frontend work including:
       / Content here
 ```
 
-### Data Display
+### Data Display (Grid)
 ```slim
 = chalky_grid(rows: @items, details_path: :item_path) do |grid|
+  / Basic columns
   - grid.text(label: "Name", method: :name, priority: :primary)
   - grid.badge(label: "Status", method: :status, color: :green)
-  - grid.date(label: "Created", method: :created_at)
-  - grid.action(name: "Edit", path: :edit_item_path, icon: "fa-solid fa-pen")
+  - grid.number(label: "Qty", method: :quantity, unit: "pcs")
+  - grid.boolean(label: "Active", method: :active?)
 
-/ Grid with automatic pagination (requires Pagy gem)
+  / Date/time columns
+  - grid.date(label: "Created", method: :created_at)
+  - grid.datetime(label: "Updated", method: :updated_at, formatted_as: :relative)
+
+  / Interactive columns
+  - grid.link(label: "Website", method: :name, path: :website_path)
+  - grid.image(label: "Photo", method: :avatar, size: :small)
+  - grid.icon(method: :featured?, icon: "fa-solid fa-star")
+
+  / Custom column with block
+  - grid.custom(label: "Total") do |item|
+    span.font-bold = number_to_currency(item.total)
+
+  / Row actions
+  - grid.action(name: "Edit", path: :edit_item_path, icon: "fa-solid fa-pen")
+  - grid.action(name: "Delete", path: :item_path, icon: "fa-solid fa-trash", data: { turbo_method: :delete, turbo_confirm: "Sure?" }, options: { variant: :danger })
+
+/ Grid with pagination (requires Pagy gem)
 = chalky_grid(rows: @users, pagy: @pagy) do |grid|
   - grid.text(label: "Name", method: :name)
+
+/ Advanced: nested attributes and procs
+= chalky_grid(rows: @orders) do |grid|
+  - grid.text(label: "Customer", method: "user.full_name")  / dot notation
+  - grid.text(label: "Total", method: ->(o) { number_to_currency(o.total) })  / proc
+
+/ Advanced: custom row styling
+= chalky_grid(rows: @orders, row_classes_proc: ->(row) { row.urgent? ? "bg-red-50" : "" }) do |grid|
+  - grid.text(label: "Order", method: :number)
 
 / Standalone pagination
 = chalky_pagination(pagy: @pagy)
 ```
+
+**Grid Column Types:**
+| Type | Description | Key Params |
+|------|-------------|------------|
+| `text` | Plain text | `priority:` |
+| `badge` | Colored badge | `color:` |
+| `number` | Formatted number | `unit:` |
+| `boolean` | Yes/No icons | - |
+| `date` | Localized date | `formatted_as:` |
+| `datetime` | Date & time | `formatted_as:` (`:relative`) |
+| `link` | Clickable link | `path:` |
+| `image` | Thumbnail | `size:` (`:small`/`:medium`/`:large`) |
+| `icon` | Conditional icon | `icon:` |
+| `custom` | Custom block | Block required |
+| `select` | Dropdown | - |
+| `references` | Associated records | - |
+| `users` | User avatars | - |
+
+**Priority:** `:primary` (always visible), `:secondary` (default), `:optional` (large screens only)
+**Colors:** `:green`, `:red`, `:blue`, `:yellow`, `:purple`, `:orange`, `:gray`
 
 ### Containers
 ```slim
@@ -91,12 +138,26 @@ This skill applies to ALL frontend work including:
 
 ### Buttons
 ```slim
+/ Icon button (for header actions) - must be wrapped in link_to
 = link_to path do
   = chalky_icon_button(label: "Action", icon: "fa-solid fa-plus")
 
+/ Form button with variants
 = chalky_button(label: "Save", variant: :primary)
+= chalky_button(label: "Cancel", variant: :secondary)
+= chalky_button(label: "Confirm", variant: :success)
+= chalky_button(label: "Delete", variant: :danger)
+
+/ Button with different sizes
+= chalky_button(label: "Small", size: :sm)
+= chalky_button(label: "Large", size: :lg)
+
+/ Back navigation
 = chalky_back(fallback_url: "/admin")
 ```
+
+**Button Variants:** `:primary` (blue), `:secondary` (gray), `:success` (green), `:danger` (red)
+**Button Sizes:** `:sm`, `:md` (default), `:lg`
 
 ### Navigation
 ```slim
@@ -164,14 +225,43 @@ html.h-full
 | `chalky_sidebar_layout` | Complete sidebar with mobile/desktop support (recommended) |
 | `chalky_sidebar_head_script` | Anti-FOUC script for sidebar (place in `<head>`) |
 
-## Theming with Design Tokens
+## Tailwind & Theming Setup
 
-ChalkyLayout uses CSS custom properties for theming. Users can customize colors by overriding these tokens:
+ChalkyLayout works with both **Tailwind v3** and **Tailwind v4**.
+
+### Tailwind v3
+```css
+/* application.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "chalky_layout/tokens.css";
+@import "chalky_layout/utilities.css";
+```
+
+### Tailwind v4
+```css
+/* application.css */
+@import "tailwindcss";
+
+@source "../../../vendor/bundle/ruby/*/gems/chalky_layout-*/app/**/*.{slim,rb}";
+
+@import "chalky_layout/tokens.css";
+@import "chalky_layout/utilities.css";
+```
+
+### Customizing the Theme
+
+Override CSS custom properties AFTER the imports:
 
 ```css
 :root {
-  /* Primary brand color */
+  /* Primary brand color - change to purple */
   --chalky-primary: #8b5cf6;
+  --chalky-primary-hover: #7c3aed;
+  --chalky-primary-light: #f5f3ff;
+  --chalky-primary-text: #6d28d9;
 
   /* Semantic colors */
   --chalky-success: #16a34a;
@@ -186,6 +276,10 @@ ChalkyLayout uses CSS custom properties for theming. Users can customize colors 
   --chalky-accent-purple: #a855f7;
 }
 ```
+
+**Where to put theme overrides:**
+- `app/assets/stylesheets/application.css` - after ChalkyLayout imports
+- `app/assets/stylesheets/theme.css` - dedicated file (import last)
 
 See `app/assets/stylesheets/chalky_layout/tokens.css` for all available tokens.
 

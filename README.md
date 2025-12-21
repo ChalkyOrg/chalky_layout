@@ -220,12 +220,29 @@ Button with icon and label, typically used in header actions.
 
 ### `chalky_button`
 
-Form submit button.
+Form submit button with multiple variants.
 
 ```slim
+/ Primary (default)
 = chalky_button(label: "Save")
 
+/ Secondary
+= chalky_button(label: "Cancel", variant: :secondary)
+
+/ Success
+= chalky_button(label: "Confirm", variant: :success)
+
+/ Danger
 = chalky_button(label: "Delete", variant: :danger)
+
+/ With icon
+= chalky_button(variant: :primary, icon_path: "M5 13l4 4L19 7") do
+  | Save Changes
+
+/ Different sizes
+= chalky_button(label: "Small", size: :sm)
+= chalky_button(label: "Medium", size: :md)
+= chalky_button(label: "Large", size: :lg)
 ```
 
 ![Button](docs/screenshots/button.png)
@@ -233,9 +250,21 @@ Form submit button.
 **Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `label` | String | `nil` | Button label |
-| `variant` | Symbol | `:primary` | Button style |
-| `type` | Symbol | `:submit` | Button type |
+| `label` | String | `nil` | Button label (or use block) |
+| `variant` | Symbol | `:primary` | `:primary`, `:secondary`, `:success`, `:danger` |
+| `size` | Symbol | `:md` | `:sm`, `:md`, `:lg` |
+| `icon_path` | String | `nil` | SVG path for button icon |
+| `css_classes` | String | `""` | Additional CSS classes |
+| `type` | String | `"button"` | HTML button type |
+| `data` | Hash | `{}` | Data attributes |
+
+**Variant Styles:**
+| Variant | Description |
+|---------|-------------|
+| `:primary` | Blue background, white text - main actions |
+| `:secondary` | Gray background - cancel/secondary actions |
+| `:success` | Green background - confirmation actions |
+| `:danger` | Red background - destructive actions |
 
 ### `chalky_back`
 
@@ -274,25 +303,50 @@ Responsive data table with multiple column types.
 |-----------|------|---------|-------------|
 | `rows` | Array | **required** | Data rows to display |
 | `details_path` | Symbol | `nil` | Path helper for row links |
-| `variant` | Symbol | `:default` | Grid variant |
+| `variant` | Symbol | `:admin` | Grid variant (`:default`, `:simple`, `:admin`) |
 | `responsive` | Boolean | `true` | Enable responsive mode |
 | `horizontal_scroll` | Boolean | `false` | Enable horizontal scroll |
 | `pagy` | Pagy | `nil` | Pagy object for automatic pagination (displays pagination below grid) |
 
-**Column Types:**
+**Column Types - Basic:**
 
 | Type | Description | Extra Parameters |
 |------|-------------|------------------|
-| `text` | Plain text | - |
-| `badge` | Colored badge | `color:` |
-| `number` | Formatted number | `unit:` |
-| `date` | Date format | - |
-| `datetime` | Date and time | - |
-| `boolean` | Yes/No indicator | - |
-| `link` | Clickable link | `path:` |
-| `image` | Image thumbnail | `size:` (`:small`, `:medium`, `:large`) |
-| `icon` | Conditional icon | `icon:` (Font Awesome class) |
-| `custom` | Custom block | Block required |
+| `text` | Plain text display | `priority:` |
+| `badge` | Colored status badge | `color:` |
+| `number` | Formatted number with optional unit | `unit:` |
+| `boolean` | Yes/No indicator (check/cross icons) | - |
+| `icon` | Conditional icon display | `icon:` (Font Awesome class) |
+| `image` | Image thumbnail (ActiveStorage compatible) | `size:` (`:small`, `:medium`, `:large`) |
+| `custom` | Custom block for full control | Block required |
+
+**Column Types - Date/Time:**
+
+| Type | Description | Extra Parameters |
+|------|-------------|------------------|
+| `date` | Date format (I18n localized) | `formatted_as:` (`:default`, `:short`, `:long`) |
+| `datetime` | Date and time | `formatted_as:` (`:with_time`, `:relative`, `:default`) |
+
+**Column Types - Interactive:**
+
+| Type | Description | Extra Parameters |
+|------|-------------|------------------|
+| `link` | Clickable link to another page | `path:` (route helper symbol) |
+| `select` | Select/dropdown column | `data_type:` (`:enumerize` for Enumerize gem) |
+| `formula` | Calculated/formula column | - |
+| `modal_data` | Link opening a modal | `path:` (route helper symbol) |
+| `project_files` | File attachments display | - |
+| `price_range` | Price range display | - |
+| `status_icon` | Status indicator icon | - |
+| `stock_management` | Stock +/- buttons | - |
+
+**Column Types - Associations:**
+
+| Type | Description | Extra Parameters |
+|------|-------------|------------------|
+| `references` | Display referenced records | `formatted_as:` |
+| `users` | Display user avatars/names | - |
+| `lookups` | Lookup field display | - |
 
 **Badge Colors:** `:green`, `:red`, `:blue`, `:yellow`, `:purple`, `:orange`, `:gray`
 
@@ -300,6 +354,27 @@ Responsive data table with multiple column types.
 - `:primary` - Always visible, used as card title on mobile
 - `:secondary` - Default, shown in card body on mobile
 - `:optional` - Only on large screens
+
+**Nested Attribute Access:**
+
+You can access nested attributes using dot notation:
+
+```slim
+= chalky_grid(rows: @orders) do |grid|
+  - grid.text(label: "Customer", method: "user.full_name", priority: :primary)
+  - grid.text(label: "Email", method: "user.email")
+  - grid.text(label: "City", method: "address.city")
+```
+
+**Using Procs for Dynamic Values:**
+
+You can pass a Proc instead of a method name for complex data access:
+
+```slim
+= chalky_grid(rows: @orders) do |grid|
+  - grid.text(label: "Total", method: ->(order) { number_to_currency(order.total) })
+  - grid.badge(label: "Status", method: ->(order) { order.paid? ? "Paid" : "Pending" }, color: :green)
+```
 
 ### Grid Actions
 
@@ -351,6 +426,76 @@ You can add pagination to a grid by passing a Pagy object:
 ```
 
 The pagination component will be automatically displayed below the grid when there are multiple pages.
+
+### Grid Advanced Options
+
+#### Grid Variants
+
+Three visual variants are available:
+
+```slim
+/ Default - rounded corners with shadow
+= chalky_grid(rows: @users, variant: :default) do |grid|
+  ...
+
+/ Simple - minimal styling, no rounded corners
+= chalky_grid(rows: @users, variant: :simple) do |grid|
+  ...
+
+/ Admin - optimized for admin interfaces (default)
+= chalky_grid(rows: @users, variant: :admin) do |grid|
+  ...
+```
+
+#### Custom Row Styling
+
+Apply custom CSS classes to rows conditionally:
+
+```slim
+= chalky_grid(rows: @orders, row_classes_proc: ->(row) { row.urgent? ? "bg-red-50" : "" }) do |grid|
+  - grid.text(label: "Order", method: :number)
+```
+
+#### Custom Row Data Attributes
+
+Add data attributes to each row dynamically:
+
+```slim
+= chalky_grid(rows: @items, row_data_attributes: ->(row) { { id: row.id, category: row.category } }) do |grid|
+  - grid.text(label: "Name", method: :name)
+```
+
+#### Index Badge (Row Numbering)
+
+Customize the row index badge appearance:
+
+```slim
+= chalky_grid(rows: @items, index_badge_proc: ->(row) { row.featured? ? "bg-yellow-200" : nil }) do |grid|
+  - grid.text(label: "Name", method: :name)
+```
+
+#### Details Path with Custom ID
+
+Link each row to a detail page using a custom ID method:
+
+```slim
+= chalky_grid(rows: @products, details_path: :admin_product_path, details_path_id_method: :slug) do |grid|
+  - grid.text(label: "Name", method: :name)
+```
+
+**Advanced Grid Parameters:**
+
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `variant` | Symbol | `:admin` | Grid style (`:default`, `:simple`, `:admin`) |
+| `details_path_id_method` | Symbol | `:id` | Method to get row ID for links |
+| `row_count_key` | Symbol | `nil` | Method for row count display |
+| `details_path_attributes` | Hash | `{}` | Extra attributes for row links |
+| `css_classes` | String | `""` | Additional CSS classes for table |
+| `bulk_selection` | Boolean | `false` | Enable checkbox selection |
+| `row_data_attributes` | Proc | `nil` | Proc returning data attrs per row |
+| `row_classes_proc` | Proc | `nil` | Proc returning CSS classes per row |
+| `index_badge_proc` | Proc | `nil` | Proc returning badge classes per row |
 
 ### `chalky_pagination`
 
@@ -777,7 +922,13 @@ This single import will automatically register all Stimulus controllers from the
 
 ### Tailwind Setup (Required)
 
-Add the gem's component path to your Tailwind `content` array in `tailwind.config.js`:
+ChalkyLayout is compatible with both **Tailwind CSS v3** and **Tailwind CSS v4**. Choose the setup that matches your version.
+
+---
+
+#### Tailwind CSS v3 Setup
+
+**1. Configure content paths in `tailwind.config.js`:**
 
 ```javascript
 module.exports = {
@@ -792,84 +943,270 @@ module.exports = {
 }
 ```
 
-### CSS Styles (Required)
-
-Import the ChalkyLayout styles in your CSS file:
+**2. Import ChalkyLayout styles in your CSS file (e.g., `application.css`):**
 
 ```css
-/* In your application.css or main CSS file */
+/* Tailwind v3 directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ChalkyLayout styles - import AFTER Tailwind directives */
 @import "chalky_layout/tokens.css";
 @import "chalky_layout/utilities.css";
 ```
 
-Or add stylesheet link tags in your layout:
+**3. Customize the theme (optional) - add AFTER the imports:**
+
+```css
+/* Your custom theme overrides */
+:root {
+  --chalky-primary: #8b5cf6;
+  --chalky-primary-hover: #7c3aed;
+  /* ... more overrides */
+}
+```
+
+---
+
+#### Tailwind CSS v4 Setup
+
+Tailwind v4 uses a CSS-first configuration approach with `@theme` directive.
+
+**1. Configure content paths in `app/assets/stylesheets/application.css`:**
+
+```css
+/* Tailwind v4 import */
+@import "tailwindcss";
+
+/* Configure content paths for Tailwind v4 */
+@source "../../../app/views/**/*.html.slim";
+@source "../../../app/components/**/*.{slim,rb}";
+/* Add gem components path */
+@source "../../../vendor/bundle/ruby/*/gems/chalky_layout-*/app/**/*.{slim,rb}";
+
+/* ChalkyLayout styles */
+@import "chalky_layout/tokens.css";
+@import "chalky_layout/utilities.css";
+```
+
+**2. Customize the theme (optional) - use `@theme` directive:**
+
+```css
+@import "tailwindcss";
+
+/* Your custom theme using Tailwind v4 @theme */
+@theme {
+  /* You can define Tailwind theme values here */
+  --color-primary: #8b5cf6;
+}
+
+/* ChalkyLayout uses CSS custom properties, override them in :root */
+:root {
+  --chalky-primary: #8b5cf6;
+  --chalky-primary-hover: #7c3aed;
+  --chalky-primary-light: #f5f3ff;
+  --chalky-primary-text: #6d28d9;
+}
+
+@import "chalky_layout/tokens.css";
+@import "chalky_layout/utilities.css";
+```
+
+---
+
+#### Alternative: Stylesheet Link Tags
+
+If you prefer link tags instead of CSS imports:
 
 ```slim
+/ In your layout file
 = stylesheet_link_tag "chalky_layout/tokens", "data-turbo-track": "reload"
 = stylesheet_link_tag "chalky_layout/utilities", "data-turbo-track": "reload"
 ```
 
-### Design Tokens (Optional Customization)
+---
 
-ChalkyLayout uses CSS custom properties (design tokens) for theming. Override these in your CSS to customize colors:
+### Theming Guide
+
+ChalkyLayout uses **CSS custom properties (design tokens)** for all colors. This makes theming simple: just override the variables you want to change.
+
+#### Where to Put Your Theme Customization
+
+| File Location | When to Use |
+|---------------|-------------|
+| `app/assets/stylesheets/application.css` | Main CSS file, after ChalkyLayout imports |
+| `app/assets/stylesheets/theme.css` | Dedicated theme file (import after tokens.css) |
+| Inline in layout `<style>` tag | Quick testing only |
+
+#### Complete Theme Example
+
+Create a custom theme by overriding the tokens. Here's a **purple theme** example:
 
 ```css
+/* app/assets/stylesheets/theme.css */
+
 :root {
-  /* Primary brand color */
+  /* =========================
+     PRIMARY - Your brand color
+     ========================= */
   --chalky-primary: #8b5cf6;
   --chalky-primary-hover: #7c3aed;
   --chalky-primary-light: #f5f3ff;
   --chalky-primary-text: #6d28d9;
 
+  /* =========================
+     SEMANTIC COLORS
+     ========================= */
   /* Success (green) */
   --chalky-success: #16a34a;
+  --chalky-success-hover: #15803d;
   --chalky-success-light: #f0fdf4;
   --chalky-success-text: #166534;
+  --chalky-success-border: #4ade80;
 
   /* Danger (red) */
   --chalky-danger: #dc2626;
+  --chalky-danger-hover: #b91c1c;
   --chalky-danger-light: #fef2f2;
   --chalky-danger-text: #991b1b;
+  --chalky-danger-border: #f87171;
 
   /* Warning (yellow) */
   --chalky-warning: #ca8a04;
+  --chalky-warning-hover: #a16207;
   --chalky-warning-light: #fefce8;
   --chalky-warning-text: #854d0e;
+  --chalky-warning-border: #facc15;
 
   /* Info (blue) */
   --chalky-info: #0284c7;
+  --chalky-info-hover: #0369a1;
   --chalky-info-light: #f0f9ff;
   --chalky-info-text: #075985;
+  --chalky-info-border: #38bdf8;
 
-  /* Surfaces (backgrounds) */
+  /* =========================
+     SURFACES - Backgrounds
+     ========================= */
   --chalky-surface: #ffffff;
   --chalky-surface-secondary: #f9fafb;
+  --chalky-surface-tertiary: #f3f4f6;
   --chalky-surface-hover: #f3f4f6;
+  --chalky-surface-active: #e5e7eb;
 
-  /* Text colors */
+  /* =========================
+     TEXT
+     ========================= */
   --chalky-text-primary: #111827;
   --chalky-text-secondary: #4b5563;
   --chalky-text-tertiary: #6b7280;
   --chalky-text-muted: #9ca3af;
+  --chalky-text-inverted: #ffffff;
 
-  /* Borders */
+  /* =========================
+     BORDERS
+     ========================= */
   --chalky-border: #e5e7eb;
   --chalky-border-light: #f3f4f6;
   --chalky-border-strong: #d1d5db;
 
-  /* Accent colors for badges, icons */
+  /* =========================
+     ACCENTS - Badges & Icons
+     ========================= */
   --chalky-accent-blue: #3b82f6;
+  --chalky-accent-blue-light: #dbeafe;
+  --chalky-accent-blue-text: #1d4ed8;
+
   --chalky-accent-green: #22c55e;
+  --chalky-accent-green-light: #dcfce7;
+  --chalky-accent-green-text: #166534;
+
   --chalky-accent-red: #ef4444;
+  --chalky-accent-red-light: #fee2e2;
+  --chalky-accent-red-text: #991b1b;
+
   --chalky-accent-yellow: #eab308;
+  --chalky-accent-yellow-light: #fef9c3;
+  --chalky-accent-yellow-text: #854d0e;
+
   --chalky-accent-orange: #f97316;
+  --chalky-accent-orange-light: #ffedd5;
+  --chalky-accent-orange-text: #9a3412;
+
   --chalky-accent-purple: #a855f7;
+  --chalky-accent-purple-light: #f3e8ff;
+  --chalky-accent-purple-text: #7e22ce;
+
   --chalky-accent-gray: #6b7280;
+  --chalky-accent-gray-light: #f3f4f6;
+  --chalky-accent-gray-text: #374151;
+
   --chalky-accent-indigo: #6366f1;
+  --chalky-accent-indigo-light: #e0e7ff;
+  --chalky-accent-indigo-text: #4338ca;
+
+  /* =========================
+     OVERLAY & TOOLTIP
+     ========================= */
+  --chalky-overlay: rgba(0, 0, 0, 0.5);
+  --chalky-tooltip-bg: #1f2937;
+  --chalky-tooltip-text: #ffffff;
+
+  /* =========================
+     FOCUS RING - Accessibility
+     ========================= */
+  --chalky-focus-ring: #8b5cf6;  /* Match your primary */
+  --chalky-focus-ring-offset: #ffffff;
 }
 ```
 
-See `app/assets/stylesheets/chalky_layout/tokens.css` for the complete list of available tokens
+Then import it:
+
+```css
+/* Tailwind v3 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "chalky_layout/tokens.css";
+@import "chalky_layout/utilities.css";
+@import "theme.css";  /* Your overrides LAST */
+```
+
+```css
+/* Tailwind v4 */
+@import "tailwindcss";
+
+@import "chalky_layout/tokens.css";
+@import "chalky_layout/utilities.css";
+@import "theme.css";  /* Your overrides LAST */
+```
+
+#### Quick Theme Changes
+
+To quickly change just the primary brand color:
+
+```css
+:root {
+  /* Purple theme */
+  --chalky-primary: #8b5cf6;
+  --chalky-primary-hover: #7c3aed;
+  --chalky-primary-light: #f5f3ff;
+  --chalky-primary-text: #6d28d9;
+  --chalky-focus-ring: #8b5cf6;
+}
+```
+
+#### Dark Mode (Coming Soon)
+
+Dark mode support is planned. It will use the same token system with a `.dark` class or `prefers-color-scheme` media query.
+
+---
+
+### All Available Design Tokens
+
+See `app/assets/stylesheets/chalky_layout/tokens.css` for the complete list of available tokens with comments explaining each one
 
 ### Font Awesome
 
