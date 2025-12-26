@@ -16,3 +16,9 @@ test/dummy/tmp/
 
 # Playwright screenshots (temporary)
 .playwright-mcp/
+
+# Claude Code files (generated, not tracked)
+/.claude
+/CLAUDE.md
+test/dummy/.claude/
+test/dummy/CLAUDE.md

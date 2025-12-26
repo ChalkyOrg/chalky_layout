@@ -12,6 +12,8 @@ module ChalkyLayout
 
       class_option :skip_stimulus, type: :boolean, default: false,
                                    desc: "Skip Stimulus controller installation"
+      class_option :skip_simple_form, type: :boolean, default: false,
+                                      desc: "Skip Simple Form configuration"
       class_option :skip_claude, type: :boolean, default: false,
                                  desc: "Skip Claude Code skill installation"
 
@@ -96,6 +98,22 @@ module ChalkyLayout
         say ""
       end
 
+      def setup_simple_form
+        return if options[:skip_simple_form]
+
+        say ""
+
+        if gem_installed?("simple_form")
+          say "Simple Form detected, installing configuration...", :green
+          generate "chalky_layout:simple_form"
+        else
+          say "Simple Form not found (optional). To add it later:", :yellow
+          say "  1. Add gem 'simple_form' to your Gemfile"
+          say "  2. Run: rails generate chalky_layout:simple_form"
+          say ""
+        end
+      end
+
       def setup_claude_skill
         return if options[:skip_claude]
 
@@ -118,7 +136,22 @@ module ChalkyLayout
         say "Claude Code skill installed/updated.", :green
         say ""
         say "Claude Code will now automatically use chalky_layout helpers", :cyan
-        say "for any frontend work (views, templates, components, etc.)", :cyan
+        say "for any frontend work (views, templates, components, forms, etc.)", :cyan
+      end
+
+      def setup_claude_md
+        return if options[:skip_claude]
+
+        say ""
+        claude_md_path = Rails.root.join("CLAUDE.md")
+
+        if File.exist?(claude_md_path)
+          say "CLAUDE.md already exists, skipping...", :yellow
+          say "Consider adding a reference to .claude/skills/chalky-layout/", :cyan
+        else
+          say "Creating CLAUDE.md with ChalkyLayout instructions...", :green
+          template "CLAUDE.md", claude_md_path
+        end
       end
 
       def show_post_install_message
