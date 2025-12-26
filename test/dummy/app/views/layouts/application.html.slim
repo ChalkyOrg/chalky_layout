@@ -29,6 +29,7 @@ html.h-full
     = stylesheet_link_tag "chalky_layout/sidebar", media: "all"
     = stylesheet_link_tag "chalky_layout/tabs", media: "all"
     = stylesheet_link_tag "chalky_layout/grid", media: "all"
+    = stylesheet_link_tag "chalky_layout/forms", media: "all"
     = stylesheet_link_tag "tailwind", media: "all"
     = javascript_importmap_tags
 
@@ -47,6 +48,7 @@ html.h-full
         - section.with_menu_item(path: "/layout", title: "Layout", icon_classes: "fa-solid fa-table-cells")
         - section.with_menu_item(path: "/buttons", title: "Buttons", icon_classes: "fa-solid fa-hand-pointer")
         - section.with_menu_item(path: "/data", title: "Data", icon_classes: "fa-solid fa-table")
+        - section.with_menu_item(path: "/simple_form", title: "Simple Form", icon_classes: "fa-solid fa-file-lines")
 
       - layout.with_footer(user_name: "Developer", user_email: "dev@chalky.dev", role_label: "Showcase", role_color: :blue, logout_path: "/logout", logout_method: :delete)
 

@@ -35,7 +35,31 @@ class ShowcaseController < ApplicationController
     @pagy, @paginated_users = pagy_array(all_users, limit: 10)
   end
 
+  def simple_form
+    @form_demo = FormDemo.new
+  end
+
+  def create_form_demo
+    @form_demo = FormDemo.new(form_demo_params)
+
+    if @form_demo.save
+      flash[:success] = "Form submitted successfully!"
+      redirect_to simple_form_path
+    else
+      flash.now[:error] = "Please fix the errors below."
+      render :simple_form, status: :unprocessable_entity
+    end
+  end
+
   private
+
+  def form_demo_params
+    params.require(:form_demo).permit(
+      :name, :email, :password_digest, :bio, :age, :salary,
+      :country, :role, :terms_accepted, :newsletter,
+      :birth_date, :appointment, :avatar, interests: []
+    )
+  end
 
   def set_users
     @users = [

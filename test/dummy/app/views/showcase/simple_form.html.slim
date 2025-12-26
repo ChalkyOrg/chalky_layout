@@ -1,0 +1,114 @@
+= chalky_page do |page|
+  - page.with_header(title: "Simple Form") do |header|
+    - header.with_actions do
+      = chalky_badge(label: "Plug & Play", color: :green)
+
+  - page.with_body do
+    .grid.grid-cols-1.lg:grid-cols-2.gap-6
+
+      /! Left column - The Form
+      = chalky_card do
+        = chalky_heading(title: "Form Demo", description: "All inputs styled by default - no extra classes needed")
+
+        = simple_form_for @form_demo, url: create_form_demo_path, html: { class: "chalky-form" } do |f|
+          /! Text inputs section
+          .mb-6
+            h3.text-sm.font-semibold.text-gray-500.uppercase.tracking-wide.mb-4 Text Inputs
+
+            = f.input :name, placeholder: "Enter your full name", hint: "Your first and last name"
+            = f.input :email, as: :email, placeholder: "you@example.com"
+            = f.input :password_digest, as: :password, placeholder: "Choose a strong password", hint: "Minimum 8 characters"
+
+          /! Textarea section
+          .mb-6
+            h3.text-sm.font-semibold.text-gray-500.uppercase.tracking-wide.mb-4 Textarea
+
+            = f.input :bio, as: :text, placeholder: "Tell us about yourself...", hint: "Maximum 500 characters", input_html: { rows: 4 }
+
+          /! Numbers section
+          .mb-6
+            h3.text-sm.font-semibold.text-gray-500.uppercase.tracking-wide.mb-4 Numbers
+
+            .grid.grid-cols-2.gap-4
+              = f.input :age, as: :integer, placeholder: "25", hint: "Your age in years"
+              = f.input :salary, as: :decimal, placeholder: "50000.00", hint: "Annual salary"
+
+          /! Select section
+          .mb-6
+            h3.text-sm.font-semibold.text-gray-500.uppercase.tracking-wide.mb-4 Select Dropdown (TomSelect)
+
+            = f.input :country, collection: FormDemo::COUNTRIES, include_blank: "Select a country...", hint: "Single select with search"
+            = f.input :preferred_countries, as: :select, collection: FormDemo::COUNTRIES, input_html: { multiple: true }, wrapper: :select_multiple, hint: "Multiple select - choose several countries"
+
+          /! Radio buttons section
+          .mb-6
+            h3.text-sm.font-semibold.text-gray-500.uppercase.tracking-wide.mb-4 Radio Buttons
+
+            = f.input :role, as: :radio_buttons, collection: FormDemo::ROLES, hint: "Select your primary role"
+
+          /! Checkboxes section
+          .mb-6
+            h3.text-sm.font-semibold.text-gray-500.uppercase.tracking-wide.mb-4 Checkboxes
+
+            = f.input :interests, as: :check_boxes, collection: FormDemo::INTERESTS, hint: "Select all that apply"
+
+          /! Boolean checkbox
+          .mb-6
+            h3.text-sm.font-semibold.text-gray-500.uppercase.tracking-wide.mb-4 Boolean Checkbox
+
+            = f.input :newsletter, as: :boolean, label: "Subscribe to newsletter", hint: "We'll send you weekly updates"
+            = f.input :terms_accepted, as: :boolean, label: "I accept the terms and conditions", hint: "Required to submit"
+
+          /! Date and time section
+          .mb-6
+            h3.text-sm.font-semibold.text-gray-500.uppercase.tracking-wide.mb-4 Date & Time
+
+            .grid.grid-cols-2.gap-4
+              = f.input :birth_date, as: :string, input_html: { type: "date" }, hint: "Your date of birth"
+              = f.input :appointment, as: :string, input_html: { type: "datetime-local" }, hint: "Schedule an appointment"
+
+          /! File upload section
+          .mb-6
+            h3.text-sm.font-semibold.text-gray-500.uppercase.tracking-wide.mb-4 File Upload
+
+            = f.input :avatar, as: :file, hint: "Upload your profile picture (PNG, JPG)"
+
+          /! Submit buttons
+          .flex.items-center.gap-3.pt-4.border-t.border-gray-200
+            = f.button :submit, "Submit Form", class: "chalky-button chalky-button--primary"
+
+      /! Right column - Usage examples
+      = chalky_card do
+        = chalky_heading(title: "Usage", description: "Simple Form with Chalky configuration")
+
+        = component_example("Basic Usage")
+        = code_snippet '= simple_form_for @model do |f|', '  = f.input :name', '  = f.input :email', '  = f.button :submit'
+
+        = component_example("Radio Buttons")
+        = code_snippet "= f.input :role, as: :radio_buttons, collection: ['Admin', 'User']"
+
+        = component_example("Checkboxes Collection")
+        = code_snippet "= f.input :interests, as: :check_boxes, collection: ['Sports', 'Music']"
+
+        = component_example("Boolean Checkbox")
+        = code_snippet '= f.input :terms, as: :boolean, label: "I accept the terms"'
+
+        = component_example("Select Dropdown (TomSelect)")
+        = code_snippet "= f.input :country, collection: ['FR', 'US', 'UK'], include_blank: 'Select...'"
+
+        = component_example("Multiple Select (TomSelect)")
+        = code_snippet "= f.input :countries, collection: ['FR', 'US', 'UK'],", "  input_html: { multiple: true }, wrapper: :select_multiple"
+
+        = component_example("Date Input (HTML5)")
+        = code_snippet "= f.input :birth_date, as: :string, input_html: { type: 'date' }"
+
+        = component_example("With Hints")
+        = code_snippet '= f.input :password, as: :password, hint: "Minimum 8 characters"'
+
+        = component_example("Installation")
+        .mt-4.bg-blue-50.rounded-lg.p-4.border.border-blue-200
+          .flex.items-center.gap-2.text-blue-700.font-medium.text-sm.mb-2
+            i.fa-solid.fa-terminal
+            | Terminal
+          pre.text-sm.text-blue-600.overflow-x-auto
+            code rails generate chalky_layout:simple_form

@@ -27,6 +27,7 @@ This skill applies to ALL frontend work including:
 - Creating or modifying views (`.html.slim`, `.html.erb`)
 - Building admin pages or dashboards
 - Adding forms, buttons, or interactive elements
+- **Building forms with Simple Form** (use Chalky wrappers and TomSelect)
 - Displaying data in tables or grids
 - Creating navigation (sidebars, tabs, headers)
 - Adding alerts, badges, tooltips, or other UI feedback
@@ -197,6 +198,26 @@ html.h-full
 
       = yield
 ```
+
+### Simple Form (with TomSelect)
+
+Install with: `rails generate chalky_layout:simple_form`
+
+```slim
+= simple_form_for @model, html: { class: "chalky-form" } do |f|
+  = f.input :name
+  = f.input :email, as: :email
+  = f.input :country, collection: Country::ALL, include_blank: "Select..."
+  = f.input :skills, collection: Skill::ALL, input_html: { multiple: true }, wrapper: :select_multiple
+  = f.input :role, as: :radio_buttons, collection: Role::ALL
+  = f.input :interests, as: :check_boxes, collection: Interest::ALL
+  = f.input :terms, as: :boolean, label: "I accept the terms"
+  = f.input :birth_date, as: :string, input_html: { type: "date" }
+  = f.input :avatar, as: :file
+  = f.button :submit, "Save", class: "chalky-button chalky-button--primary"
+```
+
+**Wrappers:** `:default`, `:select` (auto with TomSelect), `:select_multiple`, `:radio_buttons`, `:check_boxes`, `:boolean`, `:file`
 
 ## Available Helpers
 

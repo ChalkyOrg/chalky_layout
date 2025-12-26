@@ -23,3 +23,7 @@ pin "controllers/chalky_layout/tooltip_controller", to: "chalky_layout/controlle
 pin "controllers/chalky_layout/scroll_shadow_controller", to: "chalky_layout/controllers/scroll_shadow_controller.js"
 pin "controllers/chalky_layout/sidebar_controller", to: "chalky_layout/controllers/sidebar_controller.js"
 pin "controllers/chalky_layout/mobile_menu_controller", to: "chalky_layout/controllers/mobile_menu_controller.js"
+pin "controllers/chalky_layout/tom_select_controller", to: "chalky_layout/controllers/tom_select_controller.js"
+
+# External dependencies (loaded from CDN via ESM)
+pin "tom-select", to: "https://cdn.jsdelivr.net/npm/tom-select@2.4.3/+esm"

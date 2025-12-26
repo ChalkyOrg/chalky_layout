@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   get "layout" => "showcase#layout", as: :layout
   get "buttons" => "showcase#buttons", as: :buttons
   get "data" => "showcase#data", as: :data
+  get "simple_form" => "showcase#simple_form", as: :simple_form
+  post "simple_form" => "showcase#create_form_demo", as: :create_form_demo
 
   # Dummy routes for grid actions demo
   get "users/:id/edit" => "showcase#index", as: :edit_user

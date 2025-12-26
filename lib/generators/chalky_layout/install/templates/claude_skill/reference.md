@@ -747,3 +747,153 @@ Import order:
 @import "chalky_layout/utilities.css";
 @import "theme.css";  /* Your overrides LAST */
 ```
+
+---
+
+## Simple Form Integration
+
+ChalkyLayout provides a complete Simple Form configuration with TomSelect for enhanced select boxes.
+
+### Installation
+
+```bash
+rails generate chalky_layout:simple_form
+```
+
+### Basic Form Structure
+
+```slim
+= simple_form_for @model, html: { class: "chalky-form" } do |f|
+  = f.input :name, placeholder: "Full name"
+  = f.input :email, as: :email
+  = f.button :submit, "Save", class: "chalky-button chalky-button--primary"
+```
+
+### Input Types
+
+**Text Inputs:**
+```slim
+= f.input :name                          / Default text input
+= f.input :email, as: :email             / Email input
+= f.input :password, as: :password       / Password input
+= f.input :bio, as: :text                / Textarea
+= f.input :age, as: :integer             / Number input
+= f.input :salary, as: :decimal          / Decimal input
+```
+
+**Select with TomSelect (automatic):**
+```slim
+/ Single select - TomSelect applied automatically via wrapper_mappings
+= f.input :country, collection: Country::ALL, include_blank: "Select a country..."
+
+/ The include_blank text becomes the TomSelect placeholder
+```
+
+**Multiple Select with TomSelect:**
+```slim
+= f.input :countries,
+  collection: Country::ALL,
+  input_html: { multiple: true },
+  wrapper: :select_multiple
+```
+
+**Radio Buttons:**
+```slim
+= f.input :role, as: :radio_buttons, collection: ['Admin', 'User', 'Guest']
+```
+
+**Checkboxes (collection):**
+```slim
+= f.input :interests, as: :check_boxes, collection: ['Sports', 'Music', 'Art']
+```
+
+**Boolean Checkbox:**
+```slim
+= f.input :terms, as: :boolean, label: "I accept the terms"
+= f.input :newsletter, as: :boolean, label: "Subscribe to newsletter"
+```
+
+**Date & Time (HTML5):**
+```slim
+= f.input :birth_date, as: :string, input_html: { type: "date" }
+= f.input :appointment, as: :string, input_html: { type: "datetime-local" }
+```
+
+**File Upload:**
+```slim
+= f.input :avatar, as: :file
+```
+
+### Available Wrappers
+
+| Wrapper | Usage | Description |
+|---------|-------|-------------|
+| `:default` | Text, email, password, etc. | Standard input with label, hint, error |
+| `:select` | Single select | Auto-applied, includes TomSelect |
+| `:select_multiple` | Multiple select | Must specify explicitly |
+| `:radio_buttons` | Radio button groups | Card-style vertical layout |
+| `:check_boxes` | Checkbox collections | Pill/tag horizontal layout |
+| `:boolean` | Single boolean checkbox | Inline label |
+| `:file` | File inputs | Dashed border upload style |
+
+### CSS Classes
+
+| Element | Class |
+|---------|-------|
+| Form | `.chalky-form` |
+| Label | `.chalky-label` |
+| Input | `.chalky-input` |
+| Select | `.chalky-select` |
+| Radio group | `.chalky-radio-group` |
+| Checkbox group | `.chalky-checkbox-group` |
+| Boolean checkbox | `.chalky-checkbox-wrapper` |
+| File input | `.chalky-file-input` |
+| Hint | `.chalky-hint` |
+| Error | `.chalky-error` |
+| Error state | `.chalky-input--error`, `.chalky-select--error` |
+
+### TomSelect Features
+
+- **Search**: Type to filter options
+- **Placeholder**: From `include_blank` option
+- **Tags**: Multiple selections displayed as removable tags
+- **Keyboard navigation**: Full keyboard support
+- **Dark mode**: Automatic via CSS custom properties
+
+### Complete Form Example
+
+```slim
+= simple_form_for @user, html: { class: "chalky-form" } do |f|
+  = f.error_notification
+
+  .grid.grid-cols-2.gap-4
+    = f.input :first_name
+    = f.input :last_name
+
+  = f.input :email, as: :email
+  = f.input :country, collection: Country::ALL, include_blank: "Select..."
+  = f.input :skills, collection: Skill::ALL, input_html: { multiple: true }, wrapper: :select_multiple
+  = f.input :role, as: :radio_buttons, collection: Role::ALL
+  = f.input :interests, as: :check_boxes, collection: Interest::ALL
+  = f.input :terms, as: :boolean, label: "I accept the terms"
+
+  .flex.gap-3
+    = f.button :submit, "Save", class: "chalky-button chalky-button--primary"
+    = link_to "Cancel", users_path, class: "chalky-button chalky-button--secondary"
+```
+
+### Customization
+
+**Custom placeholder for TomSelect:**
+```slim
+= f.input :country,
+  collection: Country::ALL,
+  input_html: { data: { placeholder: "Choose a country..." } }
+```
+
+**Disable TomSelect on a specific select:**
+```slim
+= f.input :simple_select,
+  collection: options,
+  wrapper: :default  / Uses default wrapper without TomSelect
+```
