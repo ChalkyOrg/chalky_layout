@@ -550,12 +550,16 @@ input[type="time"].chalky-input {
 }
 
 /* Input field inside control */
+/* Reset Tailwind's default focus ring - focus styling is on .ts-control */
 .ts-wrapper .ts-control input {
   flex: 1;
   min-width: 50px;
   background: transparent;
-  border: none;
-  outline: none;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  --tw-ring-shadow: 0 0 #0000 !important;
+  --tw-ring-color: transparent !important;
   color: var(--chalky-text-primary);
   font-size: 0.875rem;
 }
