@@ -537,15 +537,29 @@ end
 
 ### `chalky_dropdown`
 
-Dropdown menu component.
+Dropdown menu component with trigger and items.
 
 ```slim
+/ Basic dropdown with items
 = chalky_dropdown(pop_direction: :left) do |dropdown|
   - dropdown.with_trigger do
     = chalky_icon_button(label: "Options", icon: "fa-solid fa-ellipsis-v")
-  - dropdown.with_menu do
-    = link_to "Edit", edit_path, class: "dropdown-item"
-    = link_to "Delete", delete_path, class: "dropdown-item text-red-600"
+  - dropdown.with_item(href: edit_path, icon: "fa-solid fa-pen") do
+    | Edit
+  - dropdown.with_item(href: delete_path, icon: "fa-solid fa-trash", variant: :danger, method: :delete, confirm: "Are you sure?") do
+    | Delete
+
+/ Dropdown with divider and text
+= chalky_dropdown do |dropdown|
+  - dropdown.with_trigger do
+    = chalky_icon_button(label: "Actions", icon: "fa-solid fa-ellipsis-v")
+  - dropdown.with_item(href: view_path, icon: "fa-solid fa-eye") do
+    | View
+  - dropdown.with_item(type: :divider)
+  - dropdown.with_item(type: :text) do
+    | Danger Zone
+  - dropdown.with_item(href: delete_path, variant: :danger, method: :delete) do
+    | Delete
 ```
 
 ![Dropdown](docs/screenshots/dropdown.png)
@@ -553,8 +567,25 @@ Dropdown menu component.
 **Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `variant` | Symbol | `:admin` | Dropdown variant |
+| `variant` | Symbol | `:admin` | Dropdown variant (`:primary`, `:secondary`, `:admin`) |
 | `pop_direction` | Symbol | `:right` | Menu direction (`:right`, `:left`) |
+| `css_classes` | String | `""` | Additional CSS classes |
+
+**Slots:**
+| Slot | Description |
+|------|-------------|
+| `with_trigger` | Element that opens the dropdown (required) |
+| `with_item` | Menu item (can have multiple) |
+
+**Item Parameters (`with_item`):**
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `href` | String | `nil` | Link URL |
+| `icon` | String | `nil` | Font Awesome icon class |
+| `type` | Symbol | `:link` | Item type: `:link`, `:button`, `:divider`, `:text` |
+| `variant` | Symbol | `:admin` | Item variant: `:admin`, `:danger`, `:primary` |
+| `method` | Symbol | `:get` | HTTP method (`:get`, `:post`, `:delete`, etc.) |
+| `confirm` | String | `nil` | Turbo confirmation message |
 | `css_classes` | String | `""` | Additional CSS classes |
 
 ## UI Elements
@@ -910,19 +941,84 @@ Menu items are added via the `with_menu_item` method on sections and footers wit
 
 ## Post-Installation Setup
 
+ChalkyLayout automatically configures itself for both **Propshaft (Rails 8+)** and **Sprockets (Rails 6/7)**. No manual asset configuration is needed!
+
+### Layout Setup (Required)
+
+Add ChalkyLayout stylesheets and scripts to your layout's `<head>`:
+
+```slim
+head
+  /! Anti-FOUC script for sidebar (must be BEFORE stylesheets)
+  = chalky_sidebar_head_script
+
+  /! Your Tailwind CSS
+  = stylesheet_link_tag "tailwind", "data-turbo-track": "reload"
+
+  /! ChalkyLayout stylesheets - loads all required CSS automatically
+  = chalky_layout_stylesheets
+
+  = javascript_importmap_tags
+```
+
+The `chalky_layout_stylesheets` helper includes all necessary CSS files:
+- `chalky_layout/tokens.css` - Design tokens (CSS custom properties)
+- `chalky_layout/utilities.css` - Utility classes
+- `chalky_layout/forms.css` - Form styles
+- `chalky_layout/sidebar.css` - Sidebar styles
+- `chalky_layout/tabs.css` - Tabs styles
+- `chalky_layout/grid.css` - Grid styles
+
 ### JavaScript Setup (Required)
 
-Add the following line to your `app/javascript/application.js`:
+Add the following line to your `app/javascript/controllers/index.js`:
 
 ```javascript
+// After your local controllers setup
 import "chalky_layout"
 ```
 
-This single import will automatically register all Stimulus controllers from the gem with the correct names. No need to copy files or register controllers manually.
+This single import will automatically register all Stimulus controllers from the gem with the correct names. No need to copy files, configure importmap pins, or register controllers manually.
 
 ### Tailwind Setup (Required)
 
 ChalkyLayout is compatible with both **Tailwind CSS v3** and **Tailwind CSS v4**. Choose the setup that matches your version.
+
+---
+
+#### Tailwind CSS v4 Setup (Rails 8 with tailwindcss-rails)
+
+Tailwind v4 uses a CSS-first configuration approach with `@source` directives.
+
+**Configure your `app/assets/tailwind/application.css`:**
+
+```css
+@import "tailwindcss";
+
+/* Configure content paths for Tailwind v4 */
+@source "../../../app/views/**/*.html.slim";
+@source "../../../app/components/**/*.{slim,rb}";
+
+/* Add gem components path (adjust for your bundle location) */
+@source "../../../vendor/bundle/ruby/*/gems/chalky_layout-*/app/**/*.{slim,rb}";
+/* Or for rbenv: */
+@source "../../../../../../.rbenv/versions/*/lib/ruby/gems/*/bundler/gems/chalky_layout-*/app/components/**/*.{rb,slim}";
+
+/* Define Chalky design tokens */
+@layer base {
+  :root {
+    --chalky-primary: #3b82f6;
+    --chalky-primary-hover: #2563eb;
+    /* ... see tokens.css for full list */
+  }
+}
+
+/* Map to Tailwind theme for utility classes like bg-chalky-primary */
+@theme {
+  --color-chalky-primary: var(--chalky-primary);
+  /* ... */
+}
+```
 
 ---
 
@@ -969,28 +1065,24 @@ module.exports = {
 
 ---
 
-#### Tailwind CSS v4 Setup
+#### Alternative: Manual Stylesheet Link Tags
 
-Tailwind v4 uses a CSS-first configuration approach with `@theme` directive.
+If you prefer not to use the `chalky_layout_stylesheets` helper:
 
-**1. Configure content paths in `app/assets/stylesheets/application.css`:**
-
-```css
-/* Tailwind v4 import */
-@import "tailwindcss";
-
-/* Configure content paths for Tailwind v4 */
-@source "../../../app/views/**/*.html.slim";
-@source "../../../app/components/**/*.{slim,rb}";
-/* Add gem components path */
-@source "../../../vendor/bundle/ruby/*/gems/chalky_layout-*/app/**/*.{slim,rb}";
-
-/* ChalkyLayout styles */
-@import "chalky_layout/tokens.css";
-@import "chalky_layout/utilities.css";
+```slim
+= stylesheet_link_tag "chalky_layout/tokens", "data-turbo-track": "reload"
+= stylesheet_link_tag "chalky_layout/utilities", "data-turbo-track": "reload"
+= stylesheet_link_tag "chalky_layout/forms", "data-turbo-track": "reload"
+= stylesheet_link_tag "chalky_layout/sidebar", "data-turbo-track": "reload"
+= stylesheet_link_tag "chalky_layout/tabs", "data-turbo-track": "reload"
+= stylesheet_link_tag "chalky_layout/grid", "data-turbo-track": "reload"
 ```
 
-**2. Customize the theme (optional) - use `@theme` directive:**
+---
+
+#### Theming - Customize the Theme
+
+You can customize ChalkyLayout by overriding CSS custom properties:
 
 ```css
 @import "tailwindcss";

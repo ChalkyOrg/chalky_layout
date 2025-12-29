@@ -22,6 +22,7 @@ import TabsController from "controllers/chalky_layout/tabs_controller"
 import TooltipController from "controllers/chalky_layout/tooltip_controller"
 import ScrollShadowController from "controllers/chalky_layout/scroll_shadow_controller"
 import TomSelectController from "controllers/chalky_layout/tom_select_controller"
+import CopyController from "controllers/chalky_layout/copy_controller"
 
 // Contrôleurs sidebar avec nommage Stimulus standard (namespace--controller)
 import SidebarController from "controllers/chalky_layout/sidebar_controller"
@@ -38,3 +39,4 @@ application.register("scroll-shadow", ScrollShadowController)
 application.register("chalky-layout--sidebar", SidebarController)
 application.register("chalky-layout--mobile-menu", MobileMenuController)
 application.register("tom-select", TomSelectController)
+application.register("chalky-copy", CopyController)

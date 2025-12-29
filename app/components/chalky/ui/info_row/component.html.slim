@@ -1,7 +1,28 @@
-div class=container_classes
-  .flex-shrink-0 class=label_classes = label
-  div class=value_classes
-    - if value.present?
-      = value
-    - else
-      = content
+dl class=container_classes
+  - if has_icon?
+    .flex.items-start.gap-3
+      .flex-shrink-0
+        div class=icon_container_classes
+          i class="#{icon} text-chalky-text-inverted text-sm"
+      div.flex-1
+        dt class=label_classes = label
+        dd.mt-1 class=value_classes
+          .flex.items-center.gap-2
+            - if has_link?
+              a href=href target=target class=link_classes = display_value
+            - else
+              span = display_value
+            - if copyable?
+              button.text-chalky-text-muted.hover:text-chalky-text-secondary.transition-colors.cursor-pointer type="button" data=copy_button_data title="Copier"
+                i.fa-regular.fa-copy.text-xs data-chalky-copy-target="icon"
+  - else
+    dt class=label_classes = label
+    dd.mt-1 class=value_classes
+      .flex.items-center.gap-2
+        - if has_link?
+          a href=href target=target class=link_classes = display_value
+        - else
+          span = display_value
+        - if copyable?
+          button.text-chalky-text-muted.hover:text-chalky-text-secondary.transition-colors.cursor-pointer type="button" data=copy_button_data title="Copier"
+            i.fa-regular.fa-copy.text-xs data-chalky-copy-target="icon"

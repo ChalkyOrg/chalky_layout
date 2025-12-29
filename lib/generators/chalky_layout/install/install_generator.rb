@@ -46,14 +46,14 @@ module ChalkyLayout
         say ""
 
         if using_importmap?
-          say "Stimulus controllers are automatically available via importmap.", :green
+          say "Stimulus controllers are automatically configured via the gem's importmap.", :green
           say ""
-          say "Register them in app/javascript/controllers/index.js:", :yellow
+          say "Just add this line to your app/javascript/controllers/index.js:", :yellow
           say ""
-          say "  import DropdownController from 'controllers/chalky_layout/dropdown_controller'"
-          say "  import GridController from 'controllers/chalky_layout/grid_controller'"
-          say "  import BackController from 'controllers/chalky_layout/back_controller'"
-          say "  import StopPropagationController from 'controllers/chalky_layout/stop_propagation_controller'"
+          say '  import "chalky_layout"'
+          say ""
+          say "This will auto-register all ChalkyLayout Stimulus controllers.", :green
+          say "No need to configure importmap.rb - the gem does it automatically!", :cyan
         else
           say "Copying Stimulus controllers for JS bundler...", :green
           controllers_source = ChalkyLayout::Engine.root.join("app/javascript/chalky_layout/controllers")
@@ -69,13 +69,12 @@ module ChalkyLayout
           say "  import GridController from './grid_controller'"
           say "  import BackController from './back_controller'"
           say "  import StopPropagationController from './stop_propagation_controller'"
+          say ""
+          say "  application.register('dropdown', DropdownController)"
+          say "  application.register('grid', GridController)"
+          say "  application.register('back', BackController)"
+          say "  application.register('stop-propagation', StopPropagationController)"
         end
-
-        say ""
-        say "  application.register('dropdown', DropdownController)"
-        say "  application.register('grid', GridController)"
-        say "  application.register('back', BackController)"
-        say "  application.register('stop-propagation', StopPropagationController)"
         say ""
       end
 
@@ -160,25 +159,41 @@ module ChalkyLayout
         say "  ChalkyLayout installed successfully!", :green
         say "=" * 60, :green
         say ""
+
+        say "NEXT STEPS:", :yellow
+        say ""
+        say "1. Add to your layout's <head> section:", :cyan
+        say ""
+        say "   = chalky_sidebar_head_script"
+        say "   = stylesheet_link_tag 'tailwind', 'data-turbo-track': 'reload'"
+        say "   = chalky_layout_stylesheets"
+        say "   = javascript_importmap_tags"
+        say ""
+
+        say "2. Add to app/javascript/controllers/index.js:", :cyan
+        say ""
+        say '   import "chalky_layout"'
+        say ""
+
         say "Helper methods are now available in your views:", :cyan
         say ""
         say "  = chalky_page do |page|"
-        say "    - page.with_header_bar do"
-        say "      = chalky_title_bar(title: 'My Page')"
+        say "    - page.with_header(title: 'My Page') do |header|"
+        say "      - header.with_actions do"
+        say "        = chalky_icon_button(label: 'Add', icon: 'fa-solid fa-plus')"
         say ""
         say "  = chalky_grid(rows: @users) do |grid|"
         say "    - grid.text(label: 'Name', method: :name)"
         say ""
         say "Available helpers:", :yellow
         say "  Page:       chalky_page, chalky_title_bar, chalky_actions, chalky_content"
-        say "  Data:       chalky_grid"
+        say "  Data:       chalky_grid, chalky_pagination"
         say "  Containers: chalky_panel, chalky_card, chalky_heading"
         say "  Buttons:    chalky_button, chalky_icon_button, chalky_back"
         say "  UI:         chalky_badge, chalky_stat, chalky_tooltip, chalky_hint"
         say "  UI:         chalky_alert, chalky_info_row, chalky_tabs, chalky_dropdown"
-        say "  Sidebar:    chalky_sidebar_container, chalky_sidebar_section"
-        say "  Sidebar:    chalky_sidebar_section_header, chalky_sidebar_menu_item"
-        say "  Sidebar:    chalky_sidebar_footer"
+        say "  Sidebar:    chalky_sidebar_layout, chalky_sidebar_head_script"
+        say "  Assets:     chalky_layout_stylesheets"
         say ""
 
         unless options[:skip_claude]
@@ -203,12 +218,26 @@ module ChalkyLayout
       end
 
       def tailwind_v4?
-        # Check for Tailwind v4 indicators
-        css_config = Rails.root.join("app/assets/stylesheets/application.tailwind.css")
-        return false unless File.exist?(css_config)
+        # Check for Tailwind v4 indicators in both possible locations
+        possible_paths = [
+          Rails.root.join("app/assets/stylesheets/application.tailwind.css"),
+          Rails.root.join("app/assets/tailwind/application.css")
+        ]
 
-        content = File.read(css_config)
-        content.include?("@import \"tailwindcss\"") || content.include?("@theme")
+        possible_paths.each do |css_config|
+          if File.exist?(css_config)
+            content = File.read(css_config)
+            return true if content.include?("@import \"tailwindcss\"") ||
+                           content.include?('@import "tailwindcss"') ||
+                           content.include?("@theme")
+          end
+        end
+
+        false
+      end
+
+      def using_propshaft?
+        defined?(Propshaft)
       end
 
       def setup_tailwind_v3
@@ -287,10 +316,16 @@ module ChalkyLayout
       end
 
       def setup_tailwind_v4
-        css_path = Rails.root.join("app/assets/stylesheets/application.tailwind.css")
+        # Try both possible Tailwind v4 locations
+        possible_paths = [
+          Rails.root.join("app/assets/tailwind/application.css"),
+          Rails.root.join("app/assets/stylesheets/application.tailwind.css")
+        ]
 
-        unless File.exist?(css_path)
-          say "application.tailwind.css not found", :yellow
+        css_path = possible_paths.find { |p| File.exist?(p) }
+
+        unless css_path
+          say "Tailwind v4 CSS file not found", :yellow
           show_manual_tailwind_v4_instructions
           return
         end
@@ -321,7 +356,7 @@ module ChalkyLayout
         end
 
         File.write(css_path, content)
-        say "Updated application.tailwind.css with ChalkyLayout source", :green
+        say "Updated #{css_path.basename} with ChalkyLayout source", :green
       end
 
       def show_manual_tailwind_v3_instructions

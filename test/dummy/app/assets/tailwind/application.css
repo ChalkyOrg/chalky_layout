@@ -1,7 +1,9 @@
 @import "tailwindcss";
 
-/* Include ChalkyLayout gem components */
-@source "../../../../vendor/bundle/ruby/*/gems/chalky_layout-*/app/components/**/*.{rb,slim}";
+/* ChalkyLayout gem components - path auto-updated by: rails chalky_layout:tailwind_source */
+@source "/Users/florentguilbaud/code/ecommerce/chalky_layout/app/components/**/*.{rb,slim}";
+
+/* Local app components */
 @source "../../../components/**/*.{rb,slim}";
 
 /*

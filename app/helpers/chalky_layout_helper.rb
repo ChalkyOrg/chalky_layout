@@ -276,17 +276,31 @@ module ChalkyLayoutHelper
     ), &block
   end
 
-  # Info row - label/value display pair
+  # Info row - label/value display pair (stacked layout)
   # @param label [String] row label
   # @param value [String] row value (or use block)
   # @param separator [Boolean] add top border separator
   # @param bold_value [Boolean] make value bold (for totals, etc.)
-  def chalky_info_row(label:, value: nil, separator: false, bold_value: false, &block)
+  # @param icon [String] optional Font Awesome icon class (e.g., "fa-solid fa-user")
+  # @param icon_color [Symbol] :gray, :green, :red, :blue, :yellow, :orange, :purple
+  # @param max_width [Symbol] :sm (320px), :md (384px), :lg (448px), :xl (512px) or nil
+  # @param href [String] optional URL to make the value clickable
+  # @param target [String] link target (_blank, etc.)
+  # @param copyable [Boolean] add a copy-to-clipboard button
+  def chalky_info_row(label:, value: nil, separator: false, bold_value: false,
+                      icon: nil, icon_color: :gray, max_width: nil,
+                      href: nil, target: nil, copyable: false, &block)
     render Chalky::Ui::InfoRow::Component.new(
       label: label,
       value: value,
       separator: separator,
-      bold_value: bold_value
+      bold_value: bold_value,
+      icon: icon,
+      icon_color: icon_color,
+      max_width: max_width,
+      href: href,
+      target: target,
+      copyable: copyable
     ), &block
   end
 
@@ -300,6 +314,33 @@ module ChalkyLayoutHelper
   #   - :active_value [String] Query param value for active detection
   def chalky_tabs(tabs:)
     render Chalky::Ui::Tabs::Component.new(tabs: tabs)
+  end
+
+  # ============================================
+  # Asset Helpers
+  # ============================================
+
+  # Include all ChalkyLayout stylesheets
+  # Call this in your layout's <head> section to load all required CSS
+  #
+  # @param options [Hash] Options passed to stylesheet_link_tag
+  #
+  # Usage:
+  #   = chalky_layout_stylesheets
+  #
+  # Or with Turbo tracking:
+  #   = chalky_layout_stylesheets("data-turbo-track": "reload")
+  def chalky_layout_stylesheets(**options)
+    options = { "data-turbo-track": "reload" }.merge(options)
+
+    safe_join([
+      stylesheet_link_tag("chalky_layout/tokens", **options),
+      stylesheet_link_tag("chalky_layout/utilities", **options),
+      stylesheet_link_tag("chalky_layout/forms", **options),
+      stylesheet_link_tag("chalky_layout/sidebar", **options),
+      stylesheet_link_tag("chalky_layout/tabs", **options),
+      stylesheet_link_tag("chalky_layout/grid", **options)
+    ], "\n")
   end
 
   # ============================================

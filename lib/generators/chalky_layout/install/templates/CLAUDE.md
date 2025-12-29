@@ -4,44 +4,56 @@
 
 This project uses **ChalkyLayout** for all UI components and frontend work.
 
-### When to Consult the ChalkyLayout Skill
+### ⚠️ Critical Rules
 
-Always read `.claude/skills/chalky-layout/SKILL.md` when working on:
+1. **Forms**: ALWAYS use `simple_form_for` - NEVER use `form_with` or `form_for`
+2. **Components**: Prefer `chalky_*` helpers when a component exists (cards, grids, buttons, etc.)
+3. **Templates**: Use Slim syntax for new views
+4. **Layout**: Use `chalky_layout_stylesheets` to load all CSS in the layout's `<head>`
 
-- **Views & Templates**: Creating or modifying `.html.slim` or `.html.erb` files
-- **Page Layouts**: Headers, content sections, sidebars, navigation
-- **Components**: Cards, panels, buttons, badges, alerts, tooltips
-- **Data Display**: Tables, grids, lists with `chalky_grid`
-- **Forms**: Building forms with Simple Form and TomSelect
-- **Styling**: Tailwind CSS with Chalky design tokens
+### Layout Configuration
 
-### Key Rules
+The application layout should include:
 
-1. **Use Chalky Helpers**: Always use `chalky_*` helpers instead of raw HTML
-2. **Slim Templates**: Use Slim syntax for new views
-3. **Simple Form**: Use Simple Form with Chalky wrappers for all forms
-4. **Design Tokens**: Use CSS custom properties (`--chalky-*`) for theming
+```slim
+head
+  = chalky_sidebar_head_script          /! FIRST - Anti-FOUC script
+  = stylesheet_link_tag "tailwind"      /! Tailwind CSS
+  = chalky_layout_stylesheets           /! All ChalkyLayout CSS
+  = javascript_importmap_tags
+```
+
+### When Working on Frontend
+
+**ALWAYS read `.claude/skills/chalky-layout/SKILL.md` first** - it contains:
+- Layout configuration examples
+- Page templates (Index, Show, Form, Dashboard) you can copy
+- Anti-patterns to avoid
+- All available helpers
 
 ### Quick Examples
 
 ```slim
-/ Page with header
+/ Page with header and grid
 = chalky_page do |page|
   - page.with_header(title: "Users") do |header|
     - header.with_actions do
       = link_to new_user_path do
         = chalky_icon_button(label: "Add", icon: "fa-solid fa-plus")
   - page.with_body do
-    = chalky_grid(rows: @users) do |grid|
-      - grid.text(label: "Name", method: :name)
+    = chalky_card do
+      = chalky_grid(rows: @users, details_path: :user_path) do |grid|
+        - grid.text(label: "Name", method: :name, priority: :primary)
+        - grid.text(label: "Email", method: :email)
 
-/ Form with Simple Form
+/ Form - ALWAYS use simple_form_for
 = simple_form_for @user, html: { class: "chalky-form" } do |f|
   = f.input :name
   = f.input :country, collection: Country::ALL, include_blank: "Select..."
   = f.button :submit, "Save", class: "chalky-button chalky-button--primary"
 ```
 
-### Full Documentation
+### Documentation
 
-See `.claude/skills/chalky-layout/reference.md` for complete API documentation.
+- **SKILL.md**: Rules, templates, quick reference
+- **reference.md**: Complete API with all parameters

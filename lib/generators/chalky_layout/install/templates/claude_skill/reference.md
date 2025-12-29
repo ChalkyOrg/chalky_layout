@@ -1,5 +1,53 @@
 # Chalky Layout - Complete API Reference
 
+> ⚠️ **Quick Reminder:** Always use `simple_form_for` (not `form_with`/`form_for`) and prefer `chalky_*` helpers over raw HTML when a component exists. See `SKILL.md` for rules and page templates.
+
+---
+
+## Layout & Asset Helpers
+
+These helpers are used in your application layout (`app/views/layouts/application.html.slim`).
+
+### `chalky_layout_stylesheets`
+
+Loads all ChalkyLayout CSS files automatically. **Place in your layout's `<head>` section.**
+
+```slim
+head
+  = chalky_sidebar_head_script          /! FIRST - Anti-FOUC script
+  = stylesheet_link_tag "tailwind"      /! Your Tailwind CSS
+  = chalky_layout_stylesheets           /! All ChalkyLayout CSS
+  = javascript_importmap_tags
+```
+
+**What it loads:**
+- `chalky_layout/tokens.css` - Design tokens (CSS custom properties)
+- `chalky_layout/utilities.css` - Utility classes
+- `chalky_layout/forms.css` - Form styles
+- `chalky_layout/sidebar.css` - Sidebar styles
+- `chalky_layout/tabs.css` - Tabs styles
+- `chalky_layout/grid.css` - Grid/table styles
+
+**Parameters:**
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `**options` | Hash | `{"data-turbo-track": "reload"}` | Options passed to each `stylesheet_link_tag` |
+
+### `chalky_sidebar_head_script`
+
+Prevents Flash of Unstyled Content (FOUC) for sidebar collapsed state. **MUST be placed BEFORE any stylesheets in `<head>`.**
+
+```slim
+head
+  = chalky_sidebar_head_script   /! FIRST - before any CSS
+  = stylesheet_link_tag "tailwind"
+  = chalky_layout_stylesheets
+```
+
+The script reads `localStorage` to apply the collapsed sidebar state before the first render.
+
+---
+
 ## Page Layout
 
 ### `chalky_page`
@@ -370,22 +418,53 @@ end
 
 ### `chalky_dropdown`
 
-Dropdown menu.
+Dropdown menu component with trigger and items.
 
 ```slim
+/ Basic dropdown
 = chalky_dropdown(pop_direction: :left) do |dropdown|
   - dropdown.with_trigger do
-    = chalky_icon_button(label: "Menu", icon: "fa-solid fa-ellipsis-v")
-  - dropdown.with_menu do
-    = link_to "Edit", edit_path, class: "dropdown-item"
-    = link_to "Delete", delete_path, class: "dropdown-item text-red-600"
+    = chalky_icon_button(label: "Options", icon: "fa-solid fa-ellipsis-v")
+  - dropdown.with_item(href: edit_path, icon: "fa-solid fa-pen") do
+    | Edit
+  - dropdown.with_item(href: delete_path, icon: "fa-solid fa-trash", variant: :danger, method: :delete, confirm: "Are you sure?") do
+    | Delete
+
+/ With divider and text
+= chalky_dropdown do |dropdown|
+  - dropdown.with_trigger do
+    = chalky_icon_button(label: "Actions", icon: "fa-solid fa-ellipsis-v")
+  - dropdown.with_item(href: view_path, icon: "fa-solid fa-eye") do
+    | View
+  - dropdown.with_item(type: :divider)
+  - dropdown.with_item(type: :text) do
+    | Danger Zone
+  - dropdown.with_item(href: delete_path, variant: :danger, method: :delete) do
+    | Delete
 ```
 
 **Parameters:**
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `variant` | Symbol | `:admin` | Dropdown variant |
-| `pop_direction` | Symbol | `:right` | `:right`, `:left` |
+| `variant` | Symbol | `:admin` | Dropdown variant (`:primary`, `:secondary`, `:admin`) |
+| `pop_direction` | Symbol | `:right` | Menu direction (`:right`, `:left`) |
+| `css_classes` | String | `""` | Additional CSS classes |
+
+**Slots:**
+| Slot | Description |
+|------|-------------|
+| `with_trigger` | Element that opens the dropdown (required) |
+| `with_item` | Menu item (can have multiple) |
+
+**Item Parameters (`with_item`):**
+| Parameter | Type | Default | Description |
+|-----------|------|---------|-------------|
+| `href` | String | `nil` | Link URL |
+| `icon` | String | `nil` | Font Awesome icon class |
+| `type` | Symbol | `:link` | Item type: `:link`, `:button`, `:divider`, `:text` |
+| `variant` | Symbol | `:admin` | Item variant: `:admin`, `:danger`, `:primary` |
+| `method` | Symbol | `:get` | HTTP method (`:get`, `:post`, `:delete`, etc.) |
+| `confirm` | String | `nil` | Turbo confirmation message |
 | `css_classes` | String | `""` | Additional CSS classes |
 
 ### `chalky_tabs`
@@ -519,11 +598,26 @@ Message box.
 
 ### `chalky_info_row`
 
-Label/value display pair.
+Label/value display pair with stacked layout (label above value).
 
 ```slim
+/ Basic usage
 = chalky_info_row(label: "Name", value: @user.name)
+
+/ With icon
+= chalky_info_row(label: "Email", value: @user.email, icon: "fa-solid fa-envelope", icon_color: :blue)
+
+/ With link
+= chalky_info_row(label: "Website", value: @user.website, href: @user.website, target: "_blank")
+
+/ With copy button
+= chalky_info_row(label: "API Key", value: @api_key, copyable: true)
+
+/ With separator and bold (for totals)
 = chalky_info_row(label: "Total", value: number_to_currency(total), separator: true, bold_value: true)
+
+/ With max width
+= chalky_info_row(label: "Description", value: @description, max_width: :md)
 ```
 
 **Parameters:**
@@ -531,8 +625,14 @@ Label/value display pair.
 |-----------|------|---------|-------------|
 | `label` | String | **required** | Row label |
 | `value` | String | `nil` | Row value (or block) |
-| `separator` | Boolean | `false` | Top border |
-| `bold_value` | Boolean | `false` | Bold value |
+| `icon` | String | `nil` | Font Awesome icon class |
+| `icon_color` | Symbol | `:gray` | `:gray`, `:blue`, `:green`, `:red`, `:yellow`, `:orange`, `:purple` |
+| `max_width` | Symbol | `nil` | `:sm` (320px), `:md` (384px), `:lg` (448px), `:xl` (512px) |
+| `href` | String | `nil` | URL to make value clickable |
+| `target` | String | `nil` | Link target (`_blank`, etc.) |
+| `copyable` | Boolean | `false` | Add copy-to-clipboard button |
+| `separator` | Boolean | `false` | Top border separator |
+| `bold_value` | Boolean | `false` | Bold value text |
 
 ---
 
@@ -624,24 +724,33 @@ Menu items are added via the `with_menu_item` method on sections and footers wit
 
 ChalkyLayout uses CSS custom properties (design tokens) for theming. Works with both Tailwind v3 and v4.
 
-### Tailwind v3 Setup
+> **Note:** CSS loading is handled automatically via `= chalky_layout_stylesheets` in your layout. The Tailwind config below is only for **scanning component classes** during compilation.
+
+### Tailwind v4 Setup (Rails 8 with tailwindcss-rails)
+
+In `app/assets/tailwind/application.css`:
 
 ```css
-/* application.css */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@import "chalky_layout/tokens.css";
-@import "chalky_layout/utilities.css";
+/* Scan ChalkyLayout gem components for Tailwind classes */
+@source "../../../vendor/bundle/ruby/*/gems/chalky_layout-*/app/**/*.{slim,rb}";
+/* Or for rbenv/bundler gems path: */
+@source "../../../../../../.rbenv/versions/*/lib/ruby/gems/*/bundler/gems/chalky_layout-*/app/components/**/*.{rb,slim}";
 
 /* Your theme overrides (optional) */
-:root {
-  --chalky-primary: #8b5cf6;
+@layer base {
+  :root {
+    --chalky-primary: #8b5cf6;
+    --chalky-primary-hover: #7c3aed;
+  }
 }
 ```
 
+### Tailwind v3 Setup
+
 Add to `tailwind.config.js`:
+
 ```javascript
 module.exports = {
   content: [
@@ -651,13 +760,12 @@ module.exports = {
 }
 ```
 
-### Tailwind v4 Setup
+In `application.css` (if NOT using `chalky_layout_stylesheets` helper):
 
 ```css
-/* application.css */
-@import "tailwindcss";
-
-@source "../../../vendor/bundle/ruby/*/gems/chalky_layout-*/app/**/*.{slim,rb}";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @import "chalky_layout/tokens.css";
 @import "chalky_layout/utilities.css";

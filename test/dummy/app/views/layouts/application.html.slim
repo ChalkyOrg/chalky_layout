@@ -11,26 +11,12 @@ html.h-full
 
     link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
 
-    script src="https://cdn.tailwindcss.com"
-    javascript:
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              primary: '#3b82f6',
-              secondary: '#6b7280',
-            }
-          }
-        }
-      }
+    /! Tailwind CSS (compiled by tailwindcss-rails)
+    = stylesheet_link_tag "tailwind", "data-turbo-track": "reload"
 
-    = stylesheet_link_tag "chalky_layout/tokens", media: "all"
-    = stylesheet_link_tag "chalky_layout/utilities", media: "all"
-    = stylesheet_link_tag "chalky_layout/sidebar", media: "all"
-    = stylesheet_link_tag "chalky_layout/tabs", media: "all"
-    = stylesheet_link_tag "chalky_layout/grid", media: "all"
-    = stylesheet_link_tag "chalky_layout/forms", media: "all"
-    = stylesheet_link_tag "tailwind", media: "all"
+    /! ChalkyLayout stylesheets - all CSS loaded automatically
+    = chalky_layout_stylesheets
+
     = javascript_importmap_tags
 
   body.h-full

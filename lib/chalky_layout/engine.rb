@@ -28,17 +28,42 @@ module ChalkyLayout
       end
     end
 
-    # Add JavaScript and CSS assets to asset pipeline
-    initializer "chalky_layout.assets", before: "importmap" do |app|
-      if app.config.respond_to?(:assets)
-        # Add paths to asset pipeline
-        app.config.assets.paths << root.join("app", "javascript")
+    # Configure assets for both Propshaft (Rails 8+) and Sprockets (Rails 6/7)
+    initializer "chalky_layout.assets" do |app|
+      # Common paths for both asset pipelines
+      stylesheets_path = root.join("app", "assets", "stylesheets")
+      javascript_path = root.join("app", "javascript")
+
+      if defined?(Propshaft)
+        # Rails 8+ with Propshaft
+        # Propshaft uses config.assets.paths to find assets
+        app.config.assets.paths << stylesheets_path
+        app.config.assets.paths << javascript_path
+      end
+
+      if defined?(Sprockets)
+        # Rails 6/7 with Sprockets
+        app.config.assets.paths << stylesheets_path
+        app.config.assets.paths << javascript_path
         app.config.assets.paths << root.join("app", "assets", "config")
-        app.config.assets.paths << root.join("app", "assets", "stylesheets")
-        # Use manifest file for Sprockets precompilation (handles link_tree directives)
-        app.config.assets.precompile += %w[chalky_layout_manifest.js]
-        app.config.assets.precompile += %w[chalky_layout/sidebar.css]
-        app.config.assets.precompile += %w[chalky_layout/grid.css]
+
+        # Precompile all ChalkyLayout stylesheets
+        app.config.assets.precompile += %w[
+          chalky_layout/tokens.css
+          chalky_layout/utilities.css
+          chalky_layout/forms.css
+          chalky_layout/sidebar.css
+          chalky_layout/tabs.css
+          chalky_layout/grid.css
+          chalky_layout_manifest.js
+        ]
+      end
+
+      # Fallback for apps that don't use Propshaft or Sprockets directly
+      # but still have an assets configuration (rare edge case)
+      if !defined?(Propshaft) && !defined?(Sprockets) && app.config.respond_to?(:assets)
+        app.config.assets.paths << stylesheets_path
+        app.config.assets.paths << javascript_path
       end
     end
 

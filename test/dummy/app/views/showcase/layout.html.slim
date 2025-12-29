@@ -80,10 +80,10 @@
 
     /! ==================== INFO ROW ====================
     = chalky_card do
-      = chalky_heading(title: "Info Row", subtitle: "Label/value pairs for detail pages")
+      = chalky_heading(title: "Info Row", subtitle: "Label/value pairs for detail pages (stacked layout)")
 
       = component_example("Basic info rows")
-      .space-y-2.mt-4.max-w-md
+      .space-y-4.mt-4.max-w-md
         = chalky_info_row(label: "Name", value: "Alice Martin")
         = chalky_info_row(label: "Email", value: "alice@example.com")
         = chalky_info_row(label: "Role", value: "Administrator")
@@ -91,10 +91,42 @@
 
       = code_snippet '= chalky_info_row(label: "Name", value: "Alice Martin")', '= chalky_info_row(label: "Email", value: "alice@example.com")', '= chalky_info_row(label: "Role", value: "Administrator")', '= chalky_info_row(label: "Status", value: "Active")'
 
+      = component_example("With icons")
+      .space-y-4.mt-4.max-w-md
+        = chalky_info_row(label: "Name", value: "Alice Martin", icon: "fa-solid fa-user", icon_color: :blue)
+        = chalky_info_row(label: "Email", value: "alice@example.com", icon: "fa-solid fa-envelope", icon_color: :green)
+        = chalky_info_row(label: "Phone", value: "+1 555 123 4567", icon: "fa-solid fa-phone", icon_color: :purple)
+        = chalky_info_row(label: "Location", value: "New York, USA", icon: "fa-solid fa-location-dot", icon_color: :red)
+
+      = code_snippet '= chalky_info_row(label: "Name", value: "Alice Martin", icon: "fa-solid fa-user", icon_color: :blue)', '= chalky_info_row(label: "Email", value: "alice@example.com", icon: "fa-solid fa-envelope", icon_color: :green)', '= chalky_info_row(label: "Phone", value: "+1 555 123 4567", icon: "fa-solid fa-phone", icon_color: :purple)', '= chalky_info_row(label: "Location", value: "New York, USA", icon: "fa-solid fa-location-dot", icon_color: :red)'
+
+      = component_example("With links")
+      .space-y-4.mt-4.max-w-md
+        = chalky_info_row(label: "Website", value: "https://example.com", href: "https://example.com", target: "_blank", icon: "fa-solid fa-globe", icon_color: :blue)
+        = chalky_info_row(label: "Email", value: "alice@example.com", href: "mailto:alice@example.com", icon: "fa-solid fa-envelope", icon_color: :green)
+
+      = code_snippet '= chalky_info_row(label: "Website", value: "https://example.com", href: "https://example.com", target: "_blank", icon: "fa-solid fa-globe", icon_color: :blue)', '= chalky_info_row(label: "Email", value: "alice@example.com", href: "mailto:alice@example.com", icon: "fa-solid fa-envelope", icon_color: :green)'
+
+      = component_example("With copy button")
+      .space-y-4.mt-4.max-w-md
+        = chalky_info_row(label: "API Key", value: "sk_live_abc123xyz789", copyable: true, icon: "fa-solid fa-key", icon_color: :yellow)
+        = chalky_info_row(label: "Order ID", value: "ORD-2024-12345", copyable: true)
+
+      = code_snippet '= chalky_info_row(label: "API Key", value: "sk_live_abc123xyz789", copyable: true, icon: "fa-solid fa-key", icon_color: :yellow)', '= chalky_info_row(label: "Order ID", value: "ORD-2024-12345", copyable: true)'
+
       = component_example("With separator and bold value")
-      .space-y-2.mt-4.max-w-md
+      .space-y-4.mt-4.max-w-md
         = chalky_info_row(label: "Subtotal", value: "$99.00")
         = chalky_info_row(label: "Tax", value: "$9.90")
         = chalky_info_row(label: "Total", value: "$108.90", separator: true, bold_value: true)
 
       = code_snippet '= chalky_info_row(label: "Subtotal", value: "$99.00")', '= chalky_info_row(label: "Tax", value: "$9.90")', '= chalky_info_row(label: "Total", value: "$108.90", separator: true, bold_value: true)'
+
+      = component_example("Max width presets")
+      .space-y-4.mt-4
+        = chalky_info_row(label: "Small (320px)", value: "This is constrained to max-w-xs", max_width: :sm)
+        = chalky_info_row(label: "Medium (384px)", value: "This is constrained to max-w-sm", max_width: :md)
+        = chalky_info_row(label: "Large (448px)", value: "This is constrained to max-w-md", max_width: :lg)
+        = chalky_info_row(label: "Extra Large (512px)", value: "This is constrained to max-w-lg", max_width: :xl)
+
+      = code_snippet '= chalky_info_row(label: "Small (320px)", value: "...", max_width: :sm)', '= chalky_info_row(label: "Medium (384px)", value: "...", max_width: :md)', '= chalky_info_row(label: "Large (448px)", value: "...", max_width: :lg)', '= chalky_info_row(label: "Extra Large (512px)", value: "...", max_width: :xl)'
