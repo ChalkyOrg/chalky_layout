@@ -3,6 +3,8 @@
 namespace :chalky_layout do
   desc "Update Tailwind @source path for ChalkyLayout gem (run before tailwindcss:build)"
   task :tailwind_source => :environment do
+    require "pathname"
+
     # Find the Tailwind CSS file
     possible_paths = [
       Rails.root.join("app/assets/tailwind/application.css"),
@@ -17,13 +19,17 @@ namespace :chalky_layout do
     end
 
     content = File.read(css_path)
-    gem_path = ChalkyLayout::Engine.root.to_s
+    gem_components_path = ChalkyLayout::Engine.root.join("app/components")
+    css_dir = Pathname.new(css_path).dirname
+
+    # Calculate relative path from CSS file to gem components
+    relative_path = gem_components_path.relative_path_from(css_dir).to_s
 
     # Pattern to match existing ChalkyLayout @source directive
     chalky_source_pattern = /@source\s+["'][^"']*chalky_layout[^"']*["'];?\n?/
 
-    # New source directive with current gem path
-    new_source = %(@source "#{gem_path}/app/components/**/*.{rb,slim}";\n)
+    # New source directive with relative path (Tailwind v4 requires relative paths)
+    new_source = %(@source "#{relative_path}/**/*.{rb,slim}";\n)
 
     if content.match?(chalky_source_pattern)
       # Update existing @source
@@ -33,7 +39,7 @@ namespace :chalky_layout do
       if old_source.strip != new_source.strip
         File.write(css_path, content)
         puts "✅ Updated ChalkyLayout @source path:"
-        puts "   #{gem_path}/app/components/"
+        puts "   #{relative_path}/"
       else
         puts "✅ ChalkyLayout @source path is already correct"
       end
@@ -45,7 +51,7 @@ namespace :chalky_layout do
         end
         File.write(css_path, content)
         puts "✅ Added ChalkyLayout @source path:"
-        puts "   #{gem_path}/app/components/"
+        puts "   #{relative_path}/"
       else
         puts "⚠️  Could not find @import 'tailwindcss' in #{css_path.basename}"
         puts "   Add manually: #{new_source}"
