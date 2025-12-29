@@ -25,18 +25,21 @@ namespace :chalky_layout do
     # Calculate relative path from CSS file to gem components
     relative_path = gem_components_path.relative_path_from(css_dir).to_s
 
-    # Pattern to match existing ChalkyLayout @source directive
-    chalky_source_pattern = /@source\s+["'][^"']*chalky_layout[^"']*["'];?\n?/
+    # Pattern to match existing ChalkyLayout @source directive (with optional comment)
+    chalky_source_pattern = %r{(/\* ChalkyLayout gem components[^\n]*\*/\n)?@source\s+["'][^"']+["'];?\n?}
 
     # New source directive with relative path (Tailwind v4 requires relative paths)
-    new_source = %(@source "#{relative_path}/**/*.{rb,slim}";\n)
+    new_source_line = %(@source "#{relative_path}/**/*.{rb,slim}";\n)
+    new_source_with_comment = %(/* ChalkyLayout gem components */\n#{new_source_line})
 
-    if content.match?(chalky_source_pattern)
-      # Update existing @source
-      old_source = content.match(chalky_source_pattern)[0]
-      content = content.sub(chalky_source_pattern, new_source)
+    # Check if there's already a ChalkyLayout @source (with comment marker)
+    chalky_marker_pattern = /\/\* ChalkyLayout gem components[^\n]*\*\/\n@source[^\n]+\n?/
 
-      if old_source.strip != new_source.strip
+    if content.match?(chalky_marker_pattern)
+      # Update existing @source with ChalkyLayout comment
+      old_source = content.match(chalky_marker_pattern)[0]
+      if old_source.strip != new_source_with_comment.strip
+        content = content.sub(chalky_marker_pattern, new_source_with_comment)
         File.write(css_path, content)
         puts "✅ Updated ChalkyLayout @source path:"
         puts "   #{relative_path}/"
@@ -47,14 +50,14 @@ namespace :chalky_layout do
       # Add new @source after @import "tailwindcss"
       if content.match?(/@import ["']tailwindcss["']/)
         content = content.sub(/(@import ["']tailwindcss["'];?\n?)/) do |match|
-          "#{match}\n/* ChalkyLayout gem components */\n#{new_source}"
+          "#{match}\n#{new_source_with_comment}"
         end
         File.write(css_path, content)
         puts "✅ Added ChalkyLayout @source path:"
         puts "   #{relative_path}/"
       else
         puts "⚠️  Could not find @import 'tailwindcss' in #{css_path.basename}"
-        puts "   Add manually: #{new_source}"
+        puts "   Add manually: #{new_source_with_comment}"
       end
     end
   end
