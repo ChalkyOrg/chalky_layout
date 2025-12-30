@@ -677,6 +677,14 @@ input[type="time"].chalky-input {
   background-color: var(--chalky-surface-secondary);
 }
 
+/* Loading message (AJAX mode) */
+.chalky-tom-loading {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: var(--chalky-text-secondary);
+  text-align: center;
+}
+
 /* No results message */
 .ts-dropdown .no-results,
 .chalky-tom-no-results {

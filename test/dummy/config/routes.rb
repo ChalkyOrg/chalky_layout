@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   get "data" => "showcase#data", as: :data
   get "simple_form" => "showcase#simple_form", as: :simple_form
   post "simple_form" => "showcase#create_form_demo", as: :create_form_demo
+  get "ajax_select" => "showcase#ajax_select", as: :ajax_select
+  get "search_countries" => "showcase#search_countries", as: :search_countries
 
   # Dummy routes for grid actions demo
   get "users/:id/edit" => "showcase#index", as: :edit_user

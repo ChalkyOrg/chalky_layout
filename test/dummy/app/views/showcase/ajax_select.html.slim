@@ -1,0 +1,89 @@
+= chalky_page do |page|
+  - page.with_header(title: "TomSelect AJAX") do |header|
+    - header.with_actions do
+      = chalky_badge(label: "Remote Loading", color: :blue)
+
+  - page.with_body do
+    .grid.grid-cols-1.lg:grid-cols-2.gap-6
+
+      /! Left column - Demo Form
+      = chalky_card do
+        = chalky_heading(title: "AJAX Select Demo", description: "Load options from server as you type - no more DOM freezes with large datasets")
+
+        = simple_form_for @form_demo, url: create_form_demo_path, html: { class: "chalky-form" } do |f|
+
+          /! AJAX Select - Single
+          .mb-6
+            h3.text-sm.font-semibold.text-gray-500.uppercase.tracking-wide.mb-4 Single Select (AJAX)
+
+            = f.input :country, collection: [], include_blank: "Tapez pour rechercher un pays...", hint: "Tapez au moins 2 caractères pour lancer la recherche", input_html: { data: { "tom-select-url-value": search_countries_path, "tom-select-min-chars-value": 2 } }
+
+          /! AJAX Select - Multiple
+          .mb-6
+            h3.text-sm.font-semibold.text-gray-500.uppercase.tracking-wide.mb-4 Multiple Select (AJAX)
+
+            = f.input :preferred_countries, as: :select, collection: [], include_blank: "Rechercher des pays...", wrapper: :select_multiple, hint: "Sélectionnez plusieurs pays - chargement distant", input_html: { multiple: true, data: { "tom-select-url-value": search_countries_path, "tom-select-min-chars-value": 1 } }
+
+          /! Classic Select for comparison
+          .mb-6
+            h3.text-sm.font-semibold.text-gray-500.uppercase.tracking-wide.mb-4 Classic Select (comparaison)
+
+            = f.input :role, collection: FormDemo::ROLES, include_blank: "Sélectionner un rôle...", hint: "Mode classique - options chargées au rendu de la page"
+
+          /! Submit
+          .flex.items-center.gap-3.pt-4.border-t.border-gray-200
+            = f.button :submit, "Submit Form", class: "chalky-button chalky-button--primary"
+
+      /! Right column - Usage examples
+      = chalky_card do
+        = chalky_heading(title: "Usage", description: "Comment utiliser le mode AJAX")
+
+        = component_example("Mode AJAX (Simple Form)")
+        = code_snippet '= f.input :country,', '    collection: [],', '    include_blank: "Tapez pour rechercher...",', '    input_html: {', '      data: {', '        "tom-select-url-value": search_path,', '        "tom-select-min-chars-value": 2', '      }', '    }'
+
+        = component_example("Endpoint JSON (Controller)")
+        = code_snippet 'def search', '  query = params[:q].to_s.downcase', '  results = Model.where("name ILIKE ?", "%#{query}%")', '  render json: results.map { |r|', '    { value: r.id, text: r.name }', '  }', 'end'
+
+        = component_example("Format JSON attendu")
+        = code_snippet '[', '  { "value": "FR", "text": "France" },', '  { "value": "US", "text": "États-Unis" },', '  { "value": "DE", "text": "Allemagne" }', ']'
+
+        = component_example("Attributs disponibles")
+        .mt-4.overflow-x-auto
+          table.min-w-full.text-sm
+            thead.bg-gray-50
+              tr
+                th.px-3.py-2.text-left.font-medium Attribut
+                th.px-3.py-2.text-left.font-medium Type
+                th.px-3.py-2.text-left.font-medium Défaut
+                th.px-3.py-2.text-left.font-medium Description
+            tbody.divide-y.divide-gray-200
+              tr
+                td.px-3.py-2.font-mono.text-xs data-tom-select-url-value
+                td.px-3.py-2 String
+                td.px-3.py-2 -
+                td.px-3.py-2 URL de l'endpoint (active le mode AJAX)
+              tr
+                td.px-3.py-2.font-mono.text-xs data-tom-select-min-chars-value
+                td.px-3.py-2 Number
+                td.px-3.py-2 2
+                td.px-3.py-2 Caractères min avant recherche
+              tr
+                td.px-3.py-2.font-mono.text-xs data-tom-select-preload-value
+                td.px-3.py-2 Boolean
+                td.px-3.py-2 false
+                td.px-3.py-2 Charger les résultats au focus
+
+        = component_example("Avantages du mode AJAX")
+        ul.mt-2.space-y-1.text-sm.text-gray-600
+          li.flex.items-start.gap-2
+            i.fa-solid.fa-check.text-green-500.mt-0.5
+            span Pas de freeze avec des milliers d'options (ex: 37 000 coureurs)
+          li.flex.items-start.gap-2
+            i.fa-solid.fa-check.text-green-500.mt-0.5
+            span Chargement à la demande (économie de bande passante)
+          li.flex.items-start.gap-2
+            i.fa-solid.fa-check.text-green-500.mt-0.5
+            span Anti-spam intégré (throttle 300ms)
+          li.flex.items-start.gap-2
+            i.fa-solid.fa-check.text-green-500.mt-0.5
+            span Rétrocompatible (sans url = mode classique)
